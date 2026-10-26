@@ -1,0 +1,12 @@
+{
+  "gmail": "https://www.gstatic.com/images/branding/product/2x/gmail_2020q4_48dp.png",
+  "youtube": "https://www.gstatic.com/images/branding/product/2x/youtube_48dp.png",
+  "drive": "https://www.gstatic.com/images/branding/product/2x/drive_2020q4_48dp.png",
+  "calendar": "https://www.gstatic.com/images/branding/product/2x/calendar_2020q4_48dp.png",
+  "maps": "https://www.gstatic.com/images/branding/product/2x/maps_48dp.png",
+  "photos": "https://www.gstatic.com/images/branding/product/2x/photos_48dp.png",
+  "translate": "https://www.gstatic.com/images/branding/product/2x/translate_48dp.png",
+  "google": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
+  "account": "https://www.gstatic.com/images/branding/product/2x/contacts_48dp.png",
+  "chatgpt": "https://cdn.oaistatic.com/assets/favicon-eex17e9e.ico"
+}

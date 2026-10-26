@@ -1,0 +1,12 @@
+node_modules/
+.test-profile*/
+dist/
+*-preview.png
+preview.png
+verification.json
+feature-verification.json
+*.log
+.env
+*.local
+*settings.json
+__pycache__/
