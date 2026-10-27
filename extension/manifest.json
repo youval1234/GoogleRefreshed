@@ -1,12 +1,15 @@
 {
   "manifest_version": 3,
   "name": "GoogleRefreshed",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "A considered Google homepage. Your search, shortcuts, colors, and a little space to focus.",
   "permissions": [
     "storage",
     "system.cpu",
     "system.memory"
+  ],
+  "optional_permissions": [
+    "tabs"
   ],
   "host_permissions": [
     "https://api.open-meteo.com/*",

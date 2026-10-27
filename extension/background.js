@@ -1,8 +1,22 @@
 importScripts('data.js','sync.js');
 // Event-driven requests only. No background polling or permanent connection.
+const newTabPermission={permissions:['tabs']},newTabPage=/^(?:chrome|brave):\/\/(?:newtab|new-tab-page)\/?$/;
+// Without the optional tabs permission new tabs carry no address, so nothing is redirected.
+chrome.tabs.onCreated.addListener(async tab=>{
+  if(!newTabPage.test(tab.pendingUrl||tab.url||''))return;
+  if((await chrome.storage.local.get('stillSettings')).stillSettings?.newTabHome===true)chrome.tabs.update(tab.id,{url:'https://www.google.com/'}).catch(()=>{});
+});
 async function respondTo(message,signal){
   if(message?.type==='openExtensions'){await chrome.tabs.create({url:'chrome://extensions/'});return {ok:true};}
   if(['browserSyncStatus','browserSyncEnable','browserSyncNow'].includes(message?.type))return GoogleRefreshedSync.request(message);
+  if(message?.type==='newTabHomeStatus')return {ok:true,granted:await chrome.permissions.contains(newTabPermission)};
+  if(message?.type==='newTabHome'){
+    if(!message.enabled){await chrome.permissions.remove(newTabPermission);return {ok:true,granted:false};}
+    if(await chrome.permissions.contains(newTabPermission))return {ok:true,granted:true};
+    // A permission prompt needs a click on an extension page, so a small window asks for it.
+    await chrome.windows.create({url:chrome.runtime.getURL('newtab-permission.html'),type:'popup',width:380,height:480});
+    return {ok:true,granted:false};
+  }
   if(message?.type==='hardware'){
     const [cpu,memory]=await Promise.all([chrome.system.cpu.getInfo(),chrome.system.memory.getInfo()]);
     return {ok:true,data:{cpu:{cores:cpu.numOfProcessors,model:cpu.modelName,temperature:cpu.temperatures?.filter(Number.isFinite).at(0)??null,total:cpu.processors.reduce((sum,p)=>sum+p.usage.total,0),idle:cpu.processors.reduce((sum,p)=>sum+p.usage.idle,0)},memory:{total:memory.capacity,available:memory.availableCapacity}},at:Date.now()};
