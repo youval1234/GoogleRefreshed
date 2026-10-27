@@ -9,7 +9,7 @@ A customizable Google homepage and matching Google results theme for Brave and C
 - **17 distinct themes**, including Mystic, Solar, Aurora, Futuristic, and seasonal looks.
 - Independent light/dark/system appearance, custom accents, and a local background photo.
 - A font selector: locally bundled Manrope, Inter, Outfit, plus System UI and Georgia.
-- Google-style suggestions with entity photos when Google supplies them, keyboard navigation, and an image-search button.
+- Google-style suggestions with entity photos when Google supplies them and keyboard navigation. The search-bar image button opens a themed reverse-image dialog: upload an image or paste an image link to search with Google Lens. The Images tab retains normal text-based image search.
 - Google search-result pages keep your selected palette while retaining Google's native results and controls.
 - Editable shortcuts with a pencil on each card, custom names, URLs, icons, colors, and Personal/Work/Study groups.
 - Ctrl+K commands and an optional clock.
@@ -54,7 +54,7 @@ Brave Shields and browser privacy settings are unchanged. The extension requests
 
 CPU/RAM metrics and the focus note render inside an extension-origin frame. Google page scripts cannot read that frame's DOM. Hardware samples are not sent to providers or saved to extension storage. The monitor pauses in hidden tabs and when its frame leaves view. Uploaded photo bytes are rendered inside a closed shadow tree, rather than exposed in the page's inspectable background style. A chosen greeting and general UI preferences are still visible parts of the Google page.
 
-With autocomplete enabled, typed prefixes go to Google before submission. Rich entity images come from Google's image CDN. Suggestions have a small, temporary in-memory cache; no persistent search history is saved. Normal search still submits to Google.
+With autocomplete enabled, typed prefixes go to Google before submission. Rich entity images come from Google's image CDN. Suggestions have a small, temporary in-memory cache; no persistent search history is saved. Normal search still submits to Google. Reverse-image searches send the chosen file or image URL directly to Google Lens only when you press its search button. The extension does not read image bytes into its photo cache or save image-search files/links to local or sync storage. Closing the dialog clears the selected file and URL. Uploads support JPG, PNG, WebP, GIF, and AVIF up to 20 MB.
 
 Opening Weather or News can perform an approximate city lookup through ipwho.is. No GPS permission is used; a VPN can affect the detected city. Finding a city sends its name to Open-Meteo; forecasts send the city coordinates to Open-Meteo. News sends the selected edition/topic and, for local headlines, a city/country query to the selected provider. These providers receive your IP address. Automatic location, suggestions, news images, and individual cards/tabs can be disabled.
 

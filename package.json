@@ -1,6 +1,6 @@
 {
   "name": "google-refreshed",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "private": true,
   "description": "A customizable Google homepage extension for Brave and Chromium.",
   "scripts": {

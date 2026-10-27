@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-27 for GoogleRefreshed v1.3.1.
+Reviewed on 2026-10-27 for GoogleRefreshed v1.3.2.
 
 ## Scope
 
@@ -29,6 +29,8 @@ GoogleRefreshed is integrated into Google pages; the greeting and ordinary UI pr
 
 The review combines static inspection, pattern scanning, archive checks, and targeted browser tests. The scan can be rerun with `python security-audit.py`; it reports candidate paths without printing candidate secret values.
 
-Validation includes 91 controlled Brave checks, live Google homepage/private-frame loading, live rich autocomplete, and live weather/news requests. New checks cover startup visibility and fail-open behavior, aligned chart areas, feed repair and attributed fallback, browser-sync privacy/limits, AI-overview fades, dynamic styles, and restoration of original Google variables. An automated live search navigated through Google's challenge page; it was left untouched. Result-page palette/functionality checks use controlled native-page fixtures. Repository issues/pull requests and Actions were checked again and remain empty.
+Validation includes 93 controlled Brave checks, live Google homepage/private-frame loading, live rich autocomplete, and live weather/news requests. New checks cover startup visibility and fail-open behavior, aligned chart areas, feed repair and attributed fallback, browser-sync privacy/limits, AI-overview fades, dynamic styles, and restoration of original Google variables. An automated live search navigated through Google's challenge page; it was left untouched. Result-page palette/functionality checks use controlled native-page fixtures. Repository issues/pull requests and Actions were checked again and remain empty.
 
 The v1.3.1 patch aligns the private frame’s color scheme with its embedding element and handles live system-appearance changes. An additional 39 checks cover all 17 palettes in light/dark modes, rendered canvas pixels, System-mode changes, focus-note appearance, and frame isolation. No permissions, providers, or data-sharing behavior were added.
+
+The v1.3.2 reverse-image dialog submits multipart files or encoded image URLs directly to Google Lens after a user search action. It adds no permissions and does not store files, image links, or upload data. Tests cover empty-query access, clearing on close, URL encoding without forwarding typed search text, and direct multipart submission. A live test with the public extension logo received a redirect response from Lens (303); no personal image was used.

@@ -1,11 +1,13 @@
-# GoogleRefreshed v1.3.1
+# GoogleRefreshed v1.3.2
 
-Fixes the hardware monitor displaying a white rectangle and light-mode text inside a dark theme, especially after System mode changes.
+The image icon inside the search bar now opens reverse image search with Google Lens.
 
-- Matches the embedded frame’s color scheme to the homepage, preserving its transparent background.
-- Updates hardware and note colors when the system appearance changes live.
-- Keeps hardware values and focus notes isolated in the private extension frame.
+- Choose an image file or paste a direct image link in a dialog that follows your theme and font.
+- Search for similar images, objects, or pages using that image.
+- The separate Images tab continues normal text-based image searching.
+- Files and links go directly to Google Lens only when you search. Closing the dialog clears the selection; the extension does not save it or forward your typed text query.
+- Supports JPG, PNG, WebP, GIF, and AVIF files up to 20 MB. No new extension permissions.
 
-Validation: 91 controlled Brave checks, including 39 checks for all 17 palettes in light/dark modes, live System-mode changes, screenshot pixel comparisons, focus notes, and frame isolation. The new regression reproduced the stale palette before the fix. Source/history/release privacy scan and dependency audit are clean.
+Validation: 93 controlled Brave checks, a live upload using the public extension logo accepted by Lens (303 redirect), and source/history/archive privacy and dependency scans. No personal image was used for testing.
 
-Reload GoogleRefreshed at brave://extensions, then refresh Google. If using a downloaded copy, first replace the files in its existing extension folder. No new permissions are required.
+Reload GoogleRefreshed at brave://extensions and refresh Google. For a downloaded installation, first replace the files in its existing extension folder.
