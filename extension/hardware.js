@@ -2,6 +2,7 @@
   'use strict';
   const preview=['localhost','127.0.0.1'].includes(location.hostname),$=id=>document.getElementById(id);
   let settings={},visible=false,timer,busy=false,previous=null,saveTimer;
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(settings.appearance==='system')apply(settings);});
   const history=[];
   // Only a layout height crosses into the page; hardware values and notes stay private.
   new ResizeObserver(()=>parent.postMessage({type:'google-refreshed-frame-size',height:Math.ceil(document.body.getBoundingClientRect().height)+2},'*')).observe(document.body);

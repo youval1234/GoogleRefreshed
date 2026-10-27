@@ -93,7 +93,7 @@
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
   let saveWaiters = [];
   const repoURL = 'https://github.com/youval1234/GoogleRefreshed';
-  const version = preview ? '1.3.0' : chrome.runtime.getManifest().version;
+  const version = preview ? '1.3.1' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();
@@ -217,6 +217,8 @@
     app.style.setProperty('--panel',`color-mix(in srgb,${palette[0]} 65%,${dark?'#ffffff0d':'white'})`);
     app.style.setProperty('--field',dark?`color-mix(in srgb,${palette[0]} 75%,${palette[4]})`:`color-mix(in srgb,${palette[0]} 25%,white)`);
     app.dataset.theme = settings.theme;app.dataset.world=theme.world;app.dataset.appearance=dark?'dark':'light';app.style.colorScheme=dark?'dark':'light';
+    // Match the frame's embedding scheme to its document so Chromium keeps its canvas transparent.
+    $('#hardware-frame').style.colorScheme=dark?'dark':'light';
     app.style.setProperty('--accent',dark?`color-mix(in srgb,${settings.accent} 70%,white)`:settings.accent); app.classList.toggle('compact',settings.compact); app.classList.toggle('has-photo',!!settings.photo);
     $('#matching-theme').title='Matching '+themeById(settings.theme).name+' theme for Brave toolbar, tabs, and bookmarks';
     updateMotion();

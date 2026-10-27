@@ -24,6 +24,8 @@ Download the extension ZIP from [Releases](https://github.com/youval1234/GoogleR
 
 For an update, replace the files in that same folder, click **Reload** on the extension card, and refresh Google. v1.2 adds the system.cpu and system.memory permissions for the hardware monitor. The GitHub update button opens Releases; it is not an automatic installer or version checker.
 
+Version 1.3.1 fixes the hardware panel retaining a light palette or painting an opaque white canvas when System mode switches to dark. The frame and homepage now use the same color scheme, including live system changes.
+
 Version 1.3 starts the homepage cover at document start to prevent the native Google homepage flashing before customization. It also recolors neutral Google result cards and AI-overview gradients, aligns CPU/RAM graph areas even with long model names, repairs malformed feed entities, and falls back from an unavailable Bing feed to clearly attributed BBC coverage. BBC fallback coverage may differ from your chosen local edition.
 
 ## Settings across devices
