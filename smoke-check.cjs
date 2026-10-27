@@ -3,7 +3,7 @@ const fs=require('fs'),path=require('path');let context;
 (async()=>{
  const ext=path.join(__dirname,'extension');
  context=await chromium.launchPersistentContext(fs.mkdtempSync(path.join(__dirname,'.test-profile-live-')),{executablePath:process.env.BRAVE_PATH||'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe',headless:true,args:[`--disable-extensions-except=${ext}`,`--load-extension=${ext}`]});
- await context.route('https://www.google.com/**',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><title>Google</title><body>Live data smoke test</body>'}));
+ await context.route('https://www.google.com/**',r=>r.request().resourceType()==='document'?r.fulfill({contentType:'text/html',body:'<!doctype html><title>Google</title><body>Live data smoke test</body>'}):r.continue());
  const page=await context.newPage();await page.goto('https://www.google.com/');await page.locator('#still-home').waitFor();
  await page.getByRole('searchbox',{name:'Search Google',exact:true}).fill('weather');await page.locator('.suggestion-option').first().waitFor({timeout:15000});console.log('Live Google autocomplete: PASS');await page.getByRole('searchbox',{name:'Search Google',exact:true}).fill('');
  await page.getByRole('tab',{name:'Weather',exact:true}).click();

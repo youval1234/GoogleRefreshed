@@ -2,7 +2,9 @@
   'use strict';
   const preview=['localhost','127.0.0.1'].includes(location.hostname),$=id=>document.getElementById(id);
   let settings={},visible=false,timer,busy=false,previous=null,saveTimer;
-  const history={cpu:[],ram:[]};
+  const history=[];
+  // Only a layout height crosses into the page; hardware values and notes stay private.
+  new ResizeObserver(()=>parent.postMessage({type:'google-refreshed-frame-size',height:Math.ceil(document.body.getBoundingClientRect().height)+2},'*')).observe(document.body);
   async function read(){if(preview){try{return JSON.parse(localStorage.getItem('stillSettings'))||{};}catch{return {};}}return (await chrome.storage.local.get('stillSettings')).stillSettings||{};}
   function apply(value){settings=value;const {colors,accent,dark}=GoogleRefreshed.palette(settings);const el=document.documentElement;el.style.setProperty('--fg',colors[1]);el.style.setProperty('--muted',colors[2]);el.style.setProperty('--accent',dark?`color-mix(in srgb,${accent} 70%,white)`:accent);el.style.setProperty('--font',GoogleRefreshed.loadFont(settings.font));el.style.colorScheme=dark?'dark':'light';$('monitor').hidden=settings.homeCard==='note';$('note').hidden=settings.homeCard!=='note';if($('note').value!==(settings.note||''))$('note').value=settings.note||'';poll();}
   async function sample(){
@@ -14,12 +16,15 @@
     clearTimeout(timer);if(!canPoll()){previous=null;return;}if(busy)return;busy=true;
     try{const data=await sample();if(!canPoll())return;const total=data.cpu.total-(previous?.total||0),idle=data.cpu.idle-(previous?.idle||0);const cpu=previous&&total>0?Math.max(0,Math.min(100,(1-idle/total)*100)):null;previous=data.cpu;const ram=Math.max(0,Math.min(100,(1-data.memory.available/data.memory.total)*100));
       $('cpu-value').textContent=cpu===null?'—':Math.round(cpu)+'%';$('ram-value').textContent=Math.round(ram)+'%';$('cpu-model').textContent=data.cpu.model.replace(/\(R\)|\(TM\)/g,'').replace(/\s+/g,' ').trim()||'System processor';$('cpu-model').title=data.cpu.model;const gib=1024**3;$('ram-model').textContent=(data.memory.total/gib).toFixed(1)+' GB physical memory';$('hardware-details').textContent=data.cpu.cores+' logical cores · '+((data.memory.total-data.memory.available)/gib).toFixed(1)+' / '+(data.memory.total/gib).toFixed(1)+' GB RAM';
-      for(const [kind,value]of [['cpu',cpu],['ram',ram]])if(value!==null){history[kind].push(value);if(history[kind].length>24)history[kind].shift();$(kind+'-graph').setAttribute('points',history[kind].map((v,i)=>(i*140/23).toFixed(1)+','+(31-v*.29).toFixed(1)).join(' '));}document.body.classList.toggle('pulse',settings.animations!==false);
+      history.push({cpu,ram});if(history.length>24)history.shift();for(const kind of ['cpu','ram'])$(kind+'-graph').setAttribute('points',history.flatMap((sample,i)=>sample[kind]===null?[]:[(i*140/23).toFixed(1)+','+(31-sample[kind]*.29).toFixed(1)]).join(' '));if(Number.isFinite(data.cpu.temperature))$('cpu-temperature').textContent=Math.round(data.cpu.temperature)+' °C';document.body.classList.toggle('pulse',settings.animations!==false);
     }catch{$('hardware-details').textContent='Reload the extension to enable CPU and memory access.';}finally{busy=false;if(canPoll())timer=setTimeout(poll,2500);}
   }
   $('note').oninput=()=>{clearTimeout(saveTimer);const note=$('note').value;saveTimer=setTimeout(async()=>{const current=await read();const value={...current,note};if(preview)localStorage.setItem('stillSettings',JSON.stringify(value));else await chrome.storage.local.set({stillSettings:value});settings=value;},180);};
   new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;poll();},{threshold:.01}).observe(document.body);
   document.addEventListener('visibilitychange',poll);
   if(preview)addEventListener('storage',()=>read().then(apply));else chrome.storage.onChanged.addListener((changes,area)=>{if(area==='local'&&changes.stillSettings)apply(changes.stillSettings.newValue||{});});
+  function connectionInfo(){const c=navigator.connection;const estimate=c&&Number.isFinite(c.downlink)?'est. '+c.downlink+' Mb/s':'';$('network-info').textContent=navigator.onLine?(c?.type==='ethernet'?'Ethernet · ':c?.type==='wifi'?'Wi-Fi · ':'Online · ')+estimate:'Offline';$('network-info').title='Browser connection estimate, not measured Ethernet traffic.';}
+  try{const canvas=document.createElement('canvas'),gl=canvas.getContext('webgl');if(gl){const debug=gl.getExtension('WEBGL_debug_renderer_info');const renderer=String(gl.getParameter(debug?debug.UNMASKED_RENDERER_WEBGL:gl.RENDERER));$('gpu-name').textContent=renderer.replace(/^ANGLE \([^,]+,\s*/,'').replace(/Direct3D.*$/,'').replace(/,?\s*D3D.*$/,'').trim();$('gpu-name').title=renderer+' · utilization and temperature are not available through the browser';gl.getExtension('WEBGL_lose_context')?.loseContext();}else $('gpu-name').textContent='Not exposed by Brave';}catch{$('gpu-name').textContent='Not exposed by Brave';}
+  connectionInfo();addEventListener('online',connectionInfo);addEventListener('offline',connectionInfo);navigator.connection?.addEventListener('change',connectionInfo);
   read().then(apply);
 })();

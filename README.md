@@ -13,16 +13,32 @@ A customizable Google homepage and matching Google results theme for Brave and C
 - Google search-result pages keep your selected palette while retaining Google's native results and controls.
 - Editable shortcuts with a pencil on each card, custom names, URLs, icons, colors, and Personal/Work/Study groups.
 - Ctrl+K commands and an optional clock.
-- An on-device CPU/RAM monitor with the CPU model, installed memory capacity, logical-core count, and usage graphs. The optional focus note remains available.
+- An on-device CPU/RAM monitor with the CPU model, installed memory capacity, logical-core count, and aligned usage graphs. It also displays the browser-reported GPU renderer and connection estimate. The optional focus note remains available.
 - Automatic approximate weather location, manual city search, temperature units, and a five-day forecast.
 - Local photo news, selectable sources/topics, lazy thumbnails, and **Show more articles** without another feed request.
-- Settings import/export and visible version labels.
+- Opt-in browser settings sync where supported, settings import/export, and visible version labels.
 
 ## Install or update
 
 Download the extension ZIP from [Releases](https://github.com/youval1234/GoogleRefreshed/releases/latest), extract it into a permanent folder, then open **brave://extensions**, enable **Developer mode**, and choose **Load unpacked**. Select the folder containing manifest.json.
 
 For an update, replace the files in that same folder, click **Reload** on the extension card, and refresh Google. v1.2 adds the system.cpu and system.memory permissions for the hardware monitor. The GitHub update button opens Releases; it is not an automatic installer or version checker.
+
+Version 1.3 starts the homepage cover at document start to prevent the native Google homepage flashing before customization. It also recolors neutral Google result cards and AI-overview gradients, aligns CPU/RAM graph areas even with long model names, repairs malformed feed entities, and falls back from an unavailable Bing feed to clearly attributed BBC coverage. BBC fallback coverage may differ from your chosen local edition.
+
+## Settings across devices
+
+In **Customize → Across your devices**, enable **Use browser settings sync** on each device. Appearance, fonts, shortcuts, and widget/feed preferences use the browser's `chrome.storage.sync` service. Your greeting name, notes, uploaded photos, selected city/coordinates, and hardware data stay local. Shortcut destinations and custom news topics are included, so enable this only if you want those preferences shared with your browser's sync service.
+
+Both installations need the same extension ID and a browser service that synchronizes extension storage. The ID is shown in Customize. Unpacked extensions can receive different IDs when installed from different paths. This update preserves your existing ID and local settings; it does not silently replace the manifest with a different key. Brave may expose the API without transporting extension preferences between devices. **Saved to browser sync storage** confirms a local API write, not delivery to another device. Enable browser sync separately; no custom account, server, or native companion is added. A preference update received from the browser applies automatically. Existing synced preferences take precedence when enabling sync; subsequent updates use whole preference bundles, so simultaneous edits can overwrite one another.
+
+There is an 8 KB per-item browser limit. Oversized shortcuts produce a visible error and remain saved locally. **Export settings / Import settings** remains available for manual transfer, different extension IDs, and browsers without compatible sync. Disabling sync stops subsequent reads/writes; it does not remove a previously saved copy from your browser's sync storage.
+
+## Browser-only hardware limits
+
+The graph areas share a 0–100% vertical scale and a common sample timeline; CPU and RAM values naturally differ. GPU names are the renderer string exposed by the browser, which can be generic or masked. Network speed is an estimate from the browser, not measured Ethernet throughput. Brave on Windows does not expose CPU temperature, GPU utilization, or GPU temperature through these extension APIs. These readings are labeled unavailable rather than estimated. No Windows companion is installed.
+
+API references: [extension storage and quotas](https://developer.chrome.com/docs/extensions/reference/api/storage), [CPU metadata and temperature availability](https://developer.chrome.com/docs/extensions/reference/api/system/cpu). Brave also tracks an [extension-settings sync issue](https://github.com/brave/brave-browser/issues/46983); support for cross-device extension preferences should be verified in your browser version.
 
 ## Matching the whole browser
 
@@ -42,7 +58,7 @@ Opening Weather or News can perform an approximate city lookup through ipwho.is.
 
 Local photo news defaults to Bing News. BBC and Guardian photo feeds and Google News are also available. Google News RSS has no article thumbnails, so its entries remain compact text cards. Publisher thumbnails are lazy-loaded with no page referrer; Brave can block them. Requests use no saved account credentials. There are no analytics, remote scripts, or runtime Google Fonts requests.
 
-Settings, notes, and uploaded photos stay in extension-local storage. Exports contain those settings and should be kept private. The original Google page still loads beneath the custom homepage. See [SECURITY_REVIEW.md](SECURITY_REVIEW.md) for the publication review and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for provider/font notices.
+Settings are saved locally by default. Opt-in sync shares only the preference fields listed above. Notes and uploaded photos stay in extension-local storage. Exports contain those settings and should be kept private. The original Google page still loads beneath the custom homepage. See [SECURITY_REVIEW.md](SECURITY_REVIEW.md) for the publication review and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for provider/font notices.
 
 ## Performance
 

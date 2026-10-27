@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GoogleRefreshed",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "A considered Google homepage. Your search, shortcuts, colors, and a little space to focus.",
   "permissions": [
     "storage",
@@ -62,10 +62,25 @@
       ],
       "js": [
         "shared.js",
-        "results.js",
+        "boot.js",
+        "results.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.google.com/*",
+        "https://google.com/*",
+        "https://www.google.co.il/*",
+        "https://google.co.il/*"
+      ],
+      "exclude_matches": [
+        "https://*/sorry/*"
+      ],
+      "js": [
         "content.js"
       ],
-      "run_at": "document_idle"
+      "run_at": "document_end"
     }
   ]
 }

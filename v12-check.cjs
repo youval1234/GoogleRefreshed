@@ -4,6 +4,7 @@ const root=__dirname,ext=path.join(root,'extension'),checks=[];let context;
 async function check(name,fn){await fn();checks.push(name);console.log('PASS '+name);}
 (async()=>{
  context=await chromium.launchPersistentContext(fs.mkdtempSync(path.join(root,'.test-profile-v12-')),{executablePath:process.env.BRAVE_PATH||'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe',headless:true,viewport:{width:1440,height:1000},timezoneId:'UTC',args:[`--disable-extensions-except=${ext}`,`--load-extension=${ext}`]});
+ await context.addInitScript(()=>{const original=WebGLRenderingContext.prototype.getParameter;WebGLRenderingContext.prototype.getParameter=function(parameter){if(parameter===37446||parameter===7937)return 'Example GPU renderer';return original.call(this,parameter);};});
  const worker=context.serviceWorkers()[0]||await context.waitForEvent('serviceworker');
  await check('Brave exposes real CPU and memory metadata',async()=>{const real=await worker.evaluate(async()=>{const [c,m]=await Promise.all([chrome.system.cpu.getInfo(),chrome.system.memory.getInfo()]);return{cpu:typeof c.modelName==='string'&&c.numOfProcessors>0,memory:m.capacity>0&&m.availableCapacity>=0};});assert.deepEqual(real,{cpu:true,memory:true});});
  await worker.evaluate(()=>{const original=respondTo;globalThis.hardwareCalls=0;globalThis.respondTo=async(message,signal)=>{if(message.type!=='hardware')return original(message,signal);hardwareCalls++;return{ok:true,at:Date.now(),data:{cpu:{cores:8,model:'Example CPU 8-Core',total:hardwareCalls*100000,idle:hardwareCalls*75000},memory:{total:32*1024**3,available:16*1024**3}}};};});
@@ -39,7 +40,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
  });
  const home=async()=>{await page.goto('https://www.google.com/');await page.locator('#still-home').waitFor();};await home();
  await check('Modern logo, local font, visible version, and larger date',async()=>{
-   assert.equal(await page.locator('.brand .refreshed-logo').count(),1);assert.equal(await page.getByRole('link',{name:'GoogleRefreshed version 1.2.0'}).count(),1);assert.equal(await page.locator('.date i').count(),0);assert.equal(await page.locator('.search-box .key').count(),0);
+   assert.equal(await page.locator('.brand .refreshed-logo').count(),1);assert.equal(await page.getByRole('link',{name:'GoogleRefreshed version '+require('./extension/manifest.json').version}).count(),1);assert.equal(await page.locator('.date i').count(),0);assert.equal(await page.locator('.search-box .key').count(),0);
    await page.waitForFunction(()=>{const r=document.querySelector('#still-home').shadowRoot;return getComputedStyle(r.querySelector('.date')).fontSize==='15px'&&getComputedStyle(r.querySelector('h1')).fontFamily.includes('GR Manrope');});
  });
  await check('Hardware card shows model, RAM capacity, real sample deltas and graphs',async()=>{
@@ -103,7 +104,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
  await check('Responsive homepage and settings fit smaller screens',async()=>{
    for(const width of [1440,650,390,320]){await page.setViewportSize({width,height:width>650?1000:844});assert.equal(await page.locator('.app').evaluate(x=>x.scrollWidth<=x.clientWidth+1),true,'home '+width);await page.getByRole('button',{name:'Customize',exact:true}).click();assert.equal(await page.locator('#settings').evaluate(x=>x.scrollWidth<=x.clientWidth+1),true,'settings '+width);await page.getByRole('button',{name:'Close customization'}).click();}
  });
- await page.setViewportSize({width:1440,height:1000});fs.mkdirSync(path.join(root,'docs'),{recursive:true});
+ await page.setViewportSize({width:1440,height:1160});fs.mkdirSync(path.join(root,'docs'),{recursive:true});
  for(const theme of ['aurora','mystic','solar','paper','futuristic','autumn']){await page.getByRole('button',{name:'Customize',exact:true}).click();await page.getByRole('button',{name:theme[0].toUpperCase()+theme.slice(1),exact:true}).click();await page.locator('[data-appearance-choice='+(theme==='paper'?'light':'dark')+']').click();await page.getByRole('button',{name:'Close customization'}).click();await page.locator('.app').evaluate(x=>x.scrollTop=0);await page.screenshot({path:path.join(root,'docs/v12-'+theme+'.png'),animations:'disabled'});}
  for(const name of ['paper','mystic','autumn','futuristic'])fs.copyFileSync(path.join(root,'docs/v12-'+name+'.png'),path.join(root,'docs/'+name+'.png'));await page.getByRole('button',{name:'Customize',exact:true}).click();await page.locator('#settings').evaluate(x=>x.scrollTop=0);await page.screenshot({path:path.join(root,'docs/customize.png'),animations:'disabled'});await page.getByRole('button',{name:'Close customization'}).click();await page.setViewportSize({width:390,height:844});await page.locator('.app').evaluate(x=>x.scrollTop=0);await page.screenshot({path:path.join(root,'docs/mobile.png'),animations:'disabled'});
  assert.deepEqual(errors,[]);console.log(`${checks.length} v1.2 checks passed.`);await context.close();
