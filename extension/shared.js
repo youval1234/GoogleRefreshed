@@ -42,9 +42,11 @@
   ];
   const preview = ['localhost','127.0.0.1'].includes(location.hostname) || location.protocol === 'file:';
   const resource = path => preview ? new URL(path, location.href).href : chrome.runtime.getURL(path);
+  // A first visit has no saved choice yet, so it follows the operating system.
+  const appearance = settings => ['light','dark'].includes(settings?.appearance)?settings.appearance:'system';
   const palette = settings => {
     const theme = themes.find(t=>t.id===settings.theme)||themes[0];
-    const dark = settings.appearance==='dark'||settings.appearance==='system'&&matchMedia('(prefers-color-scheme: dark)').matches;
+    const mode = appearance(settings), dark = mode==='dark'||mode==='system'&&matchMedia('(prefers-color-scheme: dark)').matches;
     return {theme,dark,colors:dark?theme.dark:theme.light,accent:/^#[0-9a-f]{6}$/i.test(settings.accent)?settings.accent:theme.accent};
   };
   const logo = `<svg class="refreshed-logo" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="1" y="1" width="46" height="46" rx="15" fill="currentColor" opacity=".15"/><path d="M34 18a12 12 0 0 0-20 1m0 0v-7m0 7h7M14 30a12 12 0 0 0 20-1m0 0v7m0-7h-7" stroke="currentColor" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round"/><path d="m36 5 1.5 3.5L41 10l-3.5 1.5L36 15l-1.5-3.5L31 10l3.5-1.5Z" fill="currentColor"/></svg>`;
@@ -62,5 +64,5 @@
     else{u=new URL('https://www.google.com/search');u.searchParams.set('q',query);if(mode==='images')u.searchParams.set('udm','2');if(mode==='videos')u.searchParams.set('tbm','vid');}
     return u.href;
   }
-  globalThis.GoogleRefreshed = {themes,palette,logo,resource,fonts,loadFont,engines,searchURL};
+  globalThis.GoogleRefreshed = {themes,appearance,palette,logo,resource,fonts,loadFont,engines,searchURL};
 })();

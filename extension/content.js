@@ -18,7 +18,7 @@
     return ({'mail.google.com':'gmail','www.youtube.com':'youtube','youtube.com':'youtube','drive.google.com':'drive','calendar.google.com':'calendar','chatgpt.com':'chatgpt','maps.google.com':'maps','photos.google.com':'photos','translate.google.com':'translate','myaccount.google.com':'google','www.google.com':'google'})[host];
   };
   const defaults = {
-    engine:'google',motionIntensity:'vivid',worldClock:true,focusTimer:true,worldZone:'UTC',focusMinutes:25,font:'manrope',theme: 'paper', appearance: 'light', animations: true, accent: '#c65332', name: '', clock: true, focus: true, shortcutsVisible: true,
+    engine:'google',motionIntensity:'vivid',worldClock:true,focusTimer:true,worldZone:'UTC',focusMinutes:25,font:'manrope',theme: 'paper', appearance: 'system', animations: true, accent: '#c65332', name: '', clock: true, focus: true, shortcutsVisible: true,
     weatherEnabled: true, newsEnabled: true, autoLocation:true, localNews:true, newsLanguageAuto:true, colorfulWeather:true, newsImages:true, newsSource:'bing', city: null, units: 'celsius', newsRegion: 'US', newsLanguage: 'en', newsTopic: 'local', newsQuery: '', newsCount: 6,
     homeCard:'hardware',suggestionImages:true,resultsTheme:true, hour24: true, newTab: false, compact: false, suggestions:true, note: '', photo: '', activeGroup:'personal',
     shortcuts: [
@@ -99,7 +99,7 @@
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
   let saveWaiters = [];
   const repoURL = 'https://github.com/youval1234/GoogleRefreshed';
-  const version = preview ? '1.5.3' : chrome.runtime.getManifest().version;
+  const version = preview ? '1.5.4' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();

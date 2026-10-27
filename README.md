@@ -8,7 +8,7 @@ A customizable Google homepage and matching Google results theme for Brave and C
 
 - **38 rebuilt themed scenes**, including Fire, Magma, Storm, Sakura, City Skyline, Rainbow, Lunar, Nature, Math, Library, Office, Science, Code, and seasonal worlds. Each scene uses original vector artwork and theme-specific motion. Rain, snow, petals, leaves, and embers have independently distributed positions and timing.
 - **18 newly redesigned worlds**: Code, Lunar, Magma, Fantasy, Math, Rainbow, Sage, Solar, Autumn, Midnight, Mystic, Magical, Noir, Sunset, Scary, Summer, Science and City Skyline. Each has its own artwork, palette and motion. [View the light/dark previews](docs/v152).
-- Independent light/dark/system appearance, custom accents, and a local background photo.
+- Independent light/dark/system appearance (System by default, following the OS), custom accents, and a local background photo.
 - **12 font choices**: bundled Manrope, Inter, Outfit, Roboto, DM Sans, Space Grotesk, and Lora; plus classic Google-style Arial, the original Georgia homepage heading font, System UI, Verdana, and Trebuchet MS. Font files load locally only when selected.
 - Google-style suggestions with entity photos when Google supplies them and keyboard navigation. The search-bar image button opens a themed reverse-image dialog: upload an image or paste an image link to search with Google Lens. The Images tab retains normal text-based image search.
 - Choose Google, DuckDuckGo, Brave Search, Bing, or Ecosia from the search box or Customize. Web, image, and video queries use the selected engine. Maps and reverse image search use Google; this does not change Brave’s address-bar default.
@@ -25,6 +25,8 @@ A customizable Google homepage and matching Google results theme for Brave and C
 Download the extension ZIP from [Releases](https://github.com/youval1234/GoogleRefreshed/releases/latest), extract it into a permanent folder, then open **brave://extensions**, enable **Developer mode**, and choose **Load unpacked**. Select the folder containing manifest.json.
 
 For an update, replace the files in that same folder, click **Reload** on the extension card, and refresh Google. v1.2 adds the system.cpu and system.memory permissions for the hardware monitor. The GitHub update button opens Releases; it is not an automatic installer or version checker.
+
+Version 1.5.4 starts new installations in System appearance, so Google opens in the operating system's light or dark mode. Existing appearance choices are kept.
 
 Version 1.3.1 fixes the hardware panel retaining a light palette or painting an opaque white canvas when System mode switches to dark. The frame and homepage now use the same color scheme, including live system changes.
 

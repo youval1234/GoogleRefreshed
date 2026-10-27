@@ -1,7 +1,9 @@
-# GoogleRefreshed v1.5.3
+# GoogleRefreshed v1.5.4
 
-Storm lightning now uses thin, irregular channels and finer branches instead of a filled lightning icon. A fast descending leader leads into a brief return stroke, localized cloud illumination and a dim afterglow. Two different channels use independent 22- and 31-second cycles, while the existing clouds, rain and puddles remain.
+A fresh installation now opens Google in the operating system's light or dark mode instead of always starting light. The default appearance is System, so the homepage, result pages, startup cover and hardware panel also follow later OS switches until a different mode is chosen. Reset settings to default returns to System as well.
 
-Focused checks in isolated Brave profiles cover the quiet interval, partial leader, strike peak, cloud illumination and decay; light/dark appearance; animation off; reduced motion; hidden-page pause; narrow layout; bounded animation count; and SVG errors. Lightning and flash layers default to invisible when animations are disabled. No JavaScript animation loop, new dependency, permission or external request was added. Static strike-peak previews are in docs/v153.
+Existing installations keep their saved Light, Dark or System choice. Settings saved before this version with no appearance field are treated as System.
+
+New checks in isolated Brave profiles cover a first visit with a dark and a light OS, live OS switching on the homepage, result pages on a first visit, and a saved Light choice staying light on a dark OS. No permission, dependency or external request was added.
 
 Reload GoogleRefreshed at brave://extensions and refresh Google, or refresh the local preview.

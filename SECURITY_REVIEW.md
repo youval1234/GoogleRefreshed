@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-27 for GoogleRefreshed v1.5.3.
+Reviewed on 2026-10-27 for GoogleRefreshed v1.5.4.
 
 ## Scope
 
@@ -44,3 +44,7 @@ Eighteen scenes and their palettes were redesigned using local SVG and CSS. The 
 ## v1.5.3 Storm lightning fix
 
 The filled lightning icon was replaced with local stroked SVG channels and CSS timing. No permissions, remote destinations or dependencies changed. The current source, reachable history, PNG metadata and release ZIP contents were rescanned for secret/private-file candidates before publication. The new previews use synthetic hardware readings.
+
+## v1.5.4 System appearance default
+
+The default appearance changed from Light to System, read through the existing prefers-color-scheme media query. No permissions, remote destinations, stored fields or dependencies changed. The source and reachable history were rescanned for secret/private-file candidates before publication.

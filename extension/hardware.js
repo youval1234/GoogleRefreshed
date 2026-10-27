@@ -2,7 +2,7 @@
   'use strict';
   const preview=['localhost','127.0.0.1'].includes(location.hostname),$=id=>document.getElementById(id);
   let settings={},visible=false,timer,busy=false,previous=null,saveTimer;
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(settings.appearance==='system')apply(settings);});
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(GoogleRefreshed.appearance(settings)==='system')apply(settings);});
   const history=[];
   const reportStatus=state=>parent.postMessage({type:'google-refreshed-monitor-status',state},'*');
   // Only a layout height crosses into the page; hardware values and notes stay private.

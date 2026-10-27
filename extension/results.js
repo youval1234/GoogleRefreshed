@@ -110,5 +110,5 @@
     }
   }).observe(document,{childList:true,subtree:true,attributes:true,attributeFilter:['style']});
   chrome.storage.onChanged.addListener((changes,area)=>{if(area==='local'&&changes.stillSettings){current=changes.stillSettings.newValue||{};apply(current);}});
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(current.appearance==='system')apply(current);});
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(GoogleRefreshed.appearance(current)==='system')apply(current);});
 })();
