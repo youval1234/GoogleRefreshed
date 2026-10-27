@@ -168,7 +168,8 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 .app[data-motion=on] .v-tide-far{animation:v-wave-swell 12s ease-in-out infinite alternate}
 .app[data-motion=on] .v-tide-near{animation:v-wave-swell 8s -3s ease-in-out infinite alternate-reverse}
 .app[data-motion=on] .v-sail{animation:v-sailing 15s ease-in-out infinite alternate}
-.app[data-motion=on] .v-rose{animation:v-rose-open 12s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .v-rose-plant{animation:v-rose-sway 11s ease-in-out infinite alternate;transform-origin:1490px 1030px}
+.app[data-motion=on] .v-rose-bloom{animation:v-rose-open 9s -3s ease-in-out infinite alternate;transform-origin:0 0}
 .app[data-motion=on] .v-circuit{animation:v-circuit-breathe 6s ease-in-out infinite alternate}
 .app[data-motion=on] .v-scanline{animation:v-scan 14s linear infinite}
 .app[data-motion=on] .v-mystic-moon{animation:v-mystic-rise 10s ease-in-out infinite alternate}
@@ -262,7 +263,8 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 @keyframes v-branch-right{from{transform:rotate(2deg)}to{transform:rotate(-1.8deg)}}
 @keyframes v-wave-swell{from{transform:translate(-55px,10px)}to{transform:translate(55px,-15px)}}
 @keyframes v-sailing{from{transform:translate(-55px,4px) rotate(-.7deg)}to{transform:translate(25px,-8px) rotate(.7deg)}}
-@keyframes v-rose-open{from{transform:scale(.94) rotate(-3deg)}to{transform:scale(1.06) rotate(3deg)}}
+@keyframes v-rose-sway{from{transform:rotate(-1.2deg)}to{transform:rotate(1.2deg)}}
+@keyframes v-rose-open{from{transform:scale(.98)}to{transform:scale(1.025)}}
 @keyframes v-circuit-breathe{from{opacity:.55}to{opacity:1}}
 @keyframes v-scan{from{transform:translateY(-20px);opacity:0}15%,85%{opacity:.65}to{transform:translateY(1020px);opacity:0}}
 @keyframes v-mystic-rise{from{transform:translateY(-16px)}to{transform:translateY(18px)}}

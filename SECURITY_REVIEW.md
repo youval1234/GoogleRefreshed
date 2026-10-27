@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-27 for GoogleRefreshed v1.5.0.
+Reviewed on 2026-10-27 for GoogleRefreshed v1.5.1.
 
 ## Scope
 
