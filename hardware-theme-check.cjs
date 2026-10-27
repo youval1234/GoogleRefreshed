@@ -18,10 +18,13 @@ let context;
    await frame.locator('body').evaluate((e,expected)=>new Promise((resolve,reject)=>{const start=performance.now();function check(){if(getComputedStyle(e).color===expected)resolve();else if(performance.now()-start>2000)reject(new Error('Hardware text palette does not match homepage'));else requestAnimationFrame(check);}check();}),expected);
    await page.locator('#hardware-frame').scrollIntoViewIfNeeded();
    const screenshot=path.join(profile,'current.png');await page.screenshot({path:screenshot,animations:'disabled'});
-   const box=await page.locator('#hardware-frame').boundingBox(),y=Math.floor(box.y+box.height-1);
-   const coords=[[Math.floor(box.x+1),y],[Math.floor(box.x-2),y]];
+   const box=await page.locator('#hardware-frame').boundingBox();
+   // Sample both edges at several heights: a background curve can cross one pixel.
+   // An opaque frame canvas disagrees throughout, rather than at a lone artwork edge.
+   const coords=[.18,.4,.62,.85,.97].flatMap(t=>{const y=Math.floor(box.y+box.height*t);return [[Math.floor(box.x+1),y],[Math.floor(box.x-2),y],[Math.floor(box.x+box.width-2),y],[Math.floor(box.x+box.width+2),y]];});
    const pixels=JSON.parse(execFileSync('python',['-c','from PIL import Image; import sys,json; im=Image.open(sys.argv[1]).convert("RGB"); print(json.dumps([im.getpixel(tuple(p)) for p in json.loads(sys.argv[2])]))',screenshot,JSON.stringify(coords)],{encoding:'utf8'}));
-   assert.ok(pixels[0].every((v,i)=>Math.abs(v-pixels[1][i])<12),label+': frame canvas must blend with widget, not white/black');
+   const matches=pixels.filter((_,n)=>n%2===0).filter((p,n)=>p.every((v,i)=>Math.abs(v-pixels[n*2+1][i])<12)).length;
+   assert.ok(matches>=7,label+': frame canvas must blend with widget, not white/black');
    console.log('PASS '+label);
  }
  await verify('System mode starts light','light');

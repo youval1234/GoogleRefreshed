@@ -2,11 +2,12 @@
 
 A customizable Google homepage and matching Google results theme for Brave and Chromium.
 
-![GoogleRefreshed dashboard](docs/v15/sakura.png)
+![GoogleRefreshed Code dashboard](docs/v152/code-dark.png)
 
 ## What it adds
 
 - **38 rebuilt themed scenes**, including Fire, Magma, Storm, Sakura, City Skyline, Rainbow, Lunar, Nature, Math, Library, Office, Science, Code, and seasonal worlds. Each scene uses original vector artwork and theme-specific motion. Rain, snow, petals, leaves, and embers have independently distributed positions and timing.
+- **18 newly redesigned worlds**: Code, Lunar, Magma, Fantasy, Math, Rainbow, Sage, Solar, Autumn, Midnight, Mystic, Magical, Noir, Sunset, Scary, Summer, Science and City Skyline. Each has its own artwork, palette and motion. [View the light/dark previews](docs/v152).
 - Independent light/dark/system appearance, custom accents, and a local background photo.
 - **12 font choices**: bundled Manrope, Inter, Outfit, Roboto, DM Sans, Space Grotesk, and Lora; plus classic Google-style Arial, the original Georgia homepage heading font, System UI, Verdana, and Trebuchet MS. Font files load locally only when selected.
 - Google-style suggestions with entity photos when Google supplies them and keyboard navigation. The search-bar image button opens a themed reverse-image dialog: upload an image or paste an image link to search with Google Lens. The Images tab retains normal text-based image search.

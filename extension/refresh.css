@@ -158,13 +158,12 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 /* Scenic motion: independent layers, mostly transforms/opacity, no frame loop. */
 .theme-art svg{overflow:visible}.theme-art{mask-image:linear-gradient(180deg,transparent,#000 120px),radial-gradient(ellipse 36% 40% at 50% 42%,#0003 0%,#0008 55%,#000 100%);mask-composite:intersect}.theme-art [class^=v-]{animation-delay:var(--phase,0s)}
 .v-aurora-band{filter:blur(8px)}
-.app[data-motion=on] :is(.v-orbit,.v-solar-rays,.v-spell-turn,.v-color-wheel,.v-geometry,.v-lunar-satellite){animation:v-rotate var(--period,32s) linear infinite;transform-origin:0 0}
+.app[data-motion=on] :is(.v-orbit,.v-color-wheel){animation:v-rotate var(--period,32s) linear infinite;transform-origin:0 0}
 .app[data-motion=on] .v-spark{animation:v-starlight 5s var(--phase,0s) ease-in-out infinite alternate}
 .app[data-motion=on] .v-paper-sheet{animation:v-paper-rock 10s ease-in-out infinite alternate;transform-origin:140px 450px}
 .app[data-motion=on] .v-paper-fold{animation:v-paper-flight 14s ease-in-out infinite alternate}
 .app[data-motion=on] .v-pencil{animation:v-pencil-draw 9s ease-in-out infinite alternate}
-.app[data-motion=on] :is(.v-leaf-left,.v-autumn-branch){animation:v-branch-left 9s ease-in-out infinite alternate;transform-origin:left bottom}
-.app[data-motion=on] .v-leaf-right{animation:v-branch-right 11s -4s ease-in-out infinite alternate;transform-origin:right bottom}
+.app[data-motion=on] :is(.v-autumn-branch){animation:v-branch-left 9s ease-in-out infinite alternate;transform-origin:left bottom}
 .app[data-motion=on] .v-tide-far{animation:v-wave-swell 12s ease-in-out infinite alternate}
 .app[data-motion=on] .v-tide-near{animation:v-wave-swell 8s -3s ease-in-out infinite alternate-reverse}
 .app[data-motion=on] .v-sail{animation:v-sailing 15s ease-in-out infinite alternate}
@@ -172,31 +171,19 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 .app[data-motion=on] .v-rose-bloom{animation:v-rose-open 9s -3s ease-in-out infinite alternate;transform-origin:0 0}
 .app[data-motion=on] .v-circuit{animation:v-circuit-breathe 6s ease-in-out infinite alternate}
 .app[data-motion=on] .v-scanline{animation:v-scan 14s linear infinite}
-.app[data-motion=on] .v-mystic-moon{animation:v-mystic-rise 10s ease-in-out infinite alternate}
-.app[data-motion=on] .v-constellation{animation:v-constellation-glow 7s ease-in-out infinite alternate}
 .app[data-motion=on] :is(.v-mystic-dust,.v-magic-motes,.v-fairy-lights){animation:v-motes-rise 12s ease-in-out infinite alternate}
-.app[data-motion=on] .v-grimoire{animation:v-book-hover 8s ease-in-out infinite alternate}
-.app[data-motion=on] .v-magic-orb{animation:v-orb-glow 5s ease-in-out infinite alternate;transform-origin:1370px 280px}
 .app[data-motion=on] .v-rustic-light{animation:v-window-beam 16s ease-in-out infinite alternate}
 .app[data-motion=on] .v-hanging-herbs{animation:v-herb-sway 9s ease-in-out infinite alternate;transform-origin:130px 0}
-.app[data-motion=on] .v-sun-core{animation:v-solar-pulse 9s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
 .app[data-motion=on] .v-solar-haze{animation:v-heat-haze 10s ease-in-out infinite alternate}
-.app[data-motion=on] :is(.v-flower,.v-palm){animation:v-flower-sway 8s var(--phase,0s) ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+.app[data-motion=on] .v-flower{animation:v-flower-sway 8s var(--phase,0s) ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
 .app[data-motion=on] .v-butterfly-flight{animation:v-butterfly-path 15s ease-in-out infinite alternate}
 .app[data-motion=on] .v-butterfly-wings{animation:v-wingbeat 2.6s ease-in-out infinite alternate;transform-origin:0 0}
 .app[data-motion=on] .v-winter-mist{animation:v-mist 17s ease-in-out infinite alternate}
-.app[data-motion=on] .v-midnight-moon{animation:v-midnight-rise 15s ease-in-out infinite alternate}
-.app[data-motion=on] .v-midnight-water{animation:v-water-shimmer 9s ease-in-out infinite alternate}
-.app[data-motion=on] .v-meteor-one{animation:v-meteor 18s -6s linear infinite}
-.app[data-motion=on] .v-meteor-two{animation:v-meteor 24s -17s linear infinite}
 .app[data-motion=on] .v-aurora-one{animation:v-boreal-one 13s ease-in-out infinite alternate}
 .app[data-motion=on] .v-aurora-two{animation:v-boreal-two 17s -7s ease-in-out infinite alternate}
 .app[data-motion=on] .v-aurora-rays{animation:v-boreal-rays 11s -3s ease-in-out infinite alternate}
 .app[data-motion=on] .v-nebula{animation:v-nebula-roll 20s ease-in-out infinite alternate}
 .app[data-motion=on] .v-planet-roll{animation:v-planet-tilt 20s ease-in-out infinite alternate;transform-origin:0 0}
-.app[data-motion=on] .v-noir-blinds{animation:v-blind-travel 19s ease-in-out infinite alternate}
-.app[data-motion=on] .v-noir-smoke{animation:v-smoke 14s ease-in-out infinite alternate}
-.app[data-motion=on] .v-noir-clock{animation:v-clock-light 7s ease-in-out infinite alternate}
 .app[data-motion=on] .v-resin{animation:v-resin-glow 9s ease-in-out infinite alternate}
 .app[data-motion=on] .v-amber-lines{animation:v-amber-drift 14s ease-in-out infinite alternate}
 .app[data-motion=on] .v-icebergs{animation:v-ice-light 9s ease-in-out infinite alternate}
@@ -204,56 +191,28 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 .app[data-motion=on] .v-snow-crystal{animation:v-rotate 40s linear infinite;transform-origin:0 0}
 .app[data-motion=on] .v-bloom-head{animation:v-bloom 7s var(--phase,0s) ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
 .app[data-motion=on] .v-pollen{animation:v-pollen-drift 16s ease-in-out infinite alternate}
-.app[data-motion=on] .v-castle-flags{animation:v-flag-wave 4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:left}
-.app[data-motion=on] .v-castle-window{animation:v-window-warmth 6s ease-in-out infinite alternate}
-.app[data-motion=on] .v-dragon-flight{animation:v-dragon-glide 21s ease-in-out infinite alternate}
-.app[data-motion=on] .v-editor-left{animation:v-editor-light 8s ease-in-out infinite alternate}
-.app[data-motion=on] .v-terminal-cursor{animation:v-cursor 2s ease-in-out infinite alternate}
-.app[data-motion=on] .v-code-packets{animation:v-data-flow 8s linear infinite}
-.app[data-motion=on] .v-code-brackets{animation:v-bracket-float 11s ease-in-out infinite alternate}
-.app[data-motion=on] :is(.v-cloud-bank-one,.v-sunset-cloud){animation:v-cloud-drift 25s ease-in-out infinite alternate}
+.app[data-motion=on] .v-cloud-bank-one{animation:v-cloud-drift 25s ease-in-out infinite alternate}
 .app[data-motion=on] .v-cloud-bank-two{animation:v-cloud-drift 31s -12s ease-in-out infinite alternate-reverse}
 .app[data-motion=on] .v-cloud-sun{animation:v-cloud-sunlight 12s ease-in-out infinite alternate}
-.app[data-motion=on] .v-haunted-fog{animation:v-haunted-mist 18s ease-in-out infinite alternate}
-.app[data-motion=on] .v-haunted-moon{animation:v-haunted-glow 11s ease-in-out infinite alternate}
-.app[data-motion=on] .v-bat-flight{animation:v-bat-glide 18s ease-in-out infinite alternate}
-.app[data-motion=on] .v-haunted-trees{animation:v-haunted-sway 14s ease-in-out infinite alternate;transform-origin:center bottom}
 .app[data-motion=on] .v-memphis-drift{animation:v-color-drift 13s ease-in-out infinite alternate}
 .app[data-motion=on] .v-memphis-zig{animation:v-zig-drift 11s ease-in-out infinite alternate}
 .app[data-motion=on] .v-confetti-piece{animation:v-confetti-turn 9s var(--phase,0s) ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
-.app[data-motion=on] :is(.v-sine-trace,.v-parabola-trace){animation:v-graph-draw 10s ease-in-out infinite alternate}
-.app[data-motion=on] .v-formula{animation:v-formula-drift 13s ease-in-out infinite alternate}
 .app[data-motion=on] .v-library-light{animation:v-reading-light 9s ease-in-out infinite alternate}
 .app[data-motion=on] .v-book-page{animation:v-page-turn 12s ease-in-out infinite alternate;transform-origin:1400px 905px}
 .app[data-motion=on] .v-library-dust{animation:v-dust-float 18s ease-in-out infinite alternate}
 .app[data-motion=on] .v-office-cloud{animation:v-office-breeze 18s ease-in-out infinite alternate}
 .app[data-motion=on] .v-office-chart{animation:v-graph-draw 12s ease-in-out infinite alternate}
 .app[data-motion=on] .v-coffee-steam{animation:v-coffee-rise 6s ease-in-out infinite}
-.app[data-motion=on] .v-atom-precess{animation:v-atom-tilt 20s ease-in-out infinite alternate}
-.app[data-motion=on] .v-electron{animation:v-electron-orbit 6s var(--phase,0s) linear infinite;transform-origin:0 0}
 .app[data-motion=on] .v-bubble{animation:v-bubble-rise 5s var(--phase,0s) ease-in-out infinite}
-.app[data-motion=on] .v-dna{animation:v-dna-turn 12s ease-in-out infinite alternate;transform-origin:1450px 750px}
 .app[data-motion=on] .v-nature-back{animation:v-forest-breeze 12s ease-in-out infinite alternate;transform-origin:center bottom}
 .app[data-motion=on] .v-nature-front{animation:v-forest-breeze 9s -4s ease-in-out infinite alternate-reverse;transform-origin:center bottom}
 .app[data-motion=on] .v-bird-flight{animation:v-birds 22s ease-in-out infinite alternate}
 .app[data-motion=on] .v-fireflies{animation:v-firefly-dance 13s ease-in-out infinite alternate}
-.app[data-motion=on] .v-city-train{animation:v-train-pass 23s linear infinite}
-.app[data-motion=on] .v-city-plane{animation:v-plane-pass 40s -13s linear infinite}
-.app[data-motion=on] .v-spectrum-ray{animation:v-spectrum-shift 9s var(--phase,0s) ease-in-out infinite alternate}
-.app[data-motion=on] .v-rainbow-arc{animation:v-rainbow-lift 13s ease-in-out infinite alternate}
-.app[data-motion=on] .v-prism{animation:v-prism-light 8s ease-in-out infinite alternate}
-.app[data-motion=on] .v-lunar-moon{animation:v-lunar-drift 18s ease-in-out infinite alternate}
-.app[data-motion=on] .v-lunar-shadow{animation:v-lunar-phase 25s ease-in-out infinite alternate}
 .app[data-motion=on] .v-sakura-tree-left{animation:v-cherry-left 10s ease-in-out infinite alternate;transform-origin:0 1000px}
 .app[data-motion=on] .v-sakura-tree-right{animation:v-cherry-right 13s -5s ease-in-out infinite alternate;transform-origin:1600px 1000px}
 .app[data-motion=on] .v-flame{animation:v-flame-dance 4s var(--phase,0s) ease-in-out infinite alternate;transform-origin:0 0}
 .app[data-motion=on] .v-fire-embers{animation:v-embers-rise 11s ease-in-out infinite}
-.app[data-motion=on] .v-lava-cracks{animation:v-crack-heat 8s ease-in-out infinite alternate}
-.app[data-motion=on] .v-lava-flow{animation:v-lava-surge 12s ease-in-out infinite alternate}
-.app[data-motion=on] .v-lava-bubble{animation:v-lava-pop 6s var(--phase,0s) ease-in-out infinite;transform-box:fill-box;transform-origin:center}
 .app[data-motion=on] .v-rain-ripple{animation:v-ripple 5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.app[data-motion=on] .v-setting-sun{animation:v-sunset-descent 25s ease-in-out infinite alternate}
-.app[data-motion=on] .v-sunset-reflection{animation:v-reflection-dance 7s ease-in-out infinite alternate}
 @keyframes v-rotate{to{transform:rotate(360deg)}}
 @keyframes v-starlight{from{opacity:.25}to{opacity:.8}}
 @keyframes v-paper-rock{from{transform:rotate(-5deg) translateY(-6px)}to{transform:rotate(3deg) translateY(14px)}}
@@ -297,13 +256,6 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 @keyframes v-ice-sweep{from{transform:translate(-20px,20px);opacity:.15}to{transform:translate(25px,-35px);opacity:1}}
 @keyframes v-bloom{from{transform:scale(.94) rotate(-5deg)}to{transform:scale(1.08) rotate(5deg)}}
 @keyframes v-pollen-drift{from{transform:translate(-15px,20px)}to{transform:translate(25px,-30px)}}
-@keyframes v-flag-wave{from{transform:skewY(-5deg) scaleX(.8)}to{transform:skewY(6deg) scaleX(1)}}
-@keyframes v-window-warmth{from{opacity:.35}to{opacity:.85}}
-@keyframes v-dragon-glide{from{transform:translate(-20px,15px)}to{transform:translate(180px,-30px)}}
-@keyframes v-editor-light{from{opacity:.7}to{opacity:1}}
-@keyframes v-cursor{from{opacity:.25}to{opacity:.9}}
-@keyframes v-data-flow{to{stroke-dashoffset:-568}}
-@keyframes v-bracket-float{from{transform:translateY(10px)}to{transform:translateY(-15px)}}
 @keyframes v-cloud-drift{from{transform:translate(-80px,0)}to{transform:translate(80px,10px)}}
 @keyframes v-cloud-sunlight{from{opacity:.45}to{opacity:.9}}
 @keyframes v-haunted-mist{from{transform:translateX(-100px)}to{transform:translateX(100px)}}
@@ -314,7 +266,6 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 @keyframes v-zig-drift{from{transform:translateY(-20px)}to{transform:translateY(20px)}}
 @keyframes v-confetti-turn{from{transform:translateY(-14px) rotate(-25deg)}to{transform:translateY(18px) rotate(25deg)}}
 @keyframes v-graph-draw{from{stroke-dasharray:.35 1;stroke-dashoffset:.25}to{stroke-dasharray:1 1;stroke-dashoffset:0}}
-@keyframes v-formula-drift{from{transform:translateY(-12px)}to{transform:translateY(12px)}}
 @keyframes v-reading-light{from{opacity:.45}to{opacity:1}}
 @keyframes v-page-turn{from{transform:skewY(-4deg) scaleX(.93)}to{transform:skewY(3deg) scaleX(1.05)}}
 @keyframes v-dust-float{from{transform:translate(-12px,18px)}to{transform:translate(18px,-25px)}}
@@ -332,18 +283,172 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 @keyframes v-spectrum-shift{from{transform:translateY(-15px);opacity:.65}to{transform:translateY(18px);opacity:1}}
 @keyframes v-rainbow-lift{from{transform:translateY(15px)}to{transform:translateY(-15px)}}
 @keyframes v-prism-light{from{opacity:.6}to{opacity:1}}
-@keyframes v-lunar-drift{from{transform:translate(-7px,10px)}to{transform:translate(7px,-10px)}}
-@keyframes v-lunar-phase{from{transform:translateX(-9px)}to{transform:translateX(12px)}}
 @keyframes v-cherry-left{from{transform:rotate(-1deg)}to{transform:rotate(1.5deg)}}
 @keyframes v-cherry-right{from{transform:rotate(1deg)}to{transform:rotate(-1.5deg)}}
 @keyframes v-flame-dance{from{transform:scale(.94,.86) skewX(-4deg)}50%{transform:scale(1.03,1.04) skewX(2deg)}to{transform:scale(.95,1.12) skewX(4deg)}}
 @keyframes v-embers-rise{from{transform:translate(0,150px);opacity:0}30%,70%{opacity:.8}to{transform:translate(25px,-100px);opacity:0}}
-@keyframes v-crack-heat{from{opacity:.45}to{opacity:1}}
-@keyframes v-lava-surge{from{transform:translate(-15px,10px)}to{transform:translate(15px,-15px)}}
-@keyframes v-lava-pop{from{transform:scale(.5);opacity:0}40%{opacity:.6}to{transform:scale(1.7);opacity:0}}
 @keyframes v-ripple{from{transform:scale(.5);opacity:.65}to{transform:scale(1.5);opacity:0}}
 @keyframes v-sunset-descent{from{transform:translateY(-15px)}to{transform:translateY(15px)}}
 @keyframes v-reflection-dance{from{transform:translateX(-18px);opacity:.6}to{transform:translateX(18px);opacity:1}}
+/* Bespoke worlds: local vectors, bounded CSS motion, no JavaScript rendering loop. */
+.app[data-motion=on] .v-summer-water-far{animation:v-lagoon-tide 18s ease-in-out infinite alternate}
+.app[data-motion=on] .v-summer-water-near{animation:v-lagoon-tide 13s -5s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .v-summer-palm{animation:v-coastal-palm 14s ease-in-out infinite alternate;transform-origin:70px 1000px}
+.app[data-motion=on] .v-summer-parasol{animation:v-parasol-breeze 12s ease-in-out infinite alternate;transform-origin:0 250px}
+.app[data-motion=on] .v-summer-sailboat{animation:v-lagoon-sailing 24s ease-in-out infinite alternate}
+.app[data-motion=on] .v-science-molecule{animation:v-lab-molecule 18s ease-in-out infinite alternate;transform-origin:155px 276px}
+.app[data-motion=on] .v-science-vessel{animation:v-lab-glass 13s ease-in-out infinite alternate}
+.app[data-motion=on] .v-science-bubble{animation:v-lab-bubble 7s var(--phase,0s) ease-in-out infinite}
+.app[data-motion=on] .v-science-helix{animation:v-lab-helix 14s ease-in-out infinite alternate;transform-origin:1440px 400px}
+.app[data-motion=on] .v-science-petri{animation:v-lab-glass 17s -6s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .v-city-office-lights{animation:v-office-night 13s var(--phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .v-city-metro-new{animation:v-metro-ride 28s linear infinite}
+.app[data-motion=on] .v-city-flight-new{animation:v-city-overflight 45s -10s linear infinite}
+@keyframes v-lagoon-tide{from{transform:translate(-18px,4px)}to{transform:translate(22px,-6px)}}
+@keyframes v-coastal-palm{from{transform:rotate(-1.2deg)}to{transform:rotate(1.8deg)}}
+@keyframes v-parasol-breeze{from{transform:rotate(-1deg)}to{transform:rotate(1.5deg)}}
+@keyframes v-lagoon-sailing{from{transform:translate(-18px,3px)}to{transform:translate(35px,-3px)}}
+@keyframes v-lab-molecule{from{transform:rotate(-4deg) translateY(4px)}to{transform:rotate(4deg) translateY(-5px)}}
+@keyframes v-lab-glass{from{opacity:.7}to{opacity:1}}
+@keyframes v-lab-bubble{0%{transform:translateY(8px);opacity:0}25%,60%{opacity:.75}100%{transform:translateY(-48px);opacity:0}}
+@keyframes v-lab-helix{from{transform:scaleX(.78) translateY(-6px)}to{transform:scaleX(1.04) translateY(6px)}}
+@keyframes v-office-night{from{opacity:.45}to{opacity:.95}}
+@keyframes v-metro-ride{to{transform:translateX(1840px)}}
+@keyframes v-city-overflight{from{transform:translate(-30px,20px)}to{transform:translate(1800px,-20px)}}
+.app[data-motion=on] .v-mystic-astrolabe{animation:v-astrolabe-turn 65s linear infinite;transform-origin:0 0}
+.app[data-motion=on] .v-mystic-geode-left{animation:v-crystal-light 12s ease-in-out infinite alternate}
+.app[data-motion=on] .v-mystic-geode-right{animation:v-crystal-light 15s -7s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .v-mystic-veil{animation:v-crystal-veil 17s ease-in-out infinite alternate}
+.app[data-motion=on] .v-mystic-star{animation:v-crystal-star 7s var(--phase,0s) ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.app[data-motion=on] .v-magical-book{animation:v-illuminated-book 13s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .v-magical-curtain{animation:v-door-light 8s linear infinite}
+.app[data-motion=on] .v-magical-seal{animation:v-seal-light 7s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.app[data-motion=on] .v-magical-spark{animation:v-script-spark 9s var(--phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .v-noir-shutters{animation:v-shutter-light 20s ease-in-out infinite alternate}
+.app[data-motion=on] .v-noir-lamplight{animation:v-streetlamp-light 12s ease-in-out infinite alternate}
+.app[data-motion=on] .v-noir-rainlight{animation:v-window-rain 9s linear infinite}
+.app[data-motion=on] .v-noir-reflection{animation:v-street-reflection 9s ease-in-out infinite alternate}
+.app[data-motion=on] .v-noir-night-fog{animation:v-noir-fog 21s ease-in-out infinite alternate}
+.app[data-motion=on] .v-sunset-horizon-sun{animation:v-coastal-sun 28s ease-in-out infinite alternate}
+.app[data-motion=on] .v-sunset-cloud-ribbons{animation:v-coastal-breeze 24s ease-in-out infinite alternate}
+.app[data-motion=on] .v-sunset-gilded-water{animation:v-coastal-glisten 8s ease-in-out infinite alternate}
+.app[data-motion=on] .v-sunset-seabirds{animation:v-coastal-birds 22s ease-in-out infinite alternate}
+.app[data-motion=on] .v-scary-boughs{animation:v-bough-creak 17s ease-in-out infinite alternate;transform-origin:0 1000px}
+.app[data-motion=on] .v-scary-window-light{animation:v-haunted-candle 11s ease-in-out infinite}
+.app[data-motion=on] .v-scary-lantern{animation:v-lantern-swing 9s ease-in-out infinite alternate;transform-origin:186px 370px}
+.app[data-motion=on] .v-scary-lowfog{animation:v-lowfog-drift 22s ease-in-out infinite alternate}
+.app[data-motion=on] .v-scary-highfog{animation:v-lowfog-drift 27s -10s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .v-scary-bloodmoon{animation:v-bloodmoon-light 15s ease-in-out infinite alternate}
+@keyframes v-astrolabe-turn{to{transform:rotate(360deg)}}
+@keyframes v-crystal-light{from{opacity:.65}to{opacity:1}}
+@keyframes v-crystal-veil{from{transform:translate(-10px,14px);opacity:.5}to{transform:translate(14px,-18px);opacity:1}}
+@keyframes v-crystal-star{from{opacity:.3;transform:scale(.8)}to{opacity:.9;transform:scale(1.15)}}
+@keyframes v-illuminated-book{from{transform:translateY(-6px) rotate(-1deg)}to{transform:translateY(7px) rotate(1deg)}}
+@keyframes v-door-light{to{stroke-dashoffset:-144}}
+@keyframes v-seal-light{from{opacity:.35;transform:scale(.9)}to{opacity:.85;transform:scale(1.12)}}
+@keyframes v-script-spark{from{transform:translate(-8px,18px);opacity:.25}to{transform:translate(9px,-18px);opacity:.9}}
+@keyframes v-shutter-light{from{transform:translateY(-7px);opacity:.55}to{transform:translateY(11px);opacity:1}}
+@keyframes v-streetlamp-light{from{opacity:.65}to{opacity:1}}
+@keyframes v-window-rain{0%{transform:translateY(-12px);opacity:0}25%,75%{opacity:.7}100%{transform:translateY(43px);opacity:0}}
+@keyframes v-street-reflection{from{transform:translateX(-6px);opacity:.5}to{transform:translateX(9px);opacity:1}}
+@keyframes v-noir-fog{from{transform:translate(-13px,15px);opacity:.5}to{transform:translate(18px,-20px);opacity:1}}
+@keyframes v-coastal-sun{from{transform:translateY(-7px)}to{transform:translateY(11px)}}
+@keyframes v-coastal-breeze{from{transform:translateX(-16px)}to{transform:translateX(21px)}}
+@keyframes v-coastal-glisten{from{transform:translateX(-9px);opacity:.45}to{transform:translateX(12px);opacity:1}}
+@keyframes v-coastal-birds{from{transform:translate(-18px,7px)}to{transform:translate(50px,-12px)}}
+@keyframes v-bough-creak{from{transform:skewX(-.5deg)}to{transform:skewX(.6deg)}}
+@keyframes v-haunted-candle{0%,100%{opacity:.65}38%{opacity:.4}44%{opacity:.7}68%{opacity:.5}78%{opacity:.8}}
+@keyframes v-lantern-swing{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@keyframes v-lowfog-drift{from{transform:translate(-23px,12px)}to{transform:translate(28px,-12px)}}
+@keyframes v-bloodmoon-light{from{opacity:.6}to{opacity:1}}
+.app[data-motion=on] .v-sage-main{animation:v-sage-breathe 14s ease-in-out infinite alternate;transform-origin:0 1000px}
+.app[data-motion=on] .v-sage-secondary{animation:v-sage-breathe 17s -6s ease-in-out infinite alternate-reverse;transform-origin:1600px 1000px}
+.app[data-motion=on] .v-sage-sprig{animation:v-sage-sprig 12s ease-in-out infinite alternate}
+.app[data-motion=on] .v-sage-mote{animation:v-sage-mote 13s var(--phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .v-rainbow-glass{animation:v-glass-hover 14s ease-in-out infinite alternate}
+.app[data-motion=on] .v-rainbow-sculpture{animation:v-glass-hover 18s -7s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .v-rainbow-refract{animation:v-refract-breathe 7s var(--phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .v-rainbow-caustic{animation:v-caustic-slide 16s ease-in-out infinite alternate}
+.app[data-motion=on] .v-rainbow-glint{animation:v-glint-light 8s var(--phase,0s) ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.app[data-motion=on] .v-solar-corona{animation:v-corona-turn 95s linear infinite;transform-origin:0 0}
+.app[data-motion=on] .v-solar-prominence{animation:v-prominence-breathe 10s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .v-solar-celestial{animation:v-solar-hover 20s ease-in-out infinite alternate}
+.app[data-motion=on] .v-solar-contours{animation:v-solar-wind 18s ease-in-out infinite alternate}
+.app[data-motion=on] .v-solar-speck{animation:v-solar-dust 13s var(--phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .v-autumn-maple-left{animation:v-maple-sway 14s ease-in-out infinite alternate;transform-origin:0 1000px}
+.app[data-motion=on] .v-autumn-maple-right{animation:v-maple-sway 17s -6s ease-in-out infinite alternate-reverse;transform-origin:1600px 680px}
+.app[data-motion=on] .v-autumn-mist{animation:v-autumn-fog 24s ease-in-out infinite alternate}
+.app[data-motion=on] .v-midnight-trails{animation:v-night-sky 70s linear infinite;transform-origin:1470px 200px}
+.app[data-motion=on] .v-midnight-beacon{animation:v-night-beacon 8s var(--phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .v-midnight-reflections{animation:v-night-reflection 8s ease-in-out infinite alternate}
+.app[data-motion=on] .v-midnight-comet{animation:v-night-comet 23s ease-in-out infinite}
+@keyframes v-sage-breathe{from{transform:rotate(-1.4deg)}to{transform:rotate(1.6deg)}}
+@keyframes v-sage-sprig{from{transform:translateY(3px)}to{transform:translateY(-5px)}}
+@keyframes v-sage-mote{from{transform:translate(-8px,15px);opacity:.1}to{transform:translate(14px,-23px);opacity:.65}}
+@keyframes v-glass-hover{from{transform:translateY(-9px)}to{transform:translateY(12px)}}
+@keyframes v-refract-breathe{from{opacity:.45;stroke-width:3}to{opacity:.9;stroke-width:7}}
+@keyframes v-caustic-slide{from{transform:translate(-18px,10px);opacity:.5}to{transform:translate(10px,-16px);opacity:1}}
+@keyframes v-glint-light{from{opacity:.12;transform:scale(.65)}to{opacity:.8;transform:scale(1.2)}}
+@keyframes v-corona-turn{to{transform:rotate(360deg)}}
+@keyframes v-prominence-breathe{from{transform:scale(.95);opacity:.55}to{transform:scale(1.08);opacity:1}}
+@keyframes v-solar-hover{from{transform:translateY(7px)}to{transform:translateY(-7px)}}
+@keyframes v-solar-wind{from{transform:translate(-7px,8px);opacity:.65}to{transform:translate(12px,-12px);opacity:1}}
+@keyframes v-solar-dust{from{transform:translate(-10px,15px);opacity:.15}to{transform:translate(18px,-20px);opacity:.7}}
+@keyframes v-maple-sway{from{transform:rotate(-1.2deg)}to{transform:rotate(1.5deg)}}
+@keyframes v-autumn-fog{from{transform:translate(-20px,9px)}to{transform:translate(25px,-9px)}}
+@keyframes v-night-sky{to{transform:rotate(360deg)}}
+@keyframes v-night-beacon{from{opacity:.25}to{opacity:.9}}
+@keyframes v-night-reflection{from{transform:translateX(-5px);opacity:.5}to{transform:translateX(8px);opacity:1}}
+@keyframes v-night-comet{0%,65%,100%{opacity:0;transform:translate(0,0)}68%{opacity:.8}78%{opacity:0;transform:translate(210px,95px)}}
+.app[data-theme=code]{--syntax-violet:#8666ae;--syntax-cyan:#247b91;--syntax-amber:#aa6d2c}
+.app[data-theme=code][data-appearance=dark]{--syntax-violet:#c4a1ed;--syntax-cyan:#83d8db;--syntax-amber:#e6bc83}
+.app[data-motion=on] .v-code-editor{animation:v-studio-float 14s ease-in-out infinite alternate}
+.app[data-motion=on] .v-code-branches{animation:v-studio-float 17s -6s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .v-code-terminal{animation:v-studio-float 12s -4s ease-in-out infinite alternate}
+.app[data-motion=on] .v-code-caret{animation:v-code-blink 1.4s ease-in-out infinite}
+.app[data-motion=on] .v-code-focus{animation:v-focus-row 12s ease-in-out infinite}
+.app[data-motion=on] .v-code-commit{animation:v-commit-travel 9s linear infinite}
+.app[data-motion=on] .v-lunar-world{animation:v-moon-hover 20s ease-in-out infinite alternate}
+.app[data-motion=on] .v-lunar-probe{animation:v-probe-orbit 28s linear infinite;transform-origin:0 0}
+.app[data-motion=on] .v-lunar-starlight{animation:v-lunar-twinkle 8s ease-in-out infinite alternate}
+.app[data-motion=on] .v-lunar-drifter{animation:v-lunar-shooting-star 24s ease-in-out infinite}
+.app[data-motion=on] .v-fantasy-citadel{animation:v-island-hover 15s ease-in-out infinite alternate}
+.app[data-motion=on] .v-fantasy-islet{animation:v-island-hover 18s -8s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .v-fantasy-banner{animation:v-banner-breeze 5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:left}
+.app[data-motion=on] .v-fantasy-water{animation:v-water-stream 4s linear infinite}
+.app[data-motion=on] .v-fantasy-falls{animation:v-water-glimmer 7s ease-in-out infinite alternate}
+.app[data-motion=on] .v-fantasy-lantern{animation:v-lantern-light 6s var(--phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .v-fantasy-ribbon{animation:v-enchanted-breeze 18s ease-in-out infinite alternate}
+.app[data-motion=on] .v-fantasy-haze{animation:v-enchanted-breeze 24s -9s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .v-math-spiral{animation:v-spiral-turn 55s linear infinite;transform-origin:145px 340px}
+.app[data-motion=on] .v-math-solid{animation:v-polyhedron-turn 32s linear infinite}
+.app[data-motion=on] .v-math-manifold{animation:v-manifold-tilt 16s ease-in-out infinite alternate;transform-origin:1405px 780px}
+.app[data-motion=on] .v-math-sine{animation:v-sine-sketch 9s ease-in-out infinite alternate}
+.app[data-motion=on] .v-magma-massif{animation:v-molten-light 11s ease-in-out infinite alternate}
+.app[data-motion=on] .v-magma-current{animation:v-molten-stream 8s linear infinite}
+.app[data-motion=on] .v-magma-cinder{animation:v-cinder-lift 9s var(--phase,0s) ease-in-out infinite}
+.app[data-motion=on] .v-magma-fissures{animation:v-molten-light 9s -5s ease-in-out infinite alternate}
+@keyframes v-studio-float{from{transform:translateY(-7px)}to{transform:translateY(10px)}}
+@keyframes v-code-blink{0%,100%{opacity:.15}50%{opacity:.9}}
+@keyframes v-focus-row{0%,18%,100%{transform:translateY(0)}38%,58%{transform:translateY(-58px)}76%,88%{transform:translateY(58px)}}
+@keyframes v-commit-travel{to{stroke-dashoffset:-396}}
+@keyframes v-moon-hover{from{transform:translate(-4px,9px) rotate(-2deg)}to{transform:translate(4px,-9px) rotate(2deg)}}
+@keyframes v-probe-orbit{0%{transform:translate(0,0)}25%{transform:translate(-198px,60px) scale(.8)}50%{transform:translate(-396px,0)}75%{transform:translate(-198px,-60px) scale(.8)}100%{transform:translate(0,0)}}
+@keyframes v-lunar-twinkle{from{opacity:.24}to{opacity:.66}}
+@keyframes v-lunar-shooting-star{0%,68%,100%{opacity:0;transform:translate(0,0)}70%{opacity:.7}79%{opacity:0;transform:translate(190px,90px)}}
+@keyframes v-island-hover{from{transform:translateY(-10px)}to{transform:translateY(13px)}}
+@keyframes v-banner-breeze{from{transform:skewY(-6deg) scaleX(.86)}to{transform:skewY(6deg) scaleX(1)}}
+@keyframes v-water-stream{to{stroke-dashoffset:-128}}
+@keyframes v-water-glimmer{from{opacity:.55}to{opacity:1}}
+@keyframes v-lantern-light{from{opacity:.35}to{opacity:.95}}
+@keyframes v-enchanted-breeze{from{transform:translate(-12px,6px)}to{transform:translate(18px,-13px)}}
+@keyframes v-spiral-turn{to{transform:rotate(360deg)}}
+@keyframes v-polyhedron-turn{0%,100%{d:var(--mesh-0)}12.5%{d:var(--mesh-1)}25%{d:var(--mesh-2)}37.5%{d:var(--mesh-3)}50%{d:var(--mesh-4)}62.5%{d:var(--mesh-5)}75%{d:var(--mesh-6)}87.5%{d:var(--mesh-7)}}
+@keyframes v-manifold-tilt{from{transform:skewY(-4deg) translateY(4px)}to{transform:skewY(4deg) translateY(-4px)}}
+@keyframes v-sine-sketch{from{stroke-dasharray:.72 1;stroke-dashoffset:.28}to{stroke-dasharray:1 1;stroke-dashoffset:0}}
+@keyframes v-molten-light{from{opacity:.68}to{opacity:1}}
+@keyframes v-molten-stream{to{stroke-dashoffset:-520}}
+@keyframes v-cinder-lift{0%{opacity:0;transform:translate(0,10px)}25%,60%{opacity:.85}100%{opacity:0;transform:translate(var(--drift,15px),-100px)}}
 .shortcut-grid{grid-auto-flow:row}.group-control{flex-wrap:wrap}.section-head{gap:12px}#shortcut-count{white-space:nowrap;font-size:9px;letter-spacing:0}#quick-add-shortcut{white-space:nowrap}.text-button:disabled{opacity:.4;cursor:default}
 .settings-reset{padding:13px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}.settings-reset .button{width:100%}.settings-reset .hint{margin:8px 0 0;font-size:10px}#reset[data-confirm=yes]{border-color:var(--accent);color:var(--fg);background:var(--field)}
 @media(max-width:650px){.shortcuts .section-head{align-items:flex-start}.group-control{justify-content:flex-end;gap:9px}.shortcuts .eyebrow{min-width:90px}.theme-art{opacity:.65}}

@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-27 for GoogleRefreshed v1.5.1.
+Reviewed on 2026-10-27 for GoogleRefreshed v1.5.2.
 
 ## Scope
 
@@ -36,3 +36,7 @@ The v1.3.1 patch aligns the private frame’s color scheme with its embedding el
 The v1.3.2 reverse-image dialog submits multipart files or encoded image URLs directly to Google Lens after a user search action. It adds no permissions and does not store files, image links, or upload data. Tests cover empty-query access, clearing on close, URL encoding without forwarding typed search text, and direct multipart submission. A live test with the public extension logo received a redirect response from Lens (303); no personal image was used.
 
 Version 1.4 adds a fixed allowlist of five search providers. Non-Google selection cancels/blocks Google autocomplete prefixes; search queries are routed through URLSearchParams. Provider choice and approved widget/font preferences can sync, but the separate local focus-timer state is excluded. New font/icon files are bundled with their sources/licenses. Scene markup is produced only from fixed project-owned vector templates selected by known IDs; it contains no remote scripts or assets. Only the chosen scene is mounted. AI theming no longer rewrites shared native Google color-variable definitions; each usage is themed independently with a contrast safeguard. Dropdowns, file buttons, and theme previews are checked in light and dark appearances.
+
+## v1.5.2 artwork update
+
+Eighteen scenes and their palettes were redesigned using local SVG and CSS. The update adds no permissions, remote artwork, native code, runtime dependencies or JavaScript animation loop. The source, reachable history, screenshots/PNG metadata and packaged releases were rescanned for secret and private-file candidates before publication. Screenshots use synthetic hardware fixtures.

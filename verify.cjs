@@ -79,7 +79,9 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
  });
  await check('Reset requires a second click and restores defaults',async()=>{
    await page.getByRole('button',{name:'Reset settings to default',exact:true}).click();assert.match(await page.locator('h1').innerText(),/Imported/);
-   await page.getByRole('button',{name:'Click again to reset everything'}).click();assert.doesNotMatch(await page.locator('h1').innerText(),/Imported/);
+   await page.getByRole('button',{name:'Click again to reset everything'}).click();
+   await page.waitForFunction(()=>!document.querySelector('#still-home').shadowRoot.querySelector('h1').textContent.includes('Imported'));
+   assert.doesNotMatch(await page.locator('h1').innerText(),/Imported/);
    await page.getByRole('button',{name:'Close customization'}).click();
  });
  await check('Search modes preserve encoded text and Google destinations',async()=>{
