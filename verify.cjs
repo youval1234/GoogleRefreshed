@@ -78,7 +78,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
    await page.getByRole('button',{name:'Remove photo',exact:true}).click();
  });
  await check('Reset requires a second click and restores defaults',async()=>{
-   await page.getByRole('button',{name:'Reset to defaults',exact:true}).click();assert.match(await page.locator('h1').innerText(),/Imported/);
+   await page.getByRole('button',{name:'Reset settings to default',exact:true}).click();assert.match(await page.locator('h1').innerText(),/Imported/);
    await page.getByRole('button',{name:'Click again to reset everything'}).click();assert.doesNotMatch(await page.locator('h1').innerText(),/Imported/);
    await page.getByRole('button',{name:'Close customization'}).click();
  });

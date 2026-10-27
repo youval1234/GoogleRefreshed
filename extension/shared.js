@@ -36,7 +36,9 @@
     {id:'city',name:'City Skyline',group:'More worlds',world:'city',accent:'#728ed5',light:['#e9effa','#283e65','#7489a9','#c7d5ed','#dce5f7','#adc2ee'],dark:['#0f182b','#e5edff','#9cafd3','#354b73','#1d2e4b','#789be0']},
     {id:'rainbow',name:'Rainbow',group:'More worlds',world:'rainbow',accent:'#9a69c4',light:['#f5f0ff','#49365c','#8a779e','#ddcfee','#ebdef7','#d5adeb'],dark:['#1c1736','#f4edff','#b6a3d1','#4c3b69','#302549','#b67cdd']},
     {id:'lunar',name:'Lunar',group:'More worlds',world:'lunar',accent:'#8e9bb9',light:['#f0f2f8','#35405a','#7c879d','#d0d7e5','#e1e6ef','#bec8df'],dark:['#111726','#edf1fc','#a6b3cf','#35415b','#212d44','#91a3ca']},
-    {id:'sakura',name:'Sakura',group:'More worlds',world:'sakura',accent:'#c5689a',light:['#fff0f5','#643b54','#a37791','#efc9dc','#f8dfe9','#efa3c8'],dark:['#29182b','#ffeef6','#d2a3bc','#643b59','#432640','#df86b0']}
+    {id:'sakura',name:'Sakura',group:'More worlds',world:'sakura',accent:'#c5689a',light:['#fff0f5','#643b54','#a37791','#efc9dc','#f8dfe9','#efa3c8'],dark:['#29182b','#ffeef6','#d2a3bc','#643b59','#432640','#df86b0']},
+    {id:'fire',name:'Fire',group:'Elements',world:'fire',accent:'#d95d25',light:['#fff0df','#592d20','#986d51','#edc5a2','#f8ddc3','#ff9c38'],dark:['#20100d','#fff0d9','#d1a180','#643522','#391c13','#ff7b25']},
+    {id:'magma',name:'Magma',group:'Elements',world:'magma',accent:'#e94926',light:['#f6e9e5','#4c262a','#946569','#dfb6af','#eed1c7','#f5753e'],dark:['#150f19','#ffe8df','#c997a1','#582937','#301924','#f85a2d']}
   ];
   const preview = ['localhost','127.0.0.1'].includes(location.hostname) || location.protocol === 'file:';
   const resource = path => preview ? new URL(path, location.href).href : chrome.runtime.getURL(path);

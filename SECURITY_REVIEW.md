@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-27 for GoogleRefreshed v1.4.0.
+Reviewed on 2026-10-27 for GoogleRefreshed v1.5.0.
 
 ## Scope
 
@@ -15,7 +15,7 @@ Current tracked source, complete reachable Git history, bundled screenshots and 
 - The loopback preview rejects unknown Host/Origin headers, handles malformed URL encodings, limits request bodies, prevents path traversal, and sends nosniff headers.
 - Hardware samples bypass persistent caches. Tests confirm CPU model data is absent from extension-local/session storage.
 - Browser sync is off by default and uses an explicit preference allowlist. Tests confirm that greeting names, notes, photos, selected city/coordinates, and hardware fields are excluded, incoming payloads are sanitized, and private local fields survive received preference updates. Only browser API storage behavior and simulated incoming updates have been tested; delivery between two physical devices is not asserted.
-- The hardware frame sends only a bounded layout height and an allowlisted sampling status (Sampling, Live, Retrying) to the parent page. Values and notes remain in the extension-origin frame. GPU-renderer queries use the information Brave exposes and release their temporary WebGL context. No privacy setting is changed, and no native companion is installed.
+- The hardware frame sends only a bounded layout height and an allowlisted sampling status (Sampling, Live, Retrying) to the parent page. Values and notes remain in the extension-origin frame. The GPU renderer, network estimate and unavailable temperature block have been removed; the frame no longer creates a WebGL context or subscribes to connection changes. No privacy setting is changed, and no native companion is installed.
 - Public demo screenshots use synthetic CPU and GPU names, rather than the development computer's hardware identity.
 - Git exclusions cover browser profiles, settings exports, environment files, signing keys, and local helpers. Release archives use an explicit allowlist.
 
