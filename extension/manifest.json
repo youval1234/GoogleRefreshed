@@ -8,6 +8,9 @@
     "system.cpu",
     "system.memory"
   ],
+  "optional_permissions": [
+    "tabs"
+  ],
   "host_permissions": [
     "https://api.open-meteo.com/*",
     "https://geocoding-api.open-meteo.com/*",

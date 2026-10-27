@@ -45,6 +45,8 @@ Eighteen scenes and their palettes were redesigned using local SVG and CSS. The 
 
 The filled lightning icon was replaced with local stroked SVG channels and CSS timing. No permissions, remote destinations or dependencies changed. The current source, reachable history, PNG metadata and release ZIP contents were rescanned for secret/private-file candidates before publication. The new previews use synthetic hardware readings.
 
-## v1.5.4 System appearance default
+## v1.5.4 System appearance default and new-tab toggle
 
-The default appearance changed from Light to System, read through the existing prefers-color-scheme media query. No permissions, remote destinations, stored fields or dependencies changed. The source and reachable history were rescanned for secret/private-file candidates before publication.
+The default appearance changed from Light to System, read through the existing prefers-color-scheme media query.
+
+The optional new-tab toggle adds `tabs` as an optional permission only. It is requested from an extension page after an explicit click and removed when the toggle is turned off or settings are reset. The service worker reads a created tab's address solely to compare it with the browser's new-tab page, then navigates that tab to https://www.google.com/. Tab addresses are not stored, logged or sent, and the new `newTabHome` field stays out of browser settings sync. No remote destinations or dependencies changed. The source and reachable history were rescanned for secret/private-file candidates before publication.

@@ -13,6 +13,7 @@ A customizable Google homepage and matching Google results theme for Brave and C
 - Google-style suggestions with entity photos when Google supplies them and keyboard navigation. The search-bar image button opens a themed reverse-image dialog: upload an image or paste an image link to search with Google Lens. The Images tab retains normal text-based image search.
 - Choose Google, DuckDuckGo, Brave Search, Bing, or Ecosia from the search box or Customize. Web, image, and video queries use the selected engine. Maps and reverse image search use Google; this does not change Brave’s address-bar default.
 - Google result pages keep the selected palette while retaining native controls. Neutral surfaces and AI response text are themed at their point of use, preserving shared Google color-variable definitions and readable text contrast.
+- An optional **Open GoogleRefreshed in every new tab** toggle in Customize. Brave asks for the optional tabs permission only when you turn it on, and the permission is released when you turn it off.
 - Up to **60 editable shortcuts**, with multiple rows, a visible Add shortcut button, a pencil on each card, custom names, URLs, icons, colors, and Personal/Work/Study groups.
 - Ctrl+K commands, a clock with a configurable second time zone, and a start/pause/reset focus timer. Timer state stays local and survives page reloads. The world clock and timer can be hidden independently.
 - An on-device CPU/RAM monitor with CPU/RAM icons, CPU model, installed memory capacity, logical-core count, and aligned usage graphs. Interrupted samples retain the last reading and recover automatically. The secondary GPU/network/unavailable-temperature block has been removed. The optional focus note remains available.
@@ -26,7 +27,7 @@ Download the extension ZIP from [Releases](https://github.com/youval1234/GoogleR
 
 For an update, replace the files in that same folder, click **Reload** on the extension card, and refresh Google. v1.2 adds the system.cpu and system.memory permissions for the hardware monitor. The GitHub update button opens Releases; it is not an automatic installer or version checker.
 
-Version 1.5.4 starts new installations in System appearance, so Google opens in the operating system's light or dark mode. Existing appearance choices are kept.
+Version 1.5.4 starts new installations in System appearance, so Google opens in the operating system's light or dark mode. Existing appearance choices are kept. It also adds an optional toggle that opens GoogleRefreshed in every new tab.
 
 Version 1.3.1 fixes the hardware panel retaining a light palette or painting an opaque white canvas when System mode switches to dark. The frame and homepage now use the same color scheme, including live system changes.
 
@@ -54,7 +55,7 @@ Use **Download matching browser theme** in Customize, save its manifest.json in 
 
 ## Privacy
 
-Brave Shields and browser privacy settings are unchanged. The extension requests storage, CPU/memory metadata, access to the named Google pages, and the specific weather/news/location providers in its manifest. It does not request history, cookies, GPS, microphone, bookmarks, all-site access, native messaging, or browser-management permissions.
+Brave Shields and browser privacy settings are unchanged. The extension requests storage, CPU/memory metadata, access to the named Google pages, and the specific weather/news/location providers in its manifest. It does not request history, cookies, GPS, microphone, bookmarks, all-site access, native messaging, or browser-management permissions. The tabs permission is optional and is requested only if you enable **Open GoogleRefreshed in every new tab**; Brave describes it as reading browsing history. GoogleRefreshed uses it only to compare a newly created tab's address with the browser's new-tab page and never stores or sends tab addresses.
 
 CPU/RAM metrics and the focus note render inside an extension-origin frame. Google page scripts cannot read that frame's DOM. Hardware samples are not sent to providers or saved to extension storage. The monitor pauses in hidden tabs and when its frame leaves view. Uploaded photo bytes are rendered inside a closed shadow tree, rather than exposed in the page's inspectable background style. A chosen greeting and general UI preferences are still visible parts of the Google page.
 
