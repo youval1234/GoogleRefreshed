@@ -2,8 +2,8 @@
 (() => {
   'use strict';
   const key='grPreferencesV1',stateKey='grSyncState';
-  const booleans=['animations','clock','focus','shortcutsVisible','weatherEnabled','newsEnabled','autoLocation','localNews','newsLanguageAuto','colorfulWeather','newsImages','suggestionImages','resultsTheme','hour24','newTab','compact','suggestions'];
-  const choices={font:['manrope','inter','outfit','system','serif'],appearance:['light','dark','system'],homeCard:['hardware','note'],newsSource:['google','bing','bbc','guardian'],units:['celsius','fahrenheit'],newsLanguage:['en','he','de','fr','ja'],newsTopic:['local','top','world','technology','business','science','sports','health','entertainment','custom'],activeGroup:['personal','work','study','all']};
+  const booleans=['animations','clock','focus','shortcutsVisible','weatherEnabled','newsEnabled','autoLocation','localNews','newsLanguageAuto','colorfulWeather','newsImages','suggestionImages','resultsTheme','hour24','newTab','compact','suggestions','worldClock','focusTimer'];
+  const choices={engine:['google','duckduckgo','brave','bing','ecosia'],motionIntensity:['vivid','subtle'],worldZone:['UTC','Europe/London','America/New_York','America/Los_Angeles','Asia/Tokyo','Asia/Jerusalem','Europe/Paris','Australia/Sydney'],font:['manrope','inter','outfit','roboto','dmsans','spacegrotesk','lora','arial','system','serif','verdana','trebuchet'],appearance:['light','dark','system'],homeCard:['hardware','note'],newsSource:['google','bing','bbc','guardian'],units:['celsius','fahrenheit'],newsLanguage:['en','he','de','fr','ja'],newsTopic:['local','top','world','technology','business','science','sports','health','entertainment','custom'],activeGroup:['personal','work','study','all']};
   function preferences(value={}){
     const out={};if(!value||typeof value!=='object'||Array.isArray(value))return out;
     for(const name of booleans)if(typeof value[name]==='boolean')out[name]=value[name];
@@ -12,6 +12,7 @@
     if(/^#[a-f\d]{6}$/i.test(value.accent))out.accent=value.accent;
     if(/^[A-Z]{2}$/.test(value.newsRegion))out.newsRegion=value.newsRegion;
     if(typeof value.newsQuery==='string')out.newsQuery=value.newsQuery.slice(0,150);
+    if([15,25,45,60].includes(value.focusMinutes))out.focusMinutes=value.focusMinutes;
     if([3,6,9].includes(value.newsCount))out.newsCount=value.newsCount;
     if(Array.isArray(value.shortcuts))out.shortcuts=value.shortcuts.slice(0,36).flatMap(item=>{
       try{const url=new URL(item.url);if(!['https:','http:'].includes(url.protocol)||url.username||url.password)return [];

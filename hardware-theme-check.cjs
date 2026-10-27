@@ -27,11 +27,11 @@ let context;
  await verify('System mode starts light','light');
  await page.emulateMedia({colorScheme:'dark'});await verify('System mode follows a live OS switch to dark','dark');
  await page.emulateMedia({colorScheme:'light'});await verify('System mode follows a live OS switch back to light','light');
- const themes=await worker.evaluate(async()=>{const x=await fetch(chrome.runtime.getURL('shared.js'));return (await x.text()).match(/id:'[a-z]+'/g).slice(0,17).map(x=>x.slice(4,-1));});
+ const themes=await page.locator('[data-theme-choice]').evaluateAll(nodes=>nodes.map(x=>x.dataset.themeChoice));assert.equal(themes.length,36);
  for(const theme of themes)for(const appearance of ['dark','light']){
    await worker.evaluate(async value=>{const saved=(await chrome.storage.local.get('stillSettings')).stillSettings;await chrome.storage.local.set({stillSettings:{...saved,...value}});},{theme,appearance});await verify(theme+' '+appearance,appearance);
  }
  await worker.evaluate(async()=>{const saved=(await chrome.storage.local.get('stillSettings')).stillSettings;await chrome.storage.local.set({stillSettings:{...saved,theme:'magical',appearance:'dark',homeCard:'note',note:'Private note fixture'}});});await frame.locator('#note').waitFor();await verify('Focus note retains the same dark canvas','dark');
  const isolated=await page.evaluate(()=>{try{return !!document.querySelector('#still-home').shadowRoot.querySelector('#hardware-frame').contentWindow.document;}catch(e){return e.name!=='SecurityError';}});assert.equal(isolated,false);console.log('PASS Hardware frame remains isolated from Google');
- console.log('39 hardware theme checks passed.');await context.close();
+ console.log('77 hardware theme checks passed.');await context.close();
 })().catch(async e=>{console.error(e);if(context)await context.close();process.exitCode=1;});

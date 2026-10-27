@@ -8,5 +8,9 @@
   "translate": "https://www.gstatic.com/images/branding/product/2x/translate_48dp.png",
   "google": "https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png",
   "account": "https://www.gstatic.com/images/branding/product/2x/contacts_48dp.png",
-  "chatgpt": "https://cdn.oaistatic.com/assets/favicon-eex17e9e.ico"
+  "chatgpt": "https://cdn.oaistatic.com/assets/favicon-eex17e9e.ico",
+  "duckduckgo": "https://duckduckgo.com/favicon.ico",
+  "bing": "https://www.bing.com/favicon.ico",
+  "ecosia": "https://www.ecosia.org/favicon.ico",
+  "brave": "https://brave.com/favicon.ico"
 }

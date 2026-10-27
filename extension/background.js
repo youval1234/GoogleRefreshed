@@ -1,6 +1,7 @@
 importScripts('data.js','sync.js');
 // Event-driven requests only. No background polling or permanent connection.
 async function respondTo(message,signal){
+  if(message?.type==='openExtensions'){await chrome.tabs.create({url:'chrome://extensions/'});return {ok:true};}
   if(['browserSyncStatus','browserSyncEnable','browserSyncNow'].includes(message?.type))return GoogleRefreshedSync.request(message);
   if(message?.type==='hardware'){
     const [cpu,memory]=await Promise.all([chrome.system.cpu.getInfo(),chrome.system.memory.getInfo()]);

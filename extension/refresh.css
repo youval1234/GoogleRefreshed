@@ -47,3 +47,110 @@ h1 em,.app[data-world=noir] h1{font-style:normal}.app[data-world=magic] h1 em{te
 
 .app{font-family:var(--gr-font,"GR Manrope"),"Segoe UI",sans-serif}
 .app .eyebrow,.app[data-world=rustic] .eyebrow,.app[data-world=future] .eyebrow{font-family:var(--gr-font,"GR Manrope"),"Segoe UI",sans-serif}
+
+.engine-picker{position:relative;display:flex;align-items:center;gap:5px;flex-shrink:0;min-width:38px;cursor:pointer}.engine-picker select{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}.engine-chevron{font-size:13px;color:var(--muted)}#engine-letter{font-size:23px;font-weight:800}#engine-letter[hidden],#engine-google-icon[hidden]{display:none!important}
+.world-clock{display:flex;align-items:center;justify-content:space-between;padding:14px 0;margin-top:17px;border-top:1px solid var(--line);gap:15px}.world-clock>div{display:flex;flex-direction:column;gap:3px}.world-clock time{font-size:25px;font-weight:550;font-variant-numeric:tabular-nums;letter-spacing:-1px}.clock-widget .orbit{width:70px;height:70px;top:26px;right:24px}
+.focus-timer{border-top:1px solid var(--line);padding-top:13px;margin-top:2px}.timer-top,.timer-row{display:flex;align-items:center;justify-content:space-between;gap:8px}.timer-top select{background:transparent;color:var(--muted);border:0;font-size:10px;max-width:110px}.timer-row{margin-top:9px}.timer-row>strong{font-size:28px;letter-spacing:-1px;font-weight:550;font-variant-numeric:tabular-nums}.timer-row .button{padding:7px 10px;font-size:10px}.timer-track{height:3px;background:var(--soft);border-radius:3px;overflow:hidden;margin:10px 0 7px}.timer-track span{display:block;height:100%;width:0;background:var(--accent);transition:width 1s linear}.focus-timer .hint{font-size:9px;display:block}.clock-widget{display:flex;flex-direction:column}.clock-widget .clock-content{flex-shrink:0}.clock-widget .focus-timer{margin-top:auto}
+.app .date.eyebrow{font-family:var(--gr-font,'GR Manrope'),'Segoe UI',sans-serif}
+@media(max-width:650px){.scene::before,.scene::after{max-width:85vw}.scene::after{opacity:.22}.timer-row>strong{font-size:25px}.timer-row .button{padding:7px 8px}.search-box{gap:10px;padding-left:14px}.world-clock time{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.scene::before,.scene::after{animation:none!important}}
+
+.browser-theme-preview{margin-top:15px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}.preview-tabs{display:flex;gap:20px;padding:10px 10px 0;font-size:9px;color:var(--muted)}.preview-tabs span:first-child{background:var(--soft);border-radius:7px 7px 0 0;padding:6px;color:var(--fg)}.preview-address{font-size:10px;margin-top:0;padding:10px;background:var(--soft);color:var(--fg)}.theme-steps{padding-left:18px}.theme-steps li{margin-bottom:5px}
+
+/* Keep menus in the page palette instead of the platform's white/blue popup. */
+select option,select optgroup{background:var(--bg);color:var(--fg)}
+.engine-picker{width:53px;min-width:53px;padding-right:18px;border-right:1px solid var(--line)}.engine-chevron{position:absolute;right:6px;top:50%;transform:translateY(-50%);display:grid;place-items:center;pointer-events:none;line-height:1}.engine-picker>img,.engine-picker>span{pointer-events:none}.engine-option-icon{width:19px;height:19px;object-fit:contain;flex-shrink:0}
+@supports(appearance:base-select){
+  select,select::picker(select){appearance:base-select}
+  select{gap:12px;align-items:center}
+  select::picker(select){background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:5px;box-shadow:0 14px 40px #0004;font:13px/1.5 var(--gr-font,'GR Manrope'),'Segoe UI',sans-serif;min-width:max(140px,anchor-size(width));max-width:calc(100vw - 32px);max-height:320px;overflow:auto;opacity:1}
+  select option{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;background:var(--bg);color:var(--fg);font-size:13px;cursor:pointer;white-space:nowrap}
+  select option:is(:hover,:focus-visible,:checked){background:var(--soft);color:var(--fg)}
+  select option::checkmark{color:var(--accent);order:3;margin-inline-start:auto}
+  select optgroup{font-size:11px;padding:5px 0}
+  select::picker-icon{color:var(--muted);margin-inline-start:auto}
+  .engine-picker #engine-quick{opacity:1;color:transparent;font-size:0;background:transparent;border:0;padding:0;min-height:0;box-shadow:none}
+  #engine-quick::picker-icon{display:none}
+  #engine-quick::picker(select){color:var(--fg);font-size:13px;min-width:200px}
+  .engine-picker:has(select:open) .engine-chevron{transform:translateY(-50%) rotate(180deg)}
+}
+
+/* Theme-specific vector compositions replace the shared glow backdrop. */
+.scene::before,.scene::after,.scene-grid,.scene-stars,.scene-moon,.scene-ribbon{display:none!important}
+.app .wash{background:linear-gradient(160deg,color-mix(in srgb,var(--bg) 95%,var(--glow)),var(--bg))!important;animation:none!important;will-change:auto!important}
+.theme-art{position:absolute;inset:0;pointer-events:none;opacity:1}.theme-art>svg{width:100%;height:100%;display:block}
+.app[data-motion-intensity=subtle] .scene{opacity:.42}.app.has-photo .theme-art{opacity:.35}
+.app .scene-particles{display:none!important}
+.app:is([data-world=autumn],[data-world=winter],[data-world=sakura],[data-world=storm],[data-world=amber]) .scene-particles{display:block!important}
+.app .scene-particles i{left:var(--x);top:-12%;width:var(--size);height:calc(var(--size) * .65);opacity:0;background:var(--accent);border-radius:0;box-shadow:none}
+.app[data-motion=on] .scene-particles i{animation:natural-fall var(--duration) var(--delay) linear infinite}
+.app[data-world=autumn] .scene-particles i{clip-path:polygon(50% 0,60% 28%,85% 15%,77% 42%,100% 50%,72% 62%,75% 87%,55% 76%,50% 100%,42% 75%,15% 88%,25% 60%,0 48%,28% 40%,15% 15%,40% 27%);height:var(--size);background:var(--glow)}
+.app[data-world=sakura] .scene-particles i{border-radius:80% 10% 80% 10%;background:#e89cbd;width:calc(var(--size) * .7);height:calc(var(--size) * .5)}
+.app:is([data-world=autumn],[data-world=sakura]) .scene-particles i:nth-child(n+25){display:none}
+.app[data-world=winter] .scene-particles i{width:calc(var(--size) * .25);height:calc(var(--size) * .25);border-radius:50%;background:var(--fg)}
+.app[data-motion=on][data-world=winter] .scene-particles i{animation-name:snow-fall}
+.app[data-world=amber] .scene-particles i{width:3px;height:3px;border-radius:50%;background:var(--glow);box-shadow:0 0 6px var(--accent)}
+.app[data-motion=on][data-world=amber] .scene-particles i{animation-name:ember-rise}
+.app[data-world=storm] .scene-particles i{width:1px;height:var(--rain-length);background:linear-gradient(transparent,color-mix(in srgb,var(--fg) 75%,transparent));border-radius:0}
+.app[data-motion=on][data-world=storm] .scene-particles i{animation:storm-rain var(--rain-duration) var(--rain-delay) linear infinite}
+.app[data-motion=off] .scene-particles i{opacity:.16;top:calc(var(--x) * .7);transform:rotate(10deg)}
+.app[data-motion=on] .art-paper{animation:paper-settle 11s ease-in-out infinite alternate}.app[data-motion=on] .art-paper-back{animation:paper-settle 14s -5s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .art-sway,.app[data-motion=on] .art-cherry-branch{transform-box:fill-box;transform-origin:0 100%;animation:branch-sway 9s ease-in-out infinite alternate}
+.app[data-motion=on] .art-breathe,.app[data-motion=on] .art-bloom{transform-box:fill-box;transform-origin:center;animation:blossom-breathe 7s ease-in-out infinite alternate}
+.app[data-motion=on] .art-wave,.app[data-motion=on] .art-summer,.app[data-motion=on] .art-reflection{animation:wave-roll 8s ease-in-out infinite alternate}
+.app[data-motion=on] .art-hud{animation:hud-pulse 6s ease-in-out infinite alternate}.app[data-motion=on] .art-scan{animation:scan-pass 10s linear infinite alternate}
+.app[data-motion=on] .art-stars{animation:star-breathe 6s ease-in-out infinite alternate}
+.app[data-motion=on] .art-mystic,.app[data-motion=on] .art-planet,.app[data-motion=on] .art-moon-surface{animation:celestial-drift 18s ease-in-out infinite alternate}
+.app[data-motion=on] .art-spell{transform-origin:220px 760px;animation:scene-orbit 70s linear infinite}
+.app[data-motion=on] .art-window,.app[data-motion=on] .art-blinds,.app[data-motion=on] .art-lamp{animation:window-light 16s ease-in-out infinite alternate}
+.app[data-motion=on] .art-corona{transform-origin:1340px 200px;animation:scene-orbit 90s linear infinite}
+.app[data-motion=on] .art-autumn,.app[data-motion=on] .art-forest{transform-origin:50% 100%;animation:forest-sway 10s ease-in-out infinite alternate}
+.app[data-motion=on] .art-shooting{animation:shooting-star 13s -5s linear infinite}
+.app[data-motion=on] .art-aurora{animation:ribbon-flow 11s ease-in-out infinite alternate}
+.app[data-motion=on] .art-amber{animation:amber-gleam 10s ease-in-out infinite alternate}
+.app[data-motion=on] .art-crystal{animation:crystal-glint 7s ease-in-out infinite alternate}
+.app[data-motion=on] .art-castle{animation:distant-haze 14s ease-in-out infinite alternate}
+.app[data-motion=on] .art-code{animation:terminal-glow 8s ease-in-out infinite alternate}.app[data-motion=on] .art-cursor{animation:cursor-breathe 1.8s ease-in-out infinite alternate}
+.app[data-motion=on] .art-cloud-one{animation:cloud-travel 28s ease-in-out infinite alternate}.app[data-motion=on] .art-cloud-two{animation:cloud-travel 37s -15s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .art-horror{animation:haunted-haze 15s ease-in-out infinite alternate}.app[data-motion=on] .art-fog{animation:fog-roll 20s linear infinite alternate}
+.app[data-motion=on] .art-bubbles{animation:bubble-float 10s ease-in-out infinite alternate}
+.app[data-motion=on] .art-storm-front{animation:storm-clouds 17s ease-in-out infinite alternate}.app[data-motion=on] .art-storm-back{animation:storm-clouds 23s -11s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .art-lightning{animation:distant-lightning 12s -7s ease-in-out infinite}
+.app[data-motion=on] .art-math{animation:diagram-drift 12s ease-in-out infinite alternate}
+.app[data-motion=on] .art-documents{transform-box:fill-box;transform-origin:center;animation:page-lift 10s ease-in-out infinite alternate}
+.app[data-motion=on] .art-atom{transform-origin:1350px 250px;animation:scene-orbit 24s linear infinite}.app[data-motion=on] .art-molecule{animation:molecular-drift 13s ease-in-out infinite alternate}
+.app[data-motion=on] .art-window-light{animation:city-windows 9s var(--window-delay) ease-in-out infinite alternate}.app[data-motion=on] .art-tram{animation:night-tram 28s linear infinite}
+.app[data-motion=on] .art-rainbow{animation:rainbow-shimmer 12s ease-in-out infinite alternate}
+@keyframes natural-fall{0%{opacity:0;transform:translate3d(0,0,0) rotate(var(--turn))}12%{opacity:var(--alpha)}30%{transform:translate3d(var(--sway-a),35vh,0) rotate(calc(var(--turn) + 50deg))}65%{transform:translate3d(var(--sway-b),75vh,0) rotate(calc(var(--turn) - 20deg));opacity:var(--alpha)}100%{opacity:0;transform:translate3d(var(--sway-a),120vh,0) rotate(calc(var(--turn) + 150deg))}}
+@keyframes snow-fall{0%{opacity:0;transform:translate3d(0,0,0)}15%{opacity:var(--alpha)}45%{transform:translate3d(var(--sway-a),55vh,0)}85%{opacity:var(--alpha)}100%{opacity:0;transform:translate3d(var(--sway-b),120vh,0)}}
+@keyframes ember-rise{0%{opacity:0;transform:translate3d(0,115vh,0)}15%{opacity:var(--alpha)}65%{opacity:var(--alpha)}100%{opacity:0;transform:translate3d(var(--sway-a),0,0)}}
+@keyframes storm-rain{0%{opacity:0;transform:translate3d(0,-2vh,0) rotate(12deg)}8%{opacity:var(--alpha)}90%{opacity:var(--alpha)}100%{opacity:0;transform:translate3d(-160px,118vh,0) rotate(12deg)}}
+@keyframes paper-settle{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(14px) rotate(2deg)}}
+@keyframes branch-sway{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
+@keyframes blossom-breathe{from{transform:scale(.97);opacity:.5}to{transform:scale(1.04);opacity:.7}}
+@keyframes wave-roll{from{transform:translateX(-45px)}to{transform:translateX(45px)}}
+@keyframes hud-pulse{from{opacity:.5}to{opacity:1}}@keyframes scan-pass{from{transform:translateY(-220px)}to{transform:translateY(450px)}}
+@keyframes star-breathe{from{opacity:.3}to{opacity:.65}}@keyframes celestial-drift{from{transform:translateY(-8px)}to{transform:translateY(14px)}}
+@keyframes scene-orbit{to{transform:rotate(360deg)}}@keyframes window-light{from{opacity:.4;transform:translateX(-12px)}to{opacity:.9;transform:translateX(20px)}}
+@keyframes forest-sway{from{transform:skewX(-.5deg)}to{transform:skewX(.5deg)}}
+@keyframes shooting-star{0%,65%{opacity:0;transform:translate(0,0)}70%{opacity:.8}83%,100%{opacity:0;transform:translate(-500px,180px)}}
+@keyframes ribbon-flow{from{transform:translate(-35px,-30px) skewX(-5deg)}to{transform:translate(30px,30px) skewX(5deg)}}
+@keyframes amber-gleam{from{opacity:.5;transform:translateY(-12px)}to{opacity:1;transform:translateY(12px)}}
+@keyframes crystal-glint{from{opacity:.55}to{opacity:1}}@keyframes distant-haze{from{opacity:.6;transform:translateY(0)}to{opacity:1;transform:translateY(-5px)}}
+@keyframes terminal-glow{from{opacity:.7}to{opacity:1}}@keyframes cursor-breathe{from{opacity:.1}to{opacity:.7}}
+@keyframes cloud-travel{from{transform:translate(-85px,0)}to{transform:translate(85px,8px)}}
+@keyframes haunted-haze{from{opacity:.5}to{opacity:.9}}@keyframes fog-roll{from{transform:translateX(-100px)}to{transform:translateX(100px)}}
+@keyframes bubble-float{from{transform:translateY(-22px) scale(.97)}to{transform:translateY(22px) scale(1.03)}}
+@keyframes storm-clouds{from{transform:translate(-65px,-8px)}to{transform:translate(65px,8px)}}
+@keyframes distant-lightning{0%,70%,87%,100%{opacity:0}77%{opacity:.55}83%{opacity:.15}}
+@keyframes diagram-drift{from{transform:translateY(-5px);opacity:.65}to{transform:translateY(7px);opacity:1}}
+@keyframes page-lift{from{transform:rotate(-1deg) translateY(0)}to{transform:rotate(1deg) translateY(-9px)}}
+@keyframes molecular-drift{from{transform:translate(-8px,-8px)}to{transform:translate(8px,8px)}}
+@keyframes city-windows{from{opacity:.15}to{opacity:.65}}@keyframes night-tram{from{transform:translateX(0)}to{transform:translateX(1900px)}}
+@keyframes rainbow-shimmer{from{opacity:.6;transform:translateY(3px)}to{opacity:1;transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){.theme-art *,.scene-particles i{animation:none!important}}
+
+input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);border:1px solid var(--line);border-radius:7px;padding:6px 9px;margin-inline-end:10px;font:inherit;cursor:pointer}input[type=file]::file-selector-button:hover{background:var(--field)}
+.theme .theme-sample{background:linear-gradient(140deg,var(--sample),var(--sample-soft))!important}.theme .theme-sample::before,.theme .theme-sample::after{display:none}.theme-sample .theme-emblem{height:100%;display:grid;place-items:center;font:21px/1 Georgia,serif;color:var(--sample-fg);opacity:.8}
+
+.art-storm-front{filter:blur(6px)}.art-storm-back{filter:blur(9px)}
