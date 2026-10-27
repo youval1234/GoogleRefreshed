@@ -500,7 +500,29 @@
     sakura:()=>hills()+group('v-sakura-tree-left',path('M0 1000Q160 750 130 460Q150 220 350 60M130 465Q-10 280-100 250M170 300Q280 230 420 230M100 720Q240 600 320 550','none',`stroke="${a}" stroke-width="19" opacity=".48"`)+Array.from({length:52},(_,i)=>{const x=(i*67%460)-65,y=55+(i*89%400);return flower(x,y,.6+(i%4)*.22,i%3?'#e69dbd':g);}).join(''),'opacity=".65"')+group('v-sakura-tree-right',path('M1600 1000Q1420 790 1490 500Q1480 340 1320 210M1490 510Q1610 390 1650 300M1450 390Q1360 430 1280 400','none',`stroke="${a}" stroke-width="16" opacity=".45"`)+Array.from({length:39},(_,i)=>flower(1270+(i*71%400),210+(i*59%320),.6+(i%4)*.2,i%3?'#e69dbd':g)).join(''),'opacity=".6"')+group('v-sakura-petal-bed',path('M0 970Q220 910 420 990M1220 990Q1430 920 1600 975','none','stroke="#e69dbd" stroke-width="13" opacity=".3"')),
     fire:()=>group('v-fire-hearth',path('M0 1000V920Q180 840 340 960T750 985T1200 950T1600 920V1000Z',a,'opacity=".25"'))+Array.from({length:13},(_,i)=>{const x=30+i*128,h=80+(i*47%150);return `<g transform="translate(${x} 1000)"><g class="v-flame" style="--phase:-${i*.37}s">${path(`M-50 0Q-70-${h*.5}-15-${h}Q25-${h*.6} 15-${h*1.25}Q105-${h*.55} 50 0Z`,'url(#flame-color)','opacity=".65"')}${path(`M-15 0Q-35-${h*.35} 5-${h*.7}Q45-${h*.3} 25 0Z`,'#ffce70','opacity=".7"')}</g></g>`;}).join('')+dust('v-fire-embers',22,'#ffb15c'),
     magma:magmaScene,
-    storm:()=>group('art-storm-front',cloud(-120,-40,3)+cloud(400,-70,3.3)+cloud(1000,-20,3),'opacity=".28"')+group('art-storm-back',cloud(100,50,2.4)+cloud(1000,60,2.9),'opacity=".16"')+path('M1310 150 1230 300H1275L1200 470 1350 255H1295L1370 150Z','#c4deff','class="art-lightning" opacity="0"')+group('v-storm-puddles',[ [100,940,60],[1450,920,85],[1210,990,50] ].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="7" fill="none" stroke="${a}" opacity=".4" class="v-rain-ripple"/>`).join('')),
+    storm:()=>{
+      const strikes=[
+        {id:'near',x:1400,y:175,duration:22,phase:0,
+          trunk:'M1414 104 1401 142 1410 156 1380 185 1387 217 1360 241 1366 260 1339 292 1347 311 1322 348 1329 361 1305 400 1310 415 1288 460 1293 475 1272 523 1278 540 1263 574',
+          branches:'M1380 185 1355 198 1358 222 1329 232 1317 259M1339 292 1370 312 1362 338 1381 352 1374 386M1305 400 1280 406 1267 429 1248 438'},
+        {id:'far',x:165,y:170,duration:31,phase:-18,
+          trunk:'M173 120 164 161 179 177 149 209 156 232 133 259 141 277 120 306 130 323 105 358 112 380 95 399 103 420 89 457',
+          branches:'M149 209 119 215 108 245M120 306 149 322 141 349 153 369'}
+      ];
+      return `<defs><radialGradient id="storm-cloud-light"><stop stop-color="#c0ddff" stop-opacity=".6"/><stop offset=".4" stop-color="#b3cfff" stop-opacity=".2"/><stop offset="1" stop-color="#a9c7f5" stop-opacity="0"/></radialGradient></defs>`+
+        group('art-storm-back',cloud(100,50,2.4)+cloud(1000,60,2.9),'opacity=".16"')+
+        strikes.map(s=>group('storm-strike',
+          circle(s.x,s.y,290,'url(#storm-cloud-light)','class="storm-cloud-flash"')+
+          group('storm-return',
+            line(s.trunk,'#badbff',10,.08)+line(s.trunk,'#c3e4ff',4,.24)+
+            line(s.branches,'#bddfff',3,.14)+line(s.branches,'#d4eaff',.8,.7)+
+            line(s.trunk,'#edf7ff',1.5,.95))+
+          line(s.trunk,'#c6e4ff',.9,.75,'pathLength="1" class="storm-leader"'),
+          `data-strike="${s.id}" style="--storm-duration:${s.duration}s;--storm-phase:${s.phase}s"`
+        )).join('')+
+        group('art-storm-front',cloud(-120,-40,3)+cloud(400,-70,3.3)+cloud(1000,-20,3),'opacity=".28"')+
+        group('v-storm-puddles',[ [100,940,60],[1450,920,85],[1210,990,50] ].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="7" fill="none" stroke="${a}" opacity=".4" class="v-rain-ripple"/>`).join(''));
+    },
     sunset:sunsetScene,
   });
   const extraDefs=`<linearGradient id="rose-petals" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="${g}"/><stop offset=".55" stop-color="${a}"/><stop offset="1" stop-color="${g}"/></linearGradient><g id="scene-blossom">${[0,72,144,216,288].map(n=>`<ellipse cx="0" cy="-14" rx="10" ry="15" fill="currentColor" transform="rotate(${n})"/>`).join('')}${circle(0,0,5,a)}</g><linearGradient id="boreal-green" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#5eebad" stop-opacity=".9"/><stop offset=".45" stop-color="#3cbaa7" stop-opacity=".4"/><stop offset="1" stop-color="#478eb6" stop-opacity="0"/></linearGradient><linearGradient id="boreal-purple" x1="0" y1="1" x2="0" y2="0"><stop stop-color="#ad8fe8" stop-opacity=".8"/><stop offset=".5" stop-color="#6a92d3" stop-opacity=".3"/><stop offset="1" stop-color="#6a92d3" stop-opacity="0"/></linearGradient><radialGradient id="magic-orb"><stop stop-color="#fff0bc"/><stop offset=".4" stop-color="#dfbd75"/><stop offset="1" stop-color="#b17bce" stop-opacity=".1"/></radialGradient><linearGradient id="ice-facet"><stop stop-color="${g}"/><stop offset=".5" stop-color="${f}" stop-opacity=".3"/><stop offset="1" stop-color="${a}"/></linearGradient><linearGradient id="amber-resin"><stop stop-color="#f2ce7c"/><stop offset=".5" stop-color="#bb7627"/><stop offset="1" stop-color="#eeb65b"/></linearGradient><linearGradient id="flame-color" x2="0" y2="1"><stop stop-color="#ffb955"/><stop offset=".5" stop-color="#ed682d"/><stop offset="1" stop-color="#9f3026" stop-opacity=".2"/></linearGradient><linearGradient id="lava-color"><stop stop-color="#b52922"/><stop offset=".4" stop-color="#f57732"/><stop offset=".7" stop-color="#d13d27"/><stop offset="1" stop-color="#ff9f40"/></linearGradient>`;

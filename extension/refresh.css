@@ -115,7 +115,11 @@ select option,select optgroup{background:var(--bg);color:var(--fg)}
 .app[data-motion=on] .art-horror{animation:haunted-haze 15s ease-in-out infinite alternate}.app[data-motion=on] .art-fog{animation:fog-roll 20s linear infinite alternate}
 .app[data-motion=on] .art-bubbles{animation:bubble-float 10s ease-in-out infinite alternate}
 .app[data-motion=on] .art-storm-front{animation:storm-clouds 17s ease-in-out infinite alternate}.app[data-motion=on] .art-storm-back{animation:storm-clouds 23s -11s ease-in-out infinite alternate-reverse}
-.app[data-motion=on] .art-lightning{animation:distant-lightning 12s -7s ease-in-out infinite}
+.storm-leader{opacity:0;stroke-dasharray:1;stroke-dashoffset:1}
+.storm-return,.storm-cloud-flash{opacity:0}
+.app[data-motion=on] .storm-leader{animation:storm-leader-trace var(--storm-duration) var(--storm-phase) linear infinite}
+.app[data-motion=on] .storm-return{animation:storm-return-flash var(--storm-duration) var(--storm-phase) linear infinite}
+.app[data-motion=on] .storm-cloud-flash{animation:storm-cloud-illumination var(--storm-duration) var(--storm-phase) linear infinite}
 .app[data-motion=on] .art-math{animation:diagram-drift 12s ease-in-out infinite alternate}
 .app[data-motion=on] .art-documents{transform-box:fill-box;transform-origin:center;animation:page-lift 10s ease-in-out infinite alternate}
 .app[data-motion=on] .art-atom{transform-origin:1350px 250px;animation:scene-orbit 24s linear infinite}.app[data-motion=on] .art-molecule{animation:molecular-drift 13s ease-in-out infinite alternate}
@@ -142,7 +146,11 @@ select option,select optgroup{background:var(--bg);color:var(--fg)}
 @keyframes haunted-haze{from{opacity:.5}to{opacity:.9}}@keyframes fog-roll{from{transform:translateX(-100px)}to{transform:translateX(100px)}}
 @keyframes bubble-float{from{transform:translateY(-22px) scale(.97)}to{transform:translateY(22px) scale(1.03)}}
 @keyframes storm-clouds{from{transform:translate(-65px,-8px)}to{transform:translate(65px,8px)}}
-@keyframes distant-lightning{0%,70%,87%,100%{opacity:0}77%{opacity:.55}83%{opacity:.15}}
+/* A short descending leader, a sharp return stroke, then a dim afterglow.
+   Long independent cycles keep the two cloud-to-ground channels irregular. */
+@keyframes storm-leader-trace{0%,24.9%,28%,100%{opacity:0;stroke-dashoffset:1}25%{opacity:.4;stroke-dashoffset:1}25.45%{opacity:.75;stroke-dashoffset:0}25.6%{opacity:.45;stroke-dashoffset:0}26.7%{opacity:0;stroke-dashoffset:0}}
+@keyframes storm-return-flash{0%,25.35%,28%,100%{opacity:0}25.5%{opacity:.95}25.8%{opacity:.55}26.1%{opacity:.12}27.4%{opacity:0}}
+@keyframes storm-cloud-illumination{0%,25.3%,28%,100%{opacity:0}25.55%{opacity:.34}26%{opacity:.12}27.3%{opacity:0}}
 @keyframes diagram-drift{from{transform:translateY(-5px);opacity:.65}to{transform:translateY(7px);opacity:1}}
 @keyframes page-lift{from{transform:rotate(-1deg) translateY(0)}to{transform:rotate(1deg) translateY(-9px)}}
 @keyframes molecular-drift{from{transform:translate(-8px,-8px)}to{transform:translate(8px,8px)}}

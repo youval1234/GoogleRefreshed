@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-27 for GoogleRefreshed v1.5.2.
+Reviewed on 2026-10-27 for GoogleRefreshed v1.5.3.
 
 ## Scope
 
@@ -40,3 +40,7 @@ Version 1.4 adds a fixed allowlist of five search providers. Non-Google selectio
 ## v1.5.2 artwork update
 
 Eighteen scenes and their palettes were redesigned using local SVG and CSS. The update adds no permissions, remote artwork, native code, runtime dependencies or JavaScript animation loop. The source, reachable history, screenshots/PNG metadata and packaged releases were rescanned for secret and private-file candidates before publication. Screenshots use synthetic hardware fixtures.
+
+## v1.5.3 Storm lightning fix
+
+The filled lightning icon was replaced with local stroked SVG channels and CSS timing. No permissions, remote destinations or dependencies changed. The current source, reachable history, PNG metadata and release ZIP contents were rescanned for secret/private-file candidates before publication. The new previews use synthetic hardware readings.
