@@ -8,15 +8,24 @@
   async function get(url,signal) {
     const response = await fetch(url,{signal:signal?AbortSignal.any([signal,AbortSignal.timeout(10000)]):AbortSignal.timeout(10000),credentials:'omit',referrerPolicy:'no-referrer'});
     if (!response.ok) throw new Error(`This source is unavailable (${response.status}). Try again shortly.`);
-    const text=await response.text();
+    if(Number(response.headers.get('content-length'))>1000000){await response.body?.cancel();throw new Error('This source returned too much data.');}
+    const reader=response.body.getReader(),parts=[];let size=0;
+    try{while(true){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>1000000){await reader.cancel();throw new Error('This source returned too much data.');}parts.push(value);}}finally{reader.releaseLock();}
+    const bytes=new Uint8Array(size);let offset=0;for(const part of parts){bytes.set(part,offset);offset+=part.byteLength;}
+    const text=new TextDecoder().decode(bytes);
     if(text.length>500000)throw new Error('This source returned too much data.');
     return text;
   }
   globalThis.GoogleRefreshedData = async (message,signal) => {
     if(message.type==='suggestions'){
       const query=String(message.query||'').trim().slice(0,200);if(!query)return [];
-      const url=new URL('https://suggestqueries.google.com/complete/search');url.search=new URLSearchParams({client:'firefox',q:query,hl:languages.has(message.language)?message.language:'en'});
-      const data=JSON.parse(await get(url,signal));return Array.isArray(data[1])?data[1].filter(x=>typeof x==='string').slice(0,8).map(x=>x.slice(0,200)):[];
+      const url=new URL('https://www.google.com/complete/search');url.search=new URLSearchParams({client:'gws-wiz',q:query,hl:languages.has(message.language)?message.language:'en'});
+      const raw=(await get(url,signal)).trim(),wrapped=raw.match(/^window\.google\.ac\.h\(([\s\S]*)\);?$/);
+      // Parse the callback's JSON payload as data. Never run remote JavaScript.
+      const data=JSON.parse(wrapped?wrapped[1]:raw.replace(/^\)\]\}'\s*/,''));
+      const plain=x=>String(x||'').replace(/\\u003c/gi,'<').replace(/\\u003e/gi,'>').replace(/<[^>]*>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").slice(0,200);
+      if(typeof data[0]==='string')return (data[1]||[]).filter(x=>typeof x==='string').slice(0,8).map(text=>({text,title:text,description:'',image:''}));
+      return (data[0]||[]).filter(x=>Array.isArray(x)&&typeof x[0]==='string').slice(0,8).map(x=>{const detail=x[3]||{};let image='';try{const u=new URL(detail.zs);if(u.protocol==='https:'&&/^encrypted-tbn\d\.gstatic\.com$/.test(u.hostname))image=u.href;}catch{}return {text:plain(x[0]),title:plain(detail.zh||x[0]),description:plain(detail.zi),image};});
     }
     if(message.type==='location'){
       const data=JSON.parse(await get('https://ipwho.is/?fields=success,message,city,region,country,country_code,latitude,longitude',signal));
@@ -36,6 +45,11 @@
     }
     if(message.type==='news'){
       const topic=topics.has(message.topic)?message.topic:'top',region=/^[A-Z]{2}$/.test(message.region)?message.region:'US',language=languages.has(message.language)?message.language:'en';
+      if(message.source==='bing'){
+        const terms={top:'top news',world:'world news',technology:'technology',business:'business news',science:'science',sports:'sports',health:'health',entertainment:'entertainment'};
+        const query=['local','custom'].includes(topic)?String(message.query||'local news').slice(0,150):terms[topic]||'news';
+        const url=new URL('https://www.bing.com/news/search');url.search=new URLSearchParams({q:query,format:'rss',mkt:`${language}-${region}`,count:'30'});return get(url,signal);
+      }
       if(message.source==='bbc'){
         const sections={world:'world',technology:'technology',business:'business',science:'science_and_environment',sports:'sport',health:'health',entertainment:'entertainment_and_arts'};
         const section=topic==='local'?(region==='GB'?'uk':region==='IL'?'world/middle_east':'world'):sections[topic]||'';

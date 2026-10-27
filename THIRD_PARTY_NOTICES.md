@@ -9,3 +9,7 @@ Approximate city detection uses [ipwho.is](https://ipwhois.io/). It can be switc
 Headlines use [Google News RSS](https://news.google.com/rss). Articles retain their publisher attribution and open through Google News. RSS endpoints are not a versioned Google API and may change. Full articles and article images are not copied into the extension.
 
 Optional photo feeds use [BBC News RSS](https://feeds.bbci.co.uk/news/world/rss.xml) and [The Guardian RSS](https://www.theguardian.com/world/rss). Their article thumbnails load lazily from publisher image CDNs with no page referrer. Photographs and articles remain the property of their publishers; only the feed-provided thumbnails are displayed. Images can be switched off.
+
+Locally bundled Manrope, Inter, and Outfit fonts are distributed under their SIL Open Font Licenses, included in extension/fonts. They load from the extension, not a remote font service.
+
+Optional Bing News RSS supplies local photo headlines. Its RSS feed states that it is for personal, non-commercial RSS aggregation; source attribution and article links are retained. Review the provider's current terms before other distribution or usage. Thumbnails come from the provider's image CDN and are not bundled in release archives.

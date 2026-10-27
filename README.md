@@ -1,69 +1,67 @@
 # GoogleRefreshed
 
-A customizable Google homepage for Brave and Chromium, built with vanilla JavaScript and CSS.
+A customizable Google homepage and matching Google results theme for Brave and Chromium.
 
-![Paper theme](docs/paper.png)
+![Aurora theme](docs/v12-aurora.png)
 
-## Features
+## What it adds
 
-- **16 themes:** Paper, Sage, Ocean, Rose, Futuristic, Mystic, Magical, Rustic, Spring, Summer, Autumn, Winter, Midnight, Aurora, Cosmic, and Noir.
-- Independent light, dark, and system modes, custom accents, and a local background photo.
-- CSS entrance, hover, and ambient animations, with a motion switch and reduced-motion support.
-- Google-style autocomplete with keyboard navigation, plus All, Images, Videos, and Maps search destinations. Original service icons are bundled locally.
-- Personal, Work, and Study shortcut groups; rename, reorder, and remove links.
-- Ctrl+K command palette for shortcuts, themes, appearance, tabs, and settings. Press / to focus search.
-- Optional clock and focus note.
-- Weather tab: automatic approximate location, manual city search, Celsius/Fahrenheit, current conditions, and a five-day forecast.
-- News tab: local headlines, editions, languages, topics, custom search, headline count, and optional photos from BBC/Guardian feeds. Google News RSS has no photos, so it uses category placeholders.
-- Settings import/export, reset, and a GitHub release link for updates.
+- **17 distinct themes**, including Mystic, Solar, Aurora, Futuristic, and seasonal looks.
+- Independent light/dark/system appearance, custom accents, and a local background photo.
+- A font selector: locally bundled Manrope, Inter, Outfit, plus System UI and Georgia.
+- Google-style suggestions with entity photos when Google supplies them, keyboard navigation, and an image-search button.
+- Google search-result pages keep your selected palette while retaining Google's native results and controls.
+- Editable shortcuts with a pencil on each card, custom names, URLs, icons, colors, and Personal/Work/Study groups.
+- Ctrl+K commands and an optional clock.
+- An on-device CPU/RAM monitor with the CPU model, installed memory capacity, logical-core count, and usage graphs. The optional focus note remains available.
+- Automatic approximate weather location, manual city search, temperature units, and a five-day forecast.
+- Local photo news, selectable sources/topics, lazy thumbnails, and **Show more articles** without another feed request.
+- Settings import/export and visible version labels.
 
-GoogleRefreshed runs on the homepages of google.com and google.co.il, including /webhp. Search results and other Google pages are left untouched. It does not change Brave's homepage preference or new-tab page. **Classic Google** restores the original homepage for native suggestions, voice search, Lens, and the account menu. **Back to GoogleRefreshed** restores the design.
+## Install or update
 
-## Install in Brave
+Download the extension ZIP from [Releases](https://github.com/youval1234/GoogleRefreshed/releases/latest), extract it into a permanent folder, then open **brave://extensions**, enable **Developer mode**, and choose **Load unpacked**. Select the folder containing manifest.json.
 
-1. Download the ZIP from the [latest private release](https://github.com/youval1234/GoogleRefreshed/releases/latest) and extract it into a permanent folder. Or clone this repository and use its extension folder.
-2. Open brave://extensions and enable **Developer mode**.
-3. Click **Load unpacked** and select the folder containing manifest.json.
-4. Refresh https://www.google.com/.
+For an update, replace the files in that same folder, click **Reload** on the extension card, and refresh Google. v1.2 adds the system.cpu and system.memory permissions for the hardware monitor. The GitHub update button opens Releases; it is not an automatic installer or version checker.
 
-Keep the selected folder in place. Customize using the bottom-right button, the header light/dark button, or Ctrl+K. Changes save automatically in this browser.
+## Matching the whole browser
 
-## Update
+The extension automatically keeps its palette on Google home and result pages. Brave's native toolbar and tabs use a separate Chromium theme; extensions cannot automatically synchronize that native theme with changing page palettes.
 
-Use **Check GitHub for updates** in Customize or the extension popup. It opens this private repository's latest release using your signed-in GitHub browser. Compare its version with the installed version displayed beside the button. Replace the installed files with the release files, click **Reload** at brave://extensions, and refresh Google. Keep the same folder to preserve the extension ID and settings.
+Use **Download matching browser theme** in Customize, save its manifest.json in a separate folder, and load that folder at brave://extensions. Alternatively, download the browser-themes ZIP from Releases and load one of its 34 light/dark theme folders. This is a manual companion theme. Disabling GoogleRefreshed does not automatically remove an installed companion theme. Other websites retain their own styles.
 
-This is a release-page link, not an automatic version checker or installer. No GitHub token is embedded or requested. Source changes appear as updates after a tagged release is published.
+## Privacy
 
-## Privacy and performance
+Brave Shields and browser privacy settings are unchanged. The extension requests storage, CPU/memory metadata, access to the named Google pages, and the specific weather/news/location providers in its manifest. It does not request history, cookies, GPS, microphone, bookmarks, all-site access, native messaging, or browser-management permissions.
 
-Brave Shields and browser privacy settings are unchanged. No history, cookies, microphone, GPS/geolocation, bookmarks, or browser-management permissions are requested. No analytics, remote scripts, frameworks, or remote fonts are used.
+CPU/RAM metrics and the focus note render inside an extension-origin frame. Google page scripts cannot read that frame's DOM. Hardware samples are not sent to providers or saved to extension storage. The monitor pauses in hidden tabs and when its frame leaves view. Uploaded photo bytes are rendered inside a closed shadow tree, rather than exposed in the page's inspectable background style. A chosen greeting and general UI preferences are still visible parts of the Google page.
 
-Preferences and photos live in chrome.storage.local. Exports include your note, selected city, and photo; keep exports private. With autocomplete enabled, typed prefixes go to Google for suggestions before submission; this can be switched off. GoogleRefreshed keeps only a small temporary in-memory suggestion cache, with no search history in extension storage. Full searches go to Google when submitted. Shortcut and article destinations open when selected. Google's original page still loads beneath the design.
+With autocomplete enabled, typed prefixes go to Google before submission. Rich entity images come from Google's image CDN. Suggestions have a small, temporary in-memory cache; no persistent search history is saved. Normal search still submits to Google.
 
-Opening Weather or News can perform an IP-based city lookup through [ipwho.is](https://ipwhois.io/). It returns an approximate city, not GPS location, and may reflect a VPN exit location. The raw IP address is not stored by the extension. Automatic weather location and local news can be disabled separately. Manual city selection disables automatic weather selection, and manually choosing a news edition disables automatic news edition selection.
+Opening Weather or News can perform an approximate city lookup through ipwho.is. No GPS permission is used; a VPN can affect the detected city. Finding a city sends its name to Open-Meteo; forecasts send the city coordinates to Open-Meteo. News sends the selected edition/topic and, for local headlines, a city/country query to the selected provider. These providers receive your IP address. Automatic location, suggestions, news images, and individual cards/tabs can be disabled.
 
-Finding a city sends its name to Open-Meteo's geocoding service; forecasts send city coordinates to Open-Meteo. News sends the selected edition, language, and topic (including city/country for local headlines) to Google News. Providers receive the requester's IP address. Optional news thumbnails also contact the publisher's image CDN, with no page referrer sent; images load lazily and respect Brave Shields. Hide either tab to avoid using it. None of these requests run while simply viewing Home.
+Local photo news defaults to Bing News. BBC and Guardian photo feeds and Google News are also available. Google News RSS has no article thumbnails, so its entries remain compact text cards. Publisher thumbnails are lazy-loaded with no page referrer; Brave can block them. Requests use no saved account credentials. There are no analytics, remote scripts, or runtime Google Fonts requests.
 
-The event-driven background worker has no polling timers and can sleep between requests. Weather/news results are cached for 20 minutes in a bounded session cache with at most four entries; approximate location is cached for up to 24 hours within the browser session. Text edits are saved with a short debounce. The clock updates at minute boundaries and stops in hidden tabs. Motion also pauses when the tab is hidden. Ambient effects use CSS opacity/transforms and at most ten seasonal particles. Photos are resized to a maximum dimension of 1920 pixels. Actual browser memory varies by page, device, and photo.
+Settings, notes, and uploaded photos stay in extension-local storage. Exports contain those settings and should be kept private. The original Google page still loads beneath the custom homepage. See [SECURITY_REVIEW.md](SECURITY_REVIEW.md) for the publication review and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for provider/font notices.
 
-Brave toolbar colors are separate from page colors. System appearance follows the system's light/dark preference; it does not copy a custom Brave toolbar palette.
+## Performance
+
+The network worker is event-driven, with no polling loop. Weather/news have a bounded four-entry, 20-minute session cache; approximate location is cached separately. Autocomplete is debounced 250 ms and cancels stale requests. Hardware samples run every 2.5 seconds only while the monitor is in view, and keep at most 24 samples. The clock updates at minute boundaries. Animations use CSS opacity/transforms, pause in hidden tabs, and respect reduced motion. Provider responses and imports are size-limited.
 
 ## Development
 
-The extension has no build step or runtime npm dependencies. Node.js is needed for the local preview and tests; Python 3 is needed to package a release. Pillow is only needed to regenerate the extension icon.
+The extension has no build step and no runtime npm dependencies. Node.js is needed for the preview/tests; Python 3 packages releases. Pillow is needed only for icon generation and the publication scanner.
 
 ```
 npm install
 npm run preview
-```
-
-Open http://127.0.0.1:4177/preview.html. The preview stores its settings separately in localStorage and proxies data through a local server bound only to 127.0.0.1. It does not install the extension.
-
-```
 npm test
+npm run test:live
 npm run package
 ```
 
-Tests use Playwright and isolated Brave profiles. The default executable is C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe; set BRAVE_PATH to override it. PLAYWRIGHT_MODULE can point to an existing Playwright installation. Controlled Google and feed fixtures verify behavior, not the accuracy of external live data. Profiles, exports, dependencies, and generated packages are excluded from Git.
+Preview: http://127.0.0.1:4177/preview.html. It uses its own localStorage, a loopback-only proxy, and local OS metadata for hardware. It does not install the extension.
 
-Release ZIPs contain runtime files only, with manifest.json at the root. Third-party icons and data sources are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Tests use fresh isolated Brave profiles and synthetic feed/hardware fixtures. Set BRAVE_PATH to override the default Windows Brave executable; PLAYWRIGHT_MODULE can point to an existing Playwright installation. test:live makes actual provider requests, including approximate location, but does not record the detected city, coordinates, raw IP, or headlines. Demo screenshots use neutral fixtures.
+
+The release packager uses an explicit runtime-file allowlist. Browser profiles, settings exports, environment files, signing keys, generated packages, and local development helpers are excluded from Git. Never commit credentials or personal test data.

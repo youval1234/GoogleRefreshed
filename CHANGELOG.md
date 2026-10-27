@@ -1,4 +1,16 @@
 # Changelog
+## 1.2.0 — 2026-10-27
+
+- Redesigned brand mark, modern typography, selectable locally bundled fonts, larger date, and visible version labels.
+- Rich Google entity images and image-search button; removed the slash badge.
+- Stronger ambient motion and distinct Mystic/Solar themes, with reduced-motion support.
+- Editable shortcut cards with custom labels, destinations, groups, icons, and colors.
+- Private-frame CPU/RAM monitor with CPU model, installed capacity, logical cores, and live graphs; optional focus note retained.
+- Local photo feeds and cached Show more articles.
+- Google results retain the palette. A matching native Brave theme can be downloaded and installed manually.
+- Public-release review, bounded network responses, source/URL checks, private data exclusions, and dependency audit.
+
+
 
 ## 1.1.0 — 2026-10-27
 

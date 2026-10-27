@@ -1,6 +1,10 @@
 importScripts('data.js');
 // Event-driven requests only. No background polling or permanent connection.
 async function respondTo(message,signal){
+  if(message?.type==='hardware'){
+    const [cpu,memory]=await Promise.all([chrome.system.cpu.getInfo(),chrome.system.memory.getInfo()]);
+    return {ok:true,data:{cpu:{cores:cpu.numOfProcessors,model:cpu.modelName,total:cpu.processors.reduce((sum,p)=>sum+p.usage.total,0),idle:cpu.processors.reduce((sum,p)=>sum+p.usage.idle,0)},memory:{total:memory.capacity,available:memory.availableCapacity}},at:Date.now()};
+  }
   if(!['suggestions','location','cities','weather','news'].includes(message?.type))throw new Error('Unsupported data request.');
   // Search prefixes never enter extension storage or the persistent data cache.
   if(message.type==='suggestions')return {ok:true,data:await GoogleRefreshedData(message,signal),at:Date.now()};
@@ -22,6 +26,6 @@ chrome.runtime.onConnect.addListener(port=>{
   if(port.name!=='google-refreshed-data'||port.sender?.id!==chrome.runtime.id){port.disconnect();return;}
   let connected=true;const controller=new AbortController();port.onDisconnect.addListener(()=>{connected=false;controller.abort();});
   port.onMessage.addListener(message=>{
-    respondTo(message,controller.signal).catch(error=>({ok:false,error:error.message||'This source is currently unavailable.'})).then(result=>{if(connected)port.postMessage(result);});
+    respondTo(message,controller.signal).catch(error=>({ok:false,error:error.message||'This source is currently unavailable.'})).then(result=>{if(connected)try{port.postMessage(result);}catch{/* The requesting tab may have closed. */}});
   });
 });

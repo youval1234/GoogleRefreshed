@@ -8,7 +8,7 @@ let context;
 const checks=[];
 async function check(name,fn){await fn();checks.push(name);console.log('PASS '+name);}
 (async()=>{
- context=await chromium.launchPersistentContext(fs.mkdtempSync(path.join(__dirname,'.test-profile-core-')),{executablePath:process.env.BRAVE_PATH||'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe',headless:true,viewport:{width:1440,height:1000},timezoneId:'Asia/Jerusalem',args:[`--disable-extensions-except=${ext}`,`--load-extension=${ext}`]});
+ context=await chromium.launchPersistentContext(fs.mkdtempSync(path.join(__dirname,'.test-profile-core-')),{executablePath:process.env.BRAVE_PATH||'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe',headless:true,viewport:{width:1440,height:1000},timezoneId:'UTC',args:[`--disable-extensions-except=${ext}`,`--load-extension=${ext}`]});
  const page=await context.newPage();
  const errors=[]; page.on('pageerror',e=>errors.push(e.message));
  await context.route('https://www.google.com/**',route=>route.fulfill({contentType:'text/html',body:nativeHTML}));
@@ -21,22 +21,22 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
  await check('Live theme, name, and widgets customize correctly',async()=>{
    await page.getByRole('button',{name:'Customize',exact:true}).click();
    await page.getByRole('button',{name:'Midnight',exact:true}).click();
-   await page.getByLabel('What should we call you?').fill('Yuval');
+   await page.getByLabel('What should we call you?').fill('Alex');
    await page.getByLabel('Show clock',{exact:true}).uncheck();
    assert.equal(await shadow(()=>document.querySelector('#still-home').shadowRoot.querySelector('.app').dataset.theme),'midnight');
    assert.equal(await page.locator('.clock-widget').isVisible(),false);
    await page.getByRole('button',{name:'Close customization'}).click();
-   assert.match(await page.locator('h1').innerText(),/Yuval/);
+   assert.match(await page.locator('h1').innerText(),/Alex/);
  });
  await check('Extension storage survives reload',async()=>{
    await page.waitForTimeout(300);await home();
-   assert.match(await page.locator('h1').innerText(),/Yuval/);
+   assert.match(await page.locator('h1').innerText(),/Alex/);
    assert.equal(await shadow(()=>document.querySelector('#still-home').shadowRoot.querySelector('.app').dataset.theme),'midnight');
    assert.equal(await page.locator('.clock-widget').isVisible(),false);
  });
  await check('Focus notes save and persist',async()=>{
-   await page.getByLabel('Your focus note').fill('Finish one good thing.');await page.getByLabel('Your focus note').blur();await page.waitForTimeout(300);await home();
-   assert.equal(await page.getByLabel('Your focus note').inputValue(),'Finish one good thing.');
+   await page.getByRole('button',{name:'Customize',exact:true}).click();await page.getByRole('combobox',{name:'Daily card',exact:true}).selectOption('note');await page.getByRole('button',{name:'Close customization'}).click();await page.frameLocator('#hardware-frame').getByLabel('Your focus note').fill('Finish one good thing.');await page.frameLocator('#hardware-frame').getByLabel('Your focus note').blur();await page.waitForTimeout(300);await home();
+   assert.equal(await page.frameLocator('#hardware-frame').getByLabel('Your focus note').inputValue(),'Finish one good thing.');
  });
  await check('Shortcut add, safe URL normalization, edit and order',async()=>{
    await page.getByRole('button',{name:'Add shortcut',exact:true}).click();

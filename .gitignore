@@ -10,3 +10,16 @@ feature-verification.json
 *.local
 *settings.json
 __pycache__/
+.preview-*.cjs
+preview-v*.png
+update-v12.py
+finish-v12.py
+audit-local.json
+audit-history.json
+.env*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*settings*.json
