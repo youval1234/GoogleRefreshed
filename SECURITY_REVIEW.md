@@ -1,10 +1,10 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-27 for GoogleRefreshed v1.5.4.
+Reviewed on 2026-10-28 for GoogleRefreshed v1.6.0.
 
 ## Scope
 
-Current tracked source, complete reachable Git history, bundled screenshots and PNG metadata, release ZIP contents, repository metadata, issues, pull requests, and Actions history were checked. The repository has no issues, pull requests, or Actions runs containing additional data. npm reported zero known vulnerabilities for the development dependency set at review time. There are no runtime npm dependencies.
+Current tracked source, complete reachable Git history, bundled screenshots and PNG metadata, release ZIP contents, repository metadata, issues, pull requests, and Actions history were checked. At the v1.6.0 review, GitHub had one merged feature pull request, no issues and no Actions runs. Its description/comments contain implementation and testing notes; no secret candidates were observed. npm reported zero known vulnerabilities for the development dependency set at review time. There are no runtime npm dependencies.
 
 ## Findings addressed
 
@@ -29,7 +29,7 @@ GoogleRefreshed is integrated into Google pages; the greeting and ordinary UI pr
 
 The review combines static inspection, pattern scanning, archive checks, and targeted browser tests. The scan can be rerun with `python security-audit.py`; it reports candidate paths without printing candidate secret values.
 
-Validation includes 142 controlled Brave checks, live Google homepage/private-frame loading, live rich autocomplete, and live weather/news requests. New checks cover startup visibility and fail-open behavior, aligned chart areas, feed repair and attributed fallback, browser-sync privacy/limits, AI-overview fades, dynamic styles, and restoration of original Google variables. An automated live search navigated through Google's challenge page; it was left untouched. Result-page palette/functionality checks use controlled native-page fixtures. Repository issues/pull requests and Actions were checked again and remain empty.
+Validation includes 142 controlled Brave checks, live Google homepage/private-frame loading, live rich autocomplete, and live weather/news requests. New checks cover startup visibility and fail-open behavior, aligned chart areas, feed repair and attributed fallback, browser-sync privacy/limits, AI-overview fades, dynamic styles, and restoration of original Google variables. An automated live search navigated through Google's challenge page; it was left untouched. Result-page palette/functionality checks use controlled native-page fixtures. Repository issues/pull requests and Actions were checked at that earlier review; current v1.6.0 repository metadata is described in Scope.
 
 The v1.3.1 patch aligns the private frame’s color scheme with its embedding element and handles live system-appearance changes. An additional 39 checks cover all 17 palettes in light/dark modes, rendered canvas pixels, System-mode changes, focus-note appearance, and frame isolation. No permissions, providers, or data-sharing behavior were added.
 
@@ -50,3 +50,9 @@ The filled lightning icon was replaced with local stroked SVG channels and CSS t
 The default appearance changed from Light to System, read through the existing prefers-color-scheme media query.
 
 The optional new-tab toggle adds `tabs` as an optional permission only. It is requested from an extension page after an explicit click and removed when the toggle is turned off or settings are reset. The service worker reads a created tab's address solely to compare it with the browser's new-tab page, then navigates that tab to https://www.google.com/. Tab addresses are not stored, logged or sent, and the new `newTabHome` field stays out of browser settings sync. No remote destinations or dependencies changed. The source and reachable history were rescanned for secret/private-file candidates before publication.
+
+## v1.6.0 catalog and license
+
+The catalog contains 50 themes, including 12 new worlds and 12 rebuilt scenes. Original SVG templates are bundled in four scene packs; only the selected scene is mounted. The packs contain no remote resources, JavaScript animation loops or timers. CSS artwork respects animation off, reduced motion and hidden-page pause. Theme filtering changes only the picker view; saved theme IDs and existing privacy settings remain compatible. No permissions, network destinations or runtime dependencies were added.
+
+MIT LICENSE and third-party NOTICE.md are included in source and both ZIPs. Font notices retain their original licenses. New screenshots use synthetic hardware fixtures, UTC and no personal greeting or location. Current tracked source, reachable history, screenshots/metadata and release ZIPs are scanned for secret and private-file candidates before publication.

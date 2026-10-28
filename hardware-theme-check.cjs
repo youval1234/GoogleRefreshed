@@ -30,7 +30,7 @@ let context;
  await verify('System mode starts light','light');
  await page.emulateMedia({colorScheme:'dark'});await verify('System mode follows a live OS switch to dark','dark');
  await page.emulateMedia({colorScheme:'light'});await verify('System mode follows a live OS switch back to light','light');
- const themes=await page.locator('[data-theme-choice]').evaluateAll(nodes=>nodes.map(x=>x.dataset.themeChoice));assert.equal(themes.length,38);
+ const themes=await page.locator('[data-theme-choice]').evaluateAll(nodes=>nodes.map(x=>x.dataset.themeChoice));assert.equal(themes.length,50);
  for(const theme of themes)for(const appearance of ['dark','light']){
    await worker.evaluate(async value=>{const saved=(await chrome.storage.local.get('stillSettings')).stillSettings;await chrome.storage.local.set({stillSettings:{...saved,...value}});},{theme,appearance});await verify(theme+' '+appearance,appearance);
  }

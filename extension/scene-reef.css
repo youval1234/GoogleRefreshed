@@ -1,0 +1,35 @@
+/* Coral Reef: populated marine layers, with individual current and fin movement. */
+.app[data-motion=on] .r-surface-rays{animation:r-rays 19s ease-in-out infinite alternate}
+.app[data-motion=on] .r-surface-shimmer{animation:r-surface-shimmer 13s ease-in-out infinite alternate}
+.app[data-motion=on] .r-staghorn{animation:r-staghorn-current 16s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .r-seafan{animation:r-fan-current 13s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .r-grass{animation:r-grass-current 10s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .r-anemone{animation:r-anemone-current 8s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .r-fish{animation:r-fish-cruise var(--r-speed,21s) var(--r-phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .r-tail{animation:r-tail-stroke 1.9s ease-in-out infinite alternate;transform-origin:-38px 0}
+.app[data-motion=on] .r-turtle{animation:r-turtle-glide 29s ease-in-out infinite alternate}
+.app[data-motion=on] .r-turtle-front-fin{animation:r-turtle-stroke 5.3s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .r-turtle-back-fin{animation:r-turtle-stroke 6.1s -1.3s ease-in-out infinite alternate-reverse;transform-origin:0 0}
+.app[data-motion=on] .r-turtle-far-fin{animation:r-turtle-far-stroke 5.3s -1.4s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .r-turtle-far-hind{animation:r-turtle-far-stroke 6.1s -2.2s ease-in-out infinite alternate-reverse;transform-origin:0 0}
+.app[data-motion=on] .r-school-one{animation:r-school-one 27s -8s ease-in-out infinite alternate}
+.app[data-motion=on] .r-school-two{animation:r-school-two 22s -13s ease-in-out infinite alternate}
+.app[data-motion=on] .r-school-three{animation:r-school-three 19s -4s ease-in-out infinite alternate}
+.app[data-motion=on] .r-caustics{animation:r-caustic-light 11s ease-in-out infinite alternate}
+.app[data-motion=on] .r-bubble{animation:r-bubble-rise 15s var(--r-phase,0s) ease-in-out infinite}
+@keyframes r-rays{from{transform:translateX(-10px);opacity:.5}to{transform:translateX(18px);opacity:1}}
+@keyframes r-surface-shimmer{from{transform:translate(-12px,3px);opacity:.45}to{transform:translate(16px,-3px);opacity:.9}}
+@keyframes r-staghorn-current{from{transform:skewX(-.8deg)}to{transform:skewX(1deg)}}
+@keyframes r-fan-current{from{transform:skewX(-2.1deg) scaleX(.98)}to{transform:skewX(2deg) scaleX(1.02)}}
+@keyframes r-grass-current{from{transform:skewX(-4deg)}to{transform:skewX(4.5deg)}}
+@keyframes r-anemone-current{from{transform:skewX(-3deg) scaleY(.98)}to{transform:skewX(3deg) scaleY(1.02)}}
+@keyframes r-fish-cruise{0%{transform:translate(calc(var(--r-travel) * -.65),6px) rotate(-2deg)}45%{transform:translate(0,-5px) rotate(1deg)}100%{transform:translate(var(--r-travel),3px) rotate(-1deg)}}
+@keyframes r-tail-stroke{from{transform:scaleX(.82) skewY(-5deg)}to{transform:scaleX(1.02) skewY(5deg)}}
+@keyframes r-turtle-glide{from{transform:translate(30px,-8px) rotate(2deg)}to{transform:translate(-43px,16px) rotate(-2deg)}}
+@keyframes r-turtle-stroke{from{transform:rotate(-10deg) scaleY(.9)}to{transform:rotate(12deg) scaleY(1.03)}}
+@keyframes r-turtle-far-stroke{from{transform:rotate(-7deg) scaleY(.9)}to{transform:rotate(9deg) scaleY(1.03)}}
+@keyframes r-school-one{from{transform:translate(35px,7px)}to{transform:translate(-57px,-17px)}}
+@keyframes r-school-two{from{transform:translate(-28px,-6px)}to{transform:translate(48px,15px)}}
+@keyframes r-school-three{from{transform:translate(-18px,7px)}to{transform:translate(39px,-13px)}}
+@keyframes r-caustic-light{from{transform:translate(-8px,3px);opacity:.35}to{transform:translate(10px,-4px);opacity:.85}}
+@keyframes r-bubble-rise{0%{transform:translate(0,25px);opacity:0}22%,65%{opacity:.45}100%{transform:translate(11px,-86px);opacity:0}}

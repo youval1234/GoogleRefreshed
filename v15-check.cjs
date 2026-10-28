@@ -22,17 +22,18 @@ let context,checks=0;async function check(label,fn){await fn();console.log('PASS
    await page.locator('#edit-shortcuts').click();assert.equal(await page.locator('#add-shortcut').isVisible(),false);await page.keyboard.press('Escape');await home();assert.equal(await page.locator('.shortcuts a.shortcut').count(),60);
    await prefs({shortcuts:[['Gmail','https://mail.google.com/'],['YouTube','https://www.youtube.com/'],['Drive','https://drive.google.com/'],['Calendar','https://calendar.google.com/'],['ChatGPT','https://chatgpt.com/']].map(([name,url])=>({name,url,group:'personal'}))});await page.locator('#shortcut-count').filter({hasText:'5'}).waitFor();
  });
- await check('All 38 scenes have visible motion, with bounded artwork and no malformed SVG',async()=>{
+ await check('All catalog scenes have visible motion, with bounded artwork and no malformed SVG',async()=>{
    fs.mkdirSync(path.join(root,'docs/v15'),{recursive:true});
    for(const theme of meta.GoogleRefreshed.themes){await prefs({theme:theme.id});await page.waitForTimeout(220);const result=await page.locator('.theme-art').evaluate(e=>{
-     const animations=e.getAnimations({subtree:true});const read=a=>{const s=getComputedStyle(a.effect.target);return[s.transform,s.opacity,s.strokeDashoffset,s.strokeDasharray].join('|');};const before=animations.map(read);for(const a of animations)a.currentTime=(a.currentTime||0)+2400;const changed=animations.some((a,i)=>read(a)!==before[i]&&a.effect.target.getBoundingClientRect().width>0);return {count:e.querySelectorAll('*').length,changed,active:animations.length};
+     const animations=e.getAnimations({subtree:true});const read=a=>{const s=getComputedStyle(a.effect.target);return[s.transform,s.opacity,s.strokeDashoffset,s.strokeDasharray,s.d].join('|');};const before=animations.map(read);for(const a of animations)a.currentTime=(a.currentTime||0)+2400;const changed=animations.some((a,i)=>read(a)!==before[i]&&a.effect.target.getBoundingClientRect().width>0);return {count:e.querySelectorAll('*').length,changed,active:animations.length};
    });assert.ok(result.changed,theme.id+' has perceptible changes in position/opacity/path');assert.ok(result.count<550,theme.id+' bounded scene nodes');assert.ok(result.active<100,theme.id+' bounded animations');
      await page.locator('.app').evaluate(e=>{e.scrollTop=0;e.dataset.paused='true';});await page.screenshot({path:path.join(root,'docs/v15',theme.id+'.png'),animations:'allow'});await page.locator('.app').evaluate(e=>e.dataset.paused='false');
    }
  });
  await check('Animation off, reduced motion and hidden-page pause apply to every scene',async()=>{
    for(const theme of meta.GoogleRefreshed.themes){await prefs({theme:theme.id,animations:false});assert.equal(await page.locator('.theme-art').evaluate(e=>e.getAnimations({subtree:true}).length),0);}
-   await prefs({theme:'aurora',animations:true});await page.emulateMedia({reducedMotion:'reduce'});assert.equal(await page.locator('.theme-art').evaluate(e=>e.getAnimations({subtree:true}).length),0);await page.emulateMedia({reducedMotion:'no-preference'});
+   await prefs({theme:'aurora',animations:true});await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>document.querySelector('#still-home').shadowRoot.querySelector('.app').dataset.motion==='off');assert.equal(await page.locator('.theme-art').evaluate(e=>e.getAnimations({subtree:true}).length),0);await page.emulateMedia({reducedMotion:'no-preference'});
+   await page.waitForFunction(()=>document.querySelector('#still-home').shadowRoot.querySelector('.app').dataset.motion==='on');
    await page.locator('.app').evaluate(e=>e.dataset.paused='true');assert.equal(await page.locator('.theme-art').evaluate(e=>e.getAnimations({subtree:true}).every(a=>a.playState==='paused')),true);await page.locator('.app').evaluate(e=>e.dataset.paused='false');
  });
  await check('New Fire and Magma palettes work in light and dark mode',async()=>{

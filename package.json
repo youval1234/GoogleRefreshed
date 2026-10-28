@@ -1,16 +1,17 @@
 {
   "name": "google-refreshed",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "private": true,
   "description": "A customizable Google homepage extension for Brave and Chromium.",
   "scripts": {
     "preview": "node preview-server.cjs",
-    "test": "node verify.cjs && node v12-check.cjs && node v13-check.cjs && node hardware-theme-check.cjs && node v14-check.cjs && node v15-check.cjs && node v154-check.cjs",
+    "test": "node verify.cjs && node v12-check.cjs && node v13-check.cjs && node hardware-theme-check.cjs && node v14-check.cjs && node v15-check.cjs && node v154-check.cjs && node v160-check.cjs",
     "test:live": "node smoke-check.cjs",
     "test:native": "node live-native-check.cjs",
     "package": "node package.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"
-  }
+  },
+  "license": "MIT"
 }

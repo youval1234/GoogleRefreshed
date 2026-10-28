@@ -1,0 +1,71 @@
+/* The Worlds collection uses local vectors with bounded, independent CSS motion. */
+.app[data-motion=on] .w-bh-system{animation:w-bh-breathe 22s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .w-bh-flow{animation:w-bh-feed 12s linear infinite}
+.app[data-motion=on] .w-bh-lensing{animation:w-bh-lens-light 13s ease-in-out infinite alternate}
+.app[data-motion=on] .w-bh-infall{animation:w-bh-infall 16s linear infinite}
+.app[data-motion=on] .w-bh-star{animation:w-distant-stars 11s var(--w-phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .w-cosmic-giant{animation:w-cosmic-float 23s ease-in-out infinite alternate}
+.app[data-motion=on] .w-cosmic-ring-dust{animation:w-ring-current 16s linear infinite}
+.app[data-motion=on] .w-cosmic-nebula{animation:w-nebula-breathe 25s ease-in-out infinite alternate}
+.app[data-motion=on] .w-cosmic-probe{animation:w-probe-float 17s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .w-cosmic-stars{animation:w-distant-stars 12s var(--w-phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .w-cosmic-moonlet{animation:w-cosmic-float 29s -9s ease-in-out infinite alternate-reverse}
+.app[data-motion=on] .w-midnight-trails{animation:w-midnight-stars-turn 82s linear infinite;transform-origin:0 0}
+.app[data-motion=on] .w-midnight-star{animation:w-distant-stars 13s var(--w-phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .w-midnight-telescope{animation:w-observing-sweep 19s ease-in-out infinite alternate;transform-origin:0 12px}
+.app[data-motion=on] .w-midnight-window{animation:w-observatory-light 11s ease-in-out infinite alternate}
+.app[data-motion=on] .w-midnight-water{animation:w-moonlit-ripples 12s ease-in-out infinite alternate}
+.app[data-motion=on] .w-midnight-meteor{animation:w-night-meteor 31s ease-in-out infinite}
+.app[data-motion=on] .w-amber-specimen{animation:w-resin-hover 19s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .w-amber-caustics{animation:w-resin-caustic 16s ease-in-out infinite alternate}
+.app[data-motion=on] .w-amber-pebbles{animation:w-resin-glimmer 14s -6s ease-in-out infinite alternate}
+.app[data-motion=on] .w-amber-mote{animation:w-resin-mote 17s var(--w-phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .w-desert-heat{animation:w-desert-heat 12s ease-in-out infinite alternate}
+.app[data-motion=on] .w-desert-wind{animation:w-sand-current 20s linear infinite}
+.app[data-motion=on] .w-desert-caravan{animation:w-caravan-journey 47s ease-in-out infinite alternate}
+.app[data-motion=on] .w-desert-camel{animation:w-camel-step 5s var(--w-phase,0s) ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .w-cave-minerals{animation:w-mineral-light 12s ease-in-out infinite alternate}
+.app[data-motion=on] .w-cave-mushroom{animation:w-cave-life 9s var(--w-phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .w-cave-drop{animation:w-cave-drip 11s ease-in infinite}
+.app[data-motion=on] .w-cave-drop-second{animation-duration:15s;animation-delay:-6s}
+.app[data-motion=on] .w-cave-reflections{animation:w-cave-ripple 9s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .w-aztec-flame{animation:w-ceremonial-flame 6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center bottom}
+.app[data-motion=on] .w-aztec-agave{animation:w-agave-breeze 15s ease-in-out infinite alternate;transform-origin:90px 1000px}
+.app[data-motion=on] .w-aztec-mote{animation:w-gold-pollen 17s var(--w-phase,0s) ease-in-out infinite alternate}
+.app[data-motion=on] .w-shadow-windowlight{animation:w-shadow-light 21s ease-in-out infinite alternate}
+.app[data-motion=on] .w-shadow-mobile{animation:w-shadow-pendulum 18s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .w-shadow-mobile-cast{animation:w-shadow-cast 18s ease-in-out infinite alternate;transform-origin:1400px 945px}
+.app[data-motion=on] .w-shadow-orb{animation:w-shadow-orb-light 17s ease-in-out infinite alternate}
+@keyframes w-bh-breathe{from{transform:scale(.985,1.025)}to{transform:scale(1.025,.985)}}
+@keyframes w-bh-feed{to{stroke-dashoffset:-570}}
+@keyframes w-bh-lens-light{from{opacity:.5}to{opacity:1}}
+@keyframes w-bh-infall{to{stroke-dashoffset:-360}}
+@keyframes w-distant-stars{from{opacity:.17}to{opacity:.55}}
+@keyframes w-cosmic-float{from{transform:translate(-4px,8px)}to{transform:translate(5px,-9px)}}
+@keyframes w-ring-current{to{stroke-dashoffset:-432}}
+@keyframes w-nebula-breathe{from{transform:translate(-8px,12px);opacity:.65}to{transform:translate(14px,-18px);opacity:1}}
+@keyframes w-probe-float{from{transform:translate(-6px,8px) rotate(-3deg)}to{transform:translate(7px,-11px) rotate(3deg)}}
+@keyframes w-midnight-stars-turn{to{transform:rotate(360deg)}}
+@keyframes w-observing-sweep{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes w-observatory-light{from{opacity:.3}to{opacity:.6}}
+@keyframes w-moonlit-ripples{from{transform:translateX(-7px);opacity:.6}to{transform:translateX(9px);opacity:1}}
+@keyframes w-night-meteor{0%,69%,100%{opacity:0;transform:translate(0,0)}71%{opacity:.7}80%{opacity:0;transform:translate(180px,70px)}}
+@keyframes w-resin-hover{from{transform:translateY(-7px) rotate(-1deg)}to{transform:translateY(9px) rotate(1deg)}}
+@keyframes w-resin-caustic{from{transform:translateX(-16px);opacity:.5}to{transform:translateX(21px);opacity:1}}
+@keyframes w-resin-glimmer{from{opacity:.65}to{opacity:1}}
+@keyframes w-resin-mote{from{transform:translate(-8px,13px);opacity:.12}to{transform:translate(12px,-18px);opacity:.5}}
+@keyframes w-desert-heat{from{transform:translateY(-4px) skewX(-.8deg);opacity:.5}to{transform:translateY(5px) skewX(.8deg);opacity:1}}
+@keyframes w-sand-current{to{stroke-dashoffset:-792}}
+@keyframes w-caravan-journey{from{transform:translateX(-35px)}to{transform:translateX(22px)}}
+@keyframes w-camel-step{from{transform:translateY(-1.5px) rotate(-.6deg)}to{transform:translateY(1.5px) rotate(.6deg)}}
+@keyframes w-mineral-light{from{opacity:.55}to{opacity:1}}
+@keyframes w-cave-life{from{opacity:.55}to{opacity:1}}
+@keyframes w-cave-drip{0%,60%,100%{opacity:0;transform:translateY(0) scaleY(.9)}62%{opacity:.7;transform:translateY(0) scaleY(1)}76%{opacity:.7;transform:translateY(110px) scaleY(1.35)}79%{opacity:0;transform:translateY(140px) scaleY(1)}}
+@keyframes w-cave-ripple{from{transform:scaleX(.85);opacity:.5}to{transform:scaleX(1.08);opacity:1}}
+@keyframes w-ceremonial-flame{from{transform:scale(.9,.88) skewX(-4deg);opacity:.6}to{transform:scale(1.05,1.1) skewX(4deg);opacity:1}}
+@keyframes w-agave-breeze{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
+@keyframes w-gold-pollen{from{transform:translate(-10px,13px);opacity:.2}to{transform:translate(14px,-21px);opacity:.6}}
+@keyframes w-shadow-light{from{transform:translateX(-10px);opacity:.6}to{transform:translateX(14px);opacity:1}}
+@keyframes w-shadow-pendulum{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+@keyframes w-shadow-cast{from{transform:translateX(-15px) skewX(-3deg)}to{transform:translateX(15px) skewX(3deg)}}
+@keyframes w-shadow-orb-light{from{opacity:.72}to{opacity:1}}

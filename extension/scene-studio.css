@@ -1,0 +1,77 @@
+/* Studio scenes: original local art and bounded CSS motion. */
+.app[data-motion=on] .s-library-lamplight{animation:s-library-warmth 12s ease-in-out infinite alternate}
+.app[data-motion=on] .s-library-page{animation:s-library-page 15s ease-in-out infinite alternate;transform-origin:19px 34px}
+.app[data-motion=on] .s-library-mote{animation:s-library-dust 17s var(--s-phase,0s) ease-in-out infinite alternate}
+@keyframes s-library-warmth{from{opacity:.65}to{opacity:1}}
+@keyframes s-library-page{0%,35%{transform:skewY(-2deg) scaleX(.96)}70%,100%{transform:skewY(7deg) scaleX(.8)}}
+@keyframes s-library-dust{from{transform:translate(-5px,12px);opacity:.2}to{transform:translate(12px,-20px);opacity:.65}}
+.app[data-motion=on] .s-sunset-sundrift{animation:s-sunset-descend 28s ease-in-out infinite alternate}
+.app[data-motion=on] .s-sunset-highcloud{animation:s-sunset-cloud 31s ease-in-out infinite alternate}
+.app[data-motion=on] .s-sunset-glints{animation:s-sunset-waterlight 9s ease-in-out infinite alternate}
+.app[data-motion=on] .s-sunset-foam{animation:s-sunset-foam 13s ease-in-out infinite alternate}
+.app[data-motion=on] .s-sunset-boat{animation:s-sunset-boat 18s ease-in-out infinite alternate}
+.app[data-motion=on] .s-sunset-gulls{animation:s-sunset-birds 24s ease-in-out infinite alternate}
+@keyframes s-sunset-descend{from{transform:translateY(-8px)}to{transform:translateY(12px)}}
+@keyframes s-sunset-cloud{from{transform:translateX(-22px)}to{transform:translateX(25px)}}
+@keyframes s-sunset-waterlight{from{opacity:.45;transform:translateX(-8px)}to{opacity:1;transform:translateX(11px)}}
+@keyframes s-sunset-foam{from{transform:translate(-12px,5px);opacity:.6}to{transform:translate(13px,-4px);opacity:1}}
+@keyframes s-sunset-boat{from{transform:translate(-10px,3px) rotate(-1deg)}to{transform:translate(18px,-2px) rotate(1deg)}}
+@keyframes s-sunset-birds{from{transform:translate(-13px,4px)}to{transform:translate(42px,-14px)}}
+.app[data-motion=on] .s-office-hanging{animation:s-office-leaves 15s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .s-office-cloud{animation:s-office-breeze 25s ease-in-out infinite alternate}
+.app[data-motion=on] .s-office-windowlight{animation:s-office-daylight 24s ease-in-out infinite alternate;transform-origin:1443px 540px}
+.app[data-motion=on] .s-office-screen-sheen{animation:s-office-screen 17s ease-in-out infinite alternate}
+.app[data-motion=on] .s-office-coffee-steam{animation:s-office-steam 9s ease-in-out infinite}
+@keyframes s-office-leaves{from{transform:rotate(-2deg)}to{transform:rotate(2deg)}}
+@keyframes s-office-breeze{from{transform:translateX(-16px)}to{transform:translateX(21px)}}
+@keyframes s-office-daylight{from{transform:skewX(-2deg);opacity:.55}to{transform:skewX(3deg);opacity:1}}
+@keyframes s-office-screen{from{transform:translateX(-8px);opacity:.5}to{transform:translateX(8px);opacity:1}}
+@keyframes s-office-steam{0%{transform:translate(0,8px);opacity:0}30%,65%{opacity:.6}100%{transform:translate(7px,-25px);opacity:0}}
+.app[data-motion=on] .s-color-mobile-top{animation:s-color-mobile 18s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .s-color-mobile-lower{animation:s-color-mobile 13s -5s ease-in-out infinite alternate-reverse;transform-origin:0 0}
+.app[data-motion=on] .s-color-sculpture{animation:s-color-sculpture 21s ease-in-out infinite alternate;transform-origin:0 150px}
+.app[data-motion=on] .s-color-bead{animation:s-color-bead 14s var(--s-phase,0s) ease-in-out infinite alternate}
+@keyframes s-color-mobile{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+@keyframes s-color-sculpture{from{transform:translateY(-7px) skewY(-2deg)}to{transform:translateY(8px) skewY(2deg)}}
+@keyframes s-color-bead{from{transform:translate(-5px,8px)}to{transform:translate(8px,-12px)}}
+.app[data-motion=on] .s-science-chemistry{animation:s-science-molecule 22s ease-in-out infinite alternate;transform-origin:132px 293px}
+.app[data-motion=on] .s-science-dna{animation:s-science-helix 18s linear infinite}
+.app[data-motion=on] .s-science-bubble{animation:s-science-bubble 8s var(--s-phase,0s) ease-in-out infinite}
+.app[data-motion=on] .s-science-meniscus{animation:s-science-liquid 9s ease-in-out infinite alternate}
+.app[data-motion=on] .s-science-dish{animation:s-science-dish 17s ease-in-out infinite alternate}
+@keyframes s-science-molecule{from{transform:rotate(-4deg) translateY(-4px)}to{transform:rotate(4deg) translateY(5px)}}
+@keyframes s-science-helix{0%,100%{d:var(--s-dna-0)}25%{d:var(--s-dna-1)}50%{d:var(--s-dna-2)}75%{d:var(--s-dna-3)}}
+@keyframes s-science-bubble{0%{opacity:0;transform:translateY(6px)}25%,60%{opacity:.65}100%{opacity:0;transform:translateY(-54px)}}
+@keyframes s-science-liquid{from{transform:translateY(-2px)}to{transform:translateY(2px)}}
+@keyframes s-science-dish{from{opacity:.72}to{opacity:1}}
+.app[data-motion=on] .s-scary-lefttree{animation:s-scary-tree 21s ease-in-out infinite alternate;transform-origin:0 1000px}
+.app[data-motion=on] .s-scary-righttree{animation:s-scary-tree 25s -10s ease-in-out infinite alternate-reverse;transform-origin:1600px 1000px}
+.app[data-motion=on] .s-scary-lantern{animation:s-scary-swing 11s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .s-scary-candle{animation:s-scary-candle 13s ease-in-out infinite}
+.app[data-motion=on] .s-scary-fog-near{animation:s-scary-fog 29s ease-in-out infinite alternate}
+.app[data-motion=on] .s-scary-fog-far{animation:s-scary-fog 34s -12s ease-in-out infinite alternate-reverse}
+@keyframes s-scary-tree{from{transform:skewX(-.5deg)}to{transform:skewX(.7deg)}}
+@keyframes s-scary-swing{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+@keyframes s-scary-candle{0%,100%{opacity:.65}33%{opacity:.45}47%{opacity:.75}64%{opacity:.58}79%{opacity:.85}}
+@keyframes s-scary-fog{from{transform:translate(-24px,9px)}to{transform:translate(30px,-11px)}}
+.app[data-motion=on] .s-retro-vinyl{animation:s-retro-spin 24s linear infinite;transform-origin:0 0}
+.app[data-motion=on] .s-retro-reel{animation:s-retro-spin 13s linear infinite;transform-origin:0 0}
+.app[data-motion=on] .s-retro-scanbeam{animation:s-retro-scan 16s linear infinite}
+.app[data-motion=on] .s-retro-tape{animation:s-retro-tape 18s ease-in-out infinite alternate}
+.app[data-motion=on] .s-retro-floating-bars{animation:s-retro-bars 15s ease-in-out infinite alternate}
+@keyframes s-retro-spin{to{transform:rotate(360deg)}}
+@keyframes s-retro-scan{0%{transform:translateY(-20px);opacity:0}15%,80%{opacity:.6}100%{transform:translateY(155px);opacity:0}}
+@keyframes s-retro-tape{from{transform:translate(-7px,5px)}to{transform:translate(8px,-6px)}}
+@keyframes s-retro-bars{from{transform:translateX(-7px);opacity:.6}to{transform:translateX(8px);opacity:1}}
+.app[data-motion=on] .s-reactor-needle{animation:s-reactor-meter 12s ease-in-out infinite;transform-origin:0 0}
+.app[data-motion=on] .s-reactor-corelight{animation:s-reactor-light 10s ease-in-out infinite alternate}
+.app[data-motion=on] .s-reactor-coolant{animation:s-reactor-coolant 9s linear infinite}
+.app[data-motion=on] .s-reactor-bubble{animation:s-reactor-bubble 12s var(--s-phase,0s) ease-in-out infinite}
+.app[data-motion=on] .s-reactor-containment{animation:s-reactor-containment 17s linear infinite}
+.app[data-motion=on] .s-reactor-steam{animation:s-reactor-steam 26s ease-in-out infinite alternate}
+@keyframes s-reactor-meter{0%,100%{transform:rotate(-8deg)}28%{transform:rotate(4deg)}46%{transform:rotate(-2deg)}72%{transform:rotate(10deg)}}
+@keyframes s-reactor-light{from{opacity:.55}to{opacity:.95}}
+@keyframes s-reactor-coolant{to{stroke-dashoffset:-400}}
+@keyframes s-reactor-bubble{0%{transform:translateY(8px);opacity:0}25%,65%{opacity:.6}100%{transform:translateY(-48px);opacity:0}}
+@keyframes s-reactor-containment{to{stroke-dashoffset:-288}}
+@keyframes s-reactor-steam{from{transform:translate(-18px,10px)}to{transform:translate(23px,-9px)}}

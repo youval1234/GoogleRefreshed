@@ -82,8 +82,10 @@ const saved=worker=>worker.evaluate(async()=>(await chrome.storage.local.get('st
   });
   await check('With the setting on, new tabs open GoogleRefreshed',async()=>{
    await second.worker.evaluate(async()=>chrome.storage.local.set({stillSettings:{newTabHome:true,photoNewsMigrated:true}}));
+   const opened=second.context.waitForEvent('page');
    const id=await second.worker.evaluate(async()=>(await chrome.tabs.create({url:'chrome://newtab/'})).id);
-   for(let i=0;i<30&&!/google\.com/.test(await tabURL(id));i++)await new Promise(r=>setTimeout(r,100));
+   const tab=await opened;
+   await tab.waitForURL(/^https:\/\/www\.google\.com\//,{waitUntil:'domcontentloaded',timeout:15000});
    assert.match(await tabURL(id),/^https:\/\/www\.google\.com\//);
   });
   await check('Links opened in new tabs are not redirected',async()=>{

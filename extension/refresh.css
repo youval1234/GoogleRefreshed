@@ -1,3 +1,7 @@
+@import url("scene-nature.css");
+@import url("scene-worlds.css");
+@import url("scene-studio.css");
+@import url("scene-reef.css");
 :host{font-family:var(--gr-font,'GR Manrope'),'Segoe UI Variable','Segoe UI',sans-serif;font-synthesis:none}
 .brand{gap:11px;letter-spacing:-.65px;font-size:20px;font-weight:700}
 .brand-name{white-space:nowrap}.brand-name strong{font-weight:600;color:var(--accent)}
@@ -160,6 +164,7 @@ select option,select optgroup{background:var(--bg);color:var(--fg)}
 
 input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);border:1px solid var(--line);border-radius:7px;padding:6px 9px;margin-inline-end:10px;font:inherit;cursor:pointer}input[type=file]::file-selector-button:hover{background:var(--field)}
 .theme .theme-sample{background:linear-gradient(140deg,var(--sample),var(--sample-soft))!important}.theme .theme-sample::before,.theme .theme-sample::after{display:none}.theme-sample .theme-emblem{height:100%;display:grid;place-items:center;font:21px/1 Georgia,serif;color:var(--sample-fg);opacity:.8}
+.theme-tools{display:grid;gap:11px;margin:12px 0}.theme-tools label{display:block;font-size:11px;color:var(--muted)}.theme-tools input,.theme-tools select{display:block;width:100%;min-width:0;margin-top:7px;padding:11px 12px;background:var(--field);color:var(--fg);border:1px solid var(--line);border-radius:10px;font:inherit}.theme-tools input:focus-visible,.theme-tools select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}#theme-results{font-variant-numeric:tabular-nums;min-height:18px}.theme-category{padding:12px 0 5px;border-bottom:1px solid var(--line)}.theme:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.themes [hidden]{display:none!important}
 
 .art-storm-front{filter:blur(6px)}.art-storm-back{filter:blur(9px)}
 

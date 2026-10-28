@@ -65,7 +65,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
    assert.match(await page.locator('.app').evaluate(x=>getComputedStyle(x).fontFamily),/GR Outfit/);await page.getByRole('button',{name:'Close customization'}).click();await page.waitForTimeout(250);await home();assert.match(await page.locator('.app').evaluate(x=>getComputedStyle(x).fontFamily),/GR Outfit/);
  });
  await check('All themes and both appearance modes remain selectable',async()=>{
-   await page.getByRole('button',{name:'Customize',exact:true}).click();assert.equal(await page.locator('[data-theme-choice]').count(),38);
+   await page.getByRole('button',{name:'Customize',exact:true}).click();assert.equal(await page.locator('[data-theme-choice]').count(),50);
    for(const theme of await page.locator('[data-theme-choice]').all()){await theme.click();for(const appearance of ['light','dark']){await page.locator(`[data-appearance-choice=${appearance}]`).click();assert.equal(await page.locator('.app').getAttribute('data-appearance'),appearance);}}
    await page.getByRole('button',{name:'Aurora',exact:true}).click();await page.getByRole('button',{name:'Dark',exact:true}).click();await page.getByRole('combobox',{name:'Homepage font',exact:true}).selectOption('manrope');await page.getByRole('button',{name:'Close customization'}).click();
  });

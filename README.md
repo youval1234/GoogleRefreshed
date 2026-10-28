@@ -2,12 +2,13 @@
 
 A customizable Google homepage and matching Google results theme for Brave and Chromium.
 
-![GoogleRefreshed Code dashboard](docs/v152/code-dark.png)
+![GoogleRefreshed Black Hole dashboard](docs/v160/blackhole-dark.png)
 
 ## What it adds
 
-- **38 rebuilt themed scenes**, including Fire, Magma, Storm, Sakura, City Skyline, Rainbow, Lunar, Nature, Math, Library, Office, Science, Code, and seasonal worlds. Each scene uses original vector artwork and theme-specific motion. Rain, snow, petals, leaves, and embers have independently distributed positions and timing.
-- **18 newly redesigned worlds**: Code, Lunar, Magma, Fantasy, Math, Rainbow, Sage, Solar, Autumn, Midnight, Mystic, Magical, Noir, Sunset, Scary, Summer, Science and City Skyline. Each has its own artwork, palette and motion. [View the light/dark previews](docs/v152).
+- **50 original themed worlds** with light/dark palettes and unique animation. New: Snow, Black Hole, Coral Reef, Hawaii, Aztec, Desert, Cave, Emerald, Retro, Radioactive, Shadow and Fjord.
+- **12 detailed scene rebuilds**: Ocean, Spring, Midnight, Cosmic, Amber, Ice, Colorful, Sunset, Library, Office, Science and Scary. [View the light/dark gallery](docs/v160).
+- A searchable theme picker with **nine curated collections**, collection filtering and clear empty results.
 - Independent light/dark/system appearance (System by default, following the OS), custom accents, and a local background photo.
 - **12 font choices**: bundled Manrope, Inter, Outfit, Roboto, DM Sans, Space Grotesk, and Lora; plus classic Google-style Arial, the original Georgia homepage heading font, System UI, Verdana, and Trebuchet MS. Font files load locally only when selected.
 - Google-style suggestions with entity photos when Google supplies them and keyboard navigation. The search-bar image button opens a themed reverse-image dialog: upload an image or paste an image link to search with Google Lens. The Images tab retains normal text-based image search.
@@ -51,7 +52,7 @@ API references: [extension storage and quotas](https://developer.chrome.com/docs
 
 The extension automatically keeps its palette on Google home and result pages. Brave's native toolbar and tabs use a separate Chromium theme. GoogleRefreshed does not change those colors directly: its matching themes are separate packages. The management API can enable already-installed themes with additional permission, but Brave's removal of inactive themes prevents the reliable full-library switcher tested here. This extension does not request that permission.
 
-Use **Download matching browser theme** in Customize, save its manifest.json in a separate folder, and load that folder at brave://extensions. Alternatively, download the browser-themes ZIP from Releases and load one of its 76 light/dark theme folders. This is a manual companion theme. To remove it, open **brave://settings/appearance → Theme → Reset to default**. Disabling GoogleRefreshed does not automatically remove an installed companion theme. Other websites retain their own styles.
+Use **Download matching browser theme** in Customize, save its manifest.json in a separate folder, and load that folder at brave://extensions. Alternatively, download the browser-themes ZIP from Releases and load one of its 100 light/dark theme folders. This is a manual companion theme. To remove it, open **brave://settings/appearance → Theme → Reset to default**. Disabling GoogleRefreshed does not automatically remove an installed companion theme. Other websites retain their own styles.
 
 ## Privacy
 
@@ -88,3 +89,7 @@ Preview: http://127.0.0.1:4177/preview.html. It uses its own localStorage, a loo
 Tests use fresh isolated Brave profiles and synthetic feed/hardware fixtures. Set BRAVE_PATH to override the default Windows Brave executable; PLAYWRIGHT_MODULE can point to an existing Playwright installation. test:live makes actual provider requests, including approximate location, but does not record the detected city, coordinates, raw IP, or headlines. Demo screenshots use neutral fixtures.
 
 The release packager uses an explicit runtime-file allowlist. Browser profiles, settings exports, environment files, signing keys, generated packages, and local development helpers are excluded from Git. Never commit credentials or personal test data.
+
+## License
+
+Original code and theme artwork are available under the [MIT license](LICENSE). Bundled fonts and third-party service assets retain their own notices; see [NOTICE.md](NOTICE.md).
