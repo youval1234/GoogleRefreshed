@@ -174,36 +174,148 @@
     placed(132,326,group('w-cave-drop',path('M0 0Q-7 10 0 12Q7 10 0 0Z',g,'opacity=".7"')))+
     placed(1509,368,group('w-cave-drop w-cave-drop-second',path('M0 0Q-5 9 0 10Q5 9 0 0Z',g,'opacity=".7"')));
 
-  const aztec=()=>`<defs><linearGradient id="w-aztec-stone" x2="1" y2="1"><stop stop-color="${g}"/><stop offset="1" stop-color="${a}"/></linearGradient>
-    <radialGradient id="w-aztec-light"><stop stop-color="#d5b075" stop-opacity=".22"/><stop offset="1" stop-color="#d5b075" stop-opacity="0"/></radialGradient></defs>`+
-    circle(1460,723,380,'url(#w-aztec-light)')+
-    group('w-aztec-far-terrace',path('M1080 1000 1230 873H1310V833H1388V790H1460V836H1520V891H1600V1000Z',a,'opacity=".1"'))+
-    placed(1448,941,group('w-aztec-temple',
-      Array.from({length:6},(_,i)=>{const y=-i*39,w=176-i*15;return path(`M${-w} ${y}H${w}L${w-11} ${y-35}H${-w+11}Z`,'url(#w-aztec-stone)',`opacity="${.45+i*.035}"`)+line(`M${-w} ${y}H${w}`,f,1,.18)+line(`M${w-11} ${y-35}v35`,b,2,.17);}).join('')+
-      path('M-30 0-20-235H20L30 0Z',b,'opacity=".25"')+
-      Array.from({length:17},(_,i)=>line(`M${-29+i*.5} ${-i*13.5}H${29-i*.5}`,g,1,.45)).join('')+
-      path('M-104-234H104V-247H-104ZM-93-247V-311H-25V-247ZM25-247V-311H93V-247Z','url(#w-aztec-stone)','opacity=".75"')+
-      path('M-100-311H-85V-324H-66V-336H-48V-324H-30V-311H-19V-301H-100ZM19-311H30V-324H48V-336H66V-324H85V-311H100V-301H19Z',a,'opacity=".7"')+
-      rect(-72,-289,31,42,b,'opacity=".45"')+rect(41,-289,31,42,b,'opacity=".45"')+
-      line('M-91-256H-26M27-256H90M-88-295H-30M29-295H87',f,1,.25)+
-      line('M-143-20h21m-66-36h25m-11-78h30m5-39h30m195 153h27m-34-78h27m-39-78h20',a,1,.35)+
-      [-118,118].map(x=>placed(x,5,line('M0 0V-49M-12 0H12',a,4,.7)+
-        group('w-aztec-flame',path('M-8-49Q-18-61-3-80Q0-69 7-84Q19-62 8-49Z','#d9af72','opacity=".7"')+
-          path('M-3-49Q-9-58 2-70Q10-59 4-49Z','#f1d3a2','opacity=".8"')))).join('')+
-      line('M-190 15H190M-204 26H204',a,2,.4)
-    ))+
-    placed(99,537,group('w-aztec-stela',
-      path('M-59 130-64-121-48-159H48L63-121 58 130Z','url(#w-aztec-stone)','opacity=".52"')+
-      line('M-49 113-51-118-40-145H39L51-117 48 114Z',f,1,.2)+
-      circle(0,-51,40,'none',`stroke="${a}" stroke-width="3" opacity=".65"`)+circle(0,-51,26,'none',`stroke="${g}" stroke-width="2" opacity=".55"`)+
-      Array.from({length:8},(_,i)=>placed(0,-51,path('M-4-41 0-54 4-41Z',a,'opacity=".6"'),i*45)).join('')+
-      path('M0-70 15-51 0-32-15-51Z',g,'opacity=".5"')+
-      line('M-31 8H-8V31H8V8H31V53H8V76H-8V53H-31Z',a,3,.55)+
-      line('M-34 102H34M-29 91H29',f,1,.18)
-    ),-4)+
-    group('w-aztec-agave',path('M90 1000Q21 894-45 885Q30 872 92 971Q23 817 39 778Q104 860 105 963Q113 846 157 809Q144 904 116 972Q171 897 219 891Q182 960 125 1000Z',g,'opacity=".42"')+
-      line('M90 1000Q55 914 39 816M105 1000Q125 909 150 844M111 1000Q174 933 200 909',a,1,.5))+
-    group('w-aztec-pollen',[[71,273],[238,714],[1333,416],[1540,479],[1465,661],[91,829]].map(([x,y],i)=>circle(x,y,1.5,'#d0b786',`class="w-aztec-mote" style="--w-phase:-${i*2.1}s" opacity=".45"`)).join(''));
+  // Original interpretation of a Mexica precinct: double stairs, twin shrines,
+  // painted serpent balustrades and carved stone, rather than invented writing.
+  const aztec=()=>{
+    const stone='url(#w-a2-stone)',darkStone='url(#w-a2-shadow)',gold='#d2aa6b',ochre='#b66c3e',blue='#4a8f95',ink='#34342e';
+    const radial=(r,n,start=0)=>Array.from({length:n},(_,i)=>
+      path(`M-3 ${-r+10}Q-8 ${-r+1} 0 ${-r-7}Q8 ${-r+1} 3 ${-r+10}Z`,gold,`opacity=".58" transform="rotate(${start+i*360/n})"`)+
+      line(`M0 ${-r-3}V${-r+8}`,ink,.7,.55,`transform="rotate(${start+i*360/n})"`)).join('');
+    const masonry=(x,y,w,h,rows,cols,opacity=.3)=>{
+      const dy=h/rows,dx=w/cols;let d='';
+      for(let row=0;row<rows;row++){const yy=y+row*dy;d+=`M${x} ${yy.toFixed(1)}H${x+w}`;
+        for(let col=0;col<cols;col++){const xx=x+(col+(row%2?.4:0))*dx;if(xx<x+w-4)d+=`M${xx.toFixed(1)} ${yy.toFixed(1)}v${dy.toFixed(1)}`;}}
+      return line(d,b,.8,opacity);
+    };
+    const reliefPanel=(x,y,s,paint)=>placed(x,y,
+      rect(-21,-21,42,42,b,'rx="2" opacity=".16"')+
+      line('M-18 16V-15H15V-4H-5V6H15V17H-17M-10-7H6M-10 0V10',paint,2,.7)+
+      path('M-21-21-15-23H17L21-18V20H-18Z','none',`stroke="${f}" stroke-width=".7" opacity=".22"`),0,s);
+    const serpent=(x,y,s,paint,flip=1)=>placed(x,y,`<g transform="scale(${flip} 1)">`+
+      path('M-38 9Q-49-1-45-18L-33-33-10-38 15-30 30-9 54-2 59 13 38 29-7 25-27 18Z',stone,`stroke="${ink}" stroke-width="1.2" stroke-opacity=".6"`)+
+      path('M-39-16-28-28-9-30 14-24 24-10-5-9-13 3-31-1Z',paint,'opacity=".63"')+
+      path('M-36 7-8 14 35 13 50 6 52 15 35 22-10 20Z',b,'opacity=".48"')+
+      path('M-5-7 4 5 13-5 19 7 25 0 29 11H-4Z',gold,'opacity=".8"')+
+      ellipse(-16,-17,8,6,ink,'opacity=".65"')+circle(-17,-18,2.8,gold,'opacity=".8"')+
+      path('M-31-36-39-46-37-25M-15-37-14-49-3-35M5-30 16-42 16-22',paint,'opacity=".7"')+
+      line('M-32-8-25-14M-32 3-21 6M9-16l10 3M38 3l8 1',gold,.8,.5)+
+      line('M-21 28-19 38-10 39M-6 27-3 39 4 38',paint,2,.65)+
+      '</g>',0,s);
+    const torch=(x,y,s,i)=>placed(x,y,
+      ellipse(0,11,34,8,b,'opacity=".2"')+
+      path('M-19 5-15-32H15L20 5Z',stone,`stroke="${ink}" stroke-width="1" stroke-opacity=".45"`)+
+      path('M-25-35H25L19-18H-19Z',darkStone)+ellipse(0,-35,26,7,stone)+ellipse(0,-35,19,4,b,'opacity=".6"')+
+      line('M-12-5H12M-11-13H11M-7-28v7m14-7v7',gold,1,.65)+
+      group('w-a2-fire',path('M-15-37C-30-54-6-58-10-86C8-75 2-63 12-72C9-58 27-50 15-37Z','#d37d3c','opacity=".8"')+
+        path('M-7-37C-18-50 0-59 0-70C14-56 17-44 6-37Z','#f7cf7c','opacity=".9"'),`style="--w-a2-phase:-${i*1.9}s"`)+
+      group('w-a2-heat-pool',ellipse(0,-37,57,49,'url(#w-a2-fireglow)'))+
+      [0,1].map(n=>group('w-a2-incense',line(`M${-5+n*9}-83C${-17+n*12}-111 ${13-n*4}-118 ${n*6}-145S${-21+n*20}-178 ${-2+n*8}-196`,f,1.5,.2),`style="--w-a2-phase:-${i*4.3+n*5}s"`)).join(''),0,s);
+    const agave=(x,y,s,i)=>placed(x,y,group('w-a2-agave',
+      [-66,-44,-23,0,21,43,63].map((angle,j)=>placed(0,0,
+        path(`M0 0Q${-11+j} -35 ${-3+j%3} ${-102-j%3*15}Q${14-j} -37 0 0Z`,j%2?blue:g,'opacity=".65"')+
+        line(`M0 0Q${j-3} -45 ${-3+j%3} ${-93-j%3*15}`,f,.7,.28),angle)).join('')+
+      path('M-18 0Q0-14 18 0Z',darkStone),`style="--w-a2-phase:-${i*3.4}s"`),0,s);
+    const terrace=(i)=>{
+      const yy=879-i*58,left=1234+i*26,right=1510-i*17,depth=91-i*8,top=yy-58;
+      return path(`M${left} ${yy}H${right}V${top}H${left+20}Z`,stone)+
+        path(`M${right} ${yy}L${right+depth} ${yy-31}V${top-31}L${right} ${top}Z`,darkStone)+
+        path(`M${left+20} ${top}H${right}L${right+depth} ${top-31}H${left+58}Z`,g,'opacity=".52"')+
+        path(`M${left-5} ${yy}H${right+4}V${yy+8}H${left-9}Z`,a,'opacity=".75"')+
+        line(`M${left} ${yy-2}H${right}M${left+20} ${top}H${right}L${right+depth} ${top-31}`,gold,1,.6)+
+        masonry(left+22,top+7,right-left-26,36,2,8,.28)+
+        line(`M${right+28} ${top-8}V${yy-8}m27-47v36M${right} ${top+22}l${depth} -28`,b,.8,.26)+
+        path(`M${left+29} ${yy-3}l11-4 5 4m${67+i*9} -41l8 5-3 8m73 20l10-4 7 5`,'none',`stroke="${b}" stroke-opacity=".25" stroke-width="1.4"`)+
+        path(`M${left+31} ${top+14}h23v9h-23ZM${left+93} ${top+34}h31v9h-31ZM${right-51} ${top+12}h18v8h-18Z`,gold,`opacity="${.08+i*.02}"`);
+    };
+    const shrine=(x,paint)=>placed(x,633,
+      path('M-51 0V-91H43L62-105V-13L43 0Z',stone,`stroke="${ink}" stroke-width="1" stroke-opacity=".35"`)+
+      path('M43-91 62-105V-13L43 0Z',darkStone)+
+      path('M-56-93H47V-105H-56ZM-53-105V-118H-35V-131H-17V-143H0V-131H17V-118H35V-105Z',paint,'opacity=".9"')+
+      path('M47-93 68-106V-118L47-105Z',ink,'opacity=".7"')+
+      rect(-23,-77,43,71,ink,'opacity=".83"')+rect(-28,-80,8,76,paint,'opacity=".8"')+
+      rect(20,-80,7,76,paint,'opacity=".8"')+line('M-26-81H24M-41-20V-68M35-20V-68',gold,1,.65)+
+      path('M-17-8V-69H-6V-8Z',gold,'opacity=".1"')+
+      reliefPanel(-41,-43,.31,paint)+reliefPanel(35,-43,.31,paint)+
+      line('M-51-85H43M-51-15H43M49-81l8-5v57M-31-103h61',f,.8,.2)+
+      rect(-7,-126,10,8,gold,'opacity=".6"')+
+      path('M-45-19-37-25-31-20M31-5l7-6 5 4','none',`stroke="${b}" stroke-opacity=".25" stroke-width="1"`));
+    const stairs=()=>{
+      let out=path('M1301 884 1342 636H1443L1482 884Z',darkStone);
+      for(let i=0;i<26;i++){const t=i/26,y=880-i*9.4,l=1303+t*40,r=1480-t*38;
+        out+=path(`M${l} ${y}H${r}V${y-4}H${l+.6}Z`,stone,'opacity=".87"')+
+          line(`M${l} ${y-4}H${r}`,gold,.8,.55);}
+      return out+path('M1291 885 1335 637H1345L1310 885ZM1382 885 1390 637H1403L1408 885ZM1472 885 1437 637H1448L1494 885Z',g,'opacity=".8"')+
+        line('M1293 884 1338 639M1385 884 1394 639M1476 884 1440 639',f,1,.35)+
+        line('M1300 859 1341 645M1395 858V645M1484 858 1443 645',blue,2.2,.48);
+    };
+    const relief=()=>placed(98,431,
+      ellipse(4,10,145,150,b,'opacity=".25"')+circle(0,0,139,darkStone,`stroke="${ink}" stroke-width="3"`)+
+      circle(0,0,132,stone)+circle(0,0,124,'none',`stroke="${gold}" stroke-width="2" opacity=".6"`)+
+      circle(0,0,114,'none',`stroke="${b}" stroke-width="11" opacity=".24"`)+radial(116,24)+
+      circle(0,0,98,'none',`stroke="${gold}" stroke-width="1.5" opacity=".55"`)+
+      Array.from({length:12},(_,i)=>
+        path('M-18-83-16-97H14L19-82 10-74H-10Z',i%3?ochre:blue,`opacity=".6" transform="rotate(${i*30})"`)+
+        line('M-10-83v-8H6v7H-1v5',gold,1.3,.7,`transform="rotate(${i*30})"`)).join('')+
+      circle(0,0,68,darkStone)+circle(0,0,61,'none',`stroke="${gold}" stroke-width="2" opacity=".5"`)+
+      path('M-27-31Q-42-10-24 18L-32 34-12 42 0 34 12 42 32 34 24 18Q42-10 27-31L12-42 0-32-12-42Z',stone)+
+      path('M-27-31-14-37-5-29-15-25-29-15-27 2-16 8-19 20-10 29-16 37-28 32-21 24-31 11-36-7ZM29-22 35-7 28 10 20 17 15 7 23 1 25-13ZM-3-5H3L8 7-7 9Z',ink,'opacity=".38"')+
+      path('M-12-37 0-27 12-37 22-31 8-27 0-20-8-27ZM-25 11-16 15-15 21-24 18ZM25 11 16 15 15 21 24 18ZM0-8 3 3-1 6Z',gold,'opacity=".7"')+
+      path('M-30-17-8-24-5-13-22-9ZM30-17 8-24 5-13 22-9Z',ink,'opacity=".8"')+
+      circle(-16,-15,3,gold)+circle(16,-15,3,gold)+
+      path('M-5-9-10 9H10L5-9M-24 21H24L18 32H-18Z',ochre,'opacity=".7"')+
+      path('M-32-2-24 1-20 11-8 16M32-2 24 1 20 11 8 16M-19-30-6-35 0-28 6-35 19-30',gold,'fill-opacity="0" stroke="#d2aa6b" stroke-width="1.2" opacity=".65"')+
+      line('M-19 24H19M-10 23V31M0 23V32M10 23V31',gold,1,.7)+
+      line('M-32-19Q-20-29-7-23M32-19Q20-29 7-23M-24 36l10 2 13-7m25 5-10 2-13-7M-54-2h7m-5 9h5M47-2h7m-7 9h5',gold,.8,.65)+
+      [-1,1].map(side=>placed(side*43,0,path('M-5-9H7V9H-5Z',blue)+circle(1,0,4,'none',`stroke="${gold}" stroke-width="1"`))).join('')+
+      line('M-91-97-85-78M98 83 87 74M-113 63-99 54M46-122 40-110',b,1.5,.5)+
+      line('M-102-87-86-76M88-95 78-83M-7 121-2 108',f,.8,.25),-7);
+    return `<defs>
+      <linearGradient id="w-a2-stone" x2=".8" y2="1"><stop stop-color="#c1ab80"/><stop offset=".45" stop-color="#a28c67"/><stop offset="1" stop-color="#76684f"/></linearGradient>
+      <linearGradient id="w-a2-shadow" x2="1" y2="1"><stop stop-color="#68614e"/><stop offset="1" stop-color="#343b36"/></linearGradient>
+      <radialGradient id="w-a2-fireglow"><stop stop-color="#efb16a" stop-opacity=".32"/><stop offset=".5" stop-color="#b66c3e" stop-opacity=".1"/><stop offset="1" stop-color="#b66c3e" stop-opacity="0"/></radialGradient>
+      <linearGradient id="w-a2-lake" x2="0" y2="1"><stop stop-color="${blue}" stop-opacity=".08"/><stop offset="1" stop-color="${blue}" stop-opacity=".3"/></linearGradient>
+      <radialGradient id="w-a2-haze"><stop stop-color="${g}" stop-opacity=".24"/><stop offset="1" stop-color="${g}" stop-opacity="0"/></radialGradient>
+      </defs>`+
+      circle(1440,287,300,'url(#w-a2-haze)')+
+      circle(1450,199,49,gold,'opacity=".4"')+circle(1450,199,60,'none',`stroke="${gold}" stroke-width=".8" opacity=".22"`)+
+      path('M1106 644 1178 536 1233 507 1261 461 1314 453 1356 399 1392 386 1452 279 1480 326 1500 340 1537 412 1600 372V900H1106Z',a,'opacity=".14"')+
+      path('M1392 386 1452 279 1480 326 1500 340 1484 346 1469 329 1457 348 1444 330 1426 357 1412 354Z',f,'opacity=".19"')+
+      line('M1447 357 1420 426 1395 445 1376 490M1479 368l24 67 37 24M1270 486l28 29 41-43',b,1.2,.12)+
+      group('w-a2-clouds',path('M1139 337Q1192 318 1228 337T1322 332Q1361 321 1390 333M1391 418Q1456 391 1512 407T1662 392','none',`stroke="${g}" stroke-width="6" stroke-opacity=".15" stroke-linecap="round"`))+
+      path('M0 882 150 832 239 850 308 894M1107 902 1280 850 1436 867 1600 833V1000H0Z',a,'opacity=".11"')+
+      path('M0 935Q200 909 375 939T800 962T1260 927T1600 942V1000H0Z','url(#w-a2-lake)')+
+      group('w-a2-water',line('M24 954h111m13 7h106m913-5h132m42 17h101m45-22h83M-24 979H84m82 9h155m1006-5h202',gold,1.3,.25)+
+        line('M35 965h64m59 10h113m1003-9h101m85 24h111',blue,2,.3))+
+      // Weathered jamb and low stone enclosure frame the relief without covering the UI.
+      group('w-a2-left-wall',path('M0 214H193L219 237 205 277H187V760H0Z',darkStone,'opacity=".65"')+
+        path('M0 224H193V255H0ZM0 737H205V766H0Z',stone,'opacity=".75"')+
+        rect(0,260,182,472,stone,'opacity=".38"')+masonry(0,263,182,466,13,4,.3)+
+        path('M177 267H192V724H176Z',b,'opacity=".3"')+
+        line('M0 251H191M0 736H205M165 271V724',gold,1,.48)+
+        rect(0,654,179,54,darkStone,'opacity=".8"')+
+        [14,58,102,146].map((x,i)=>reliefPanel(x,681,.74,i%2?blue:ochre)).join('')+
+        path('M8 230l12 8 17-6 10 8m114 477-12-8-12 6m29-417-10 8 5 12','none',`stroke="${b}" stroke-opacity=".3" stroke-width="1.3"`))+
+      relief()+
+      // Four substantial bodies with top and side faces, not a flat tier silhouette.
+      group('w-a2-temple',Array.from({length:4},(_,i)=>terrace(i)).join('')+
+        path('M1304 634H1462L1530 609H1366Z',stone)+
+        path('M1301 632H1467V646H1301Z',a,'opacity=".9"')+
+        shrine(1359,blue)+shrine(1444,ochre)+
+        [0,1,2,3,4].map((i)=>reliefPanel(1284+i*52,851,.55,i%2?blue:ochre)).join('')+
+        stairs()+
+        path('M1220 901H1517L1620 860V880L1520 924H1210Z',darkStone)+
+        path('M1218 898H1520L1620 858H1248Z',stone)+
+        line('M1218 898H1520L1620 858M1210 923H1520',gold,1.2,.65)+
+        masonry(1233,905,276,16,1,10,.4)+
+        [0,1,2].map(i=>serpent(1302+i*92,880,.68,i===0?blue:ochre,i===2?-1:1)).join(''))+
+      // A paved causeway sits below the reading area. Etched seams carry perspective.
+      path('M0 1000 277 893H364L205 1000ZM1024 1000 1256 922H1539L1600 1000Z',stone,'opacity=".36"')+
+      line('M0 986 263 899M35 1000 300 896M95 1000 331 896M0 948h211m-163 25h99M1045 994H1599M1108 974H1570M1165 954H1541M1263 924l-76 76m115-76-27 76m67-76 30 76m13-76 92 76',b,1,.4)+
+      torch(217,873,.86,0)+torch(1273,918,.66,1)+torch(1553,861,.62,2)+
+      agave(62,986,.92,0)+agave(167,1004,.65,1)+agave(1545,1020,.69,2)+
+      group('w-a2-birds',line('M1178 237q8-9 16 0q9-9 17 0M1218 248q5-6 10 0q5-6 10 0',f,1.2,.4))+
+      [[205,759],[231,804],[1322,773],[1562,745],[1307,814],[214,683]].map(([x,y],i)=>circle(x,y,.9+i%2,gold,`class="w-a2-ember" opacity=".5" style="--w-a2-phase:-${i*2.7}s"`)).join('');
+  };
 
   const shadow=()=>`<defs><linearGradient id="w-shadow-wall" x2="1" y2=".5"><stop stop-color="${g}" stop-opacity=".24"/><stop offset="1" stop-color="${a}" stop-opacity=".08"/></linearGradient>
     <linearGradient id="w-shadow-beam" x2=".4" y2="1"><stop stop-color="${f}" stop-opacity=".13"/><stop offset="1" stop-color="${f}" stop-opacity="0"/></linearGradient>

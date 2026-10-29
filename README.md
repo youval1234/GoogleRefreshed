@@ -7,6 +7,7 @@ A customizable Google homepage and matching Google results theme for Brave and C
 ## What it adds
 
 - **52 original themed worlds** with light/dark palettes and unique animation. New: **Le Rouge**, an organic horror department store with ivory sculpture, sinewy crimson fabric and dramatic spotlights; and **Fashion**, a refined couture atelier with tailored garments, pleated fabric and a mood board. [Preview both themes](docs/v161).
+- **Rebuilt Aztec scenery** with deeper architecture, carved stonework, painted details and independent fire, incense, water and breeze effects. [View the redesign](docs/v162).
 - **12 detailed scene rebuilds**: Ocean, Spring, Midnight, Cosmic, Amber, Ice, Colorful, Sunset, Library, Office, Science and Scary. [View the light/dark gallery](docs/v160).
 - A searchable theme picker with **nine curated collections**, collection filtering and clear empty results.
 - An optional first-run name prompt with skip support. Your display name stays local and can be changed in Customize. Greetings follow the local clock, including “Still up” overnight and “Enjoy your night” late in the evening. English greetings and RTL names keep their correct reading order.

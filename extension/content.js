@@ -64,7 +64,7 @@
     if (themes.some(t=>t.id===input.theme)){s.theme=input.theme;s.accent=themeById(input.theme).accent;}
     if (['light','dark','system'].includes(input.appearance)) s.appearance=input.appearance;
     else if(input.theme==='midnight')s.appearance='dark';
-    if (/^#[0-9a-f]{6}$/i.test(input.accent)) s.accent = input.accent;
+    if (/^#[0-9a-f]{6}$/i.test(input.accent)&&!(s.theme==='aztec'&&input.accent.toLowerCase()==='#8c9a70')) s.accent = input.accent;
     for (const key of ['clock', 'focus', 'shortcutsVisible', 'hour24', 'newTab', 'newTabHome', 'compact','animations','weatherEnabled','newsEnabled','autoLocation','localNews','newsLanguageAuto','suggestions','colorfulWeather','newsImages','suggestionImages','resultsTheme']) if (typeof input[key] === 'boolean') s[key] = input[key];
     if(['hardware','note'].includes(input.homeCard))s.homeCard=input.homeCard;
     if(['google','bing','bbc','guardian'].includes(input.newsSource))s.newsSource=input.newsSource;
@@ -101,7 +101,7 @@
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
   let saveWaiters = [];
   const repoURL = 'https://github.com/youval1234/GoogleRefreshed';
-  const version = preview ? '1.6.1' : chrome.runtime.getManifest().version;
+  const version = preview ? '1.6.2' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();

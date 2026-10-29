@@ -29,9 +29,6 @@
 .app[data-motion=on] .w-cave-drop{animation:w-cave-drip 11s ease-in infinite}
 .app[data-motion=on] .w-cave-drop-second{animation-duration:15s;animation-delay:-6s}
 .app[data-motion=on] .w-cave-reflections{animation:w-cave-ripple 9s ease-in-out infinite alternate;transform-origin:0 0}
-.app[data-motion=on] .w-aztec-flame{animation:w-ceremonial-flame 6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center bottom}
-.app[data-motion=on] .w-aztec-agave{animation:w-agave-breeze 15s ease-in-out infinite alternate;transform-origin:90px 1000px}
-.app[data-motion=on] .w-aztec-mote{animation:w-gold-pollen 17s var(--w-phase,0s) ease-in-out infinite alternate}
 .app[data-motion=on] .w-shadow-windowlight{animation:w-shadow-light 21s ease-in-out infinite alternate}
 .app[data-motion=on] .w-shadow-mobile{animation:w-shadow-pendulum 18s ease-in-out infinite alternate;transform-origin:0 0}
 .app[data-motion=on] .w-shadow-mobile-cast{animation:w-shadow-cast 18s ease-in-out infinite alternate;transform-origin:1400px 945px}
@@ -62,10 +59,27 @@
 @keyframes w-cave-life{from{opacity:.55}to{opacity:1}}
 @keyframes w-cave-drip{0%,60%,100%{opacity:0;transform:translateY(0) scaleY(.9)}62%{opacity:.7;transform:translateY(0) scaleY(1)}76%{opacity:.7;transform:translateY(110px) scaleY(1.35)}79%{opacity:0;transform:translateY(140px) scaleY(1)}}
 @keyframes w-cave-ripple{from{transform:scaleX(.85);opacity:.5}to{transform:scaleX(1.08);opacity:1}}
-@keyframes w-ceremonial-flame{from{transform:scale(.9,.88) skewX(-4deg);opacity:.6}to{transform:scale(1.05,1.1) skewX(4deg);opacity:1}}
-@keyframes w-agave-breeze{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
-@keyframes w-gold-pollen{from{transform:translate(-10px,13px);opacity:.2}to{transform:translate(14px,-21px);opacity:.6}}
 @keyframes w-shadow-light{from{transform:translateX(-10px);opacity:.6}to{transform:translateX(14px);opacity:1}}
 @keyframes w-shadow-pendulum{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
 @keyframes w-shadow-cast{from{transform:translateX(-15px) skewX(-3deg)}to{transform:translateX(15px) skewX(3deg)}}
 @keyframes w-shadow-orb-light{from{opacity:.72}to{opacity:1}}
+
+/* The Aztec precinct stays solid; fire, incense, water and vegetation provide motion. */
+.app[data-motion=on] .w-a2-fire{animation:w-a2-fire 5s var(--w-a2-phase,0s) ease-in-out infinite alternate;transform-origin:0 -35px}
+.app[data-motion=on] .w-a2-heat-pool{animation:w-a2-warmth 9s ease-in-out infinite alternate}
+.app[data-motion=on] .w-a2-incense{animation:w-a2-incense 17s var(--w-a2-phase,0s) ease-in-out infinite}
+.app[data-motion=on] .w-a2-agave{animation:w-a2-agave 14s var(--w-a2-phase,0s) ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .w-a2-water{animation:w-a2-water 14s ease-in-out infinite alternate}
+.app[data-motion=on] .w-a2-clouds{animation:w-a2-clouds 31s ease-in-out infinite alternate}
+.app[data-motion=on] .w-a2-birds{animation:w-a2-birds 42s linear infinite}
+.app[data-motion=on] .w-a2-ember{animation:w-a2-ember 12s var(--w-a2-phase,0s) ease-in-out infinite}
+@keyframes w-a2-fire{from{transform:scale(.95,.88) skewX(-4deg);opacity:.7}to{transform:scale(1.04,1.09) skewX(3deg);opacity:1}}
+@keyframes w-a2-warmth{from{opacity:.45;transform:scale(.9)}to{opacity:.9;transform:scale(1.08)}}
+@keyframes w-a2-incense{0%{transform:translate(0,15px) scale(.9, .84);opacity:0}25%{opacity:.6}65%{opacity:.34}100%{transform:translate(7px,-26px) scale(1.12,1.12);opacity:0}}
+@keyframes w-a2-agave{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
+@keyframes w-a2-water{from{transform:translateX(-8px);opacity:.5}to{transform:translateX(9px);opacity:.9}}
+@keyframes w-a2-clouds{from{transform:translateX(-15px);opacity:.5}to{transform:translateX(19px);opacity:.9}}
+@keyframes w-a2-birds{0%{transform:translate(0,0);opacity:0}12%,72%{opacity:.65}100%{transform:translate(180px,-16px);opacity:0}}
+@keyframes w-a2-ember{0%,100%{transform:translate(0,7px);opacity:0}30%{opacity:.6}80%{transform:translate(6px,-28px);opacity:0}}
+/* Keep the temple's proportions on narrow screens and crop toward its facade. */
+@media(max-width:650px){.app[data-theme=aztec] .theme-art>svg{position:absolute;right:0;width:160dvh;max-width:none}}

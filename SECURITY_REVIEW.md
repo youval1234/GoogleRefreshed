@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-29 for GoogleRefreshed v1.6.1.
+Reviewed on 2026-10-29 for GoogleRefreshed v1.6.2.
 
 ## Scope
 
@@ -62,3 +62,7 @@ MIT LICENSE and third-party NOTICE.md are included in source and both ZIPs. Font
 The optional welcome form stores the display name and completion flag in local extension settings. Both fields remain outside the browser-sync whitelist. Saving, skipping and Escape complete the prompt once; updates preserve established settings, and resetting preferences does not reopen onboarding. Names are rendered as plain text in a bidirectional isolation element, with invisible direction controls removed from the displayed value. Greetings use local hours without additional requests or timers.
 
 Le Rouge and Fashion add two bundled SVG/CSS packs, bringing the catalog to 52 themes. Artwork is original vector geometry inspired by the requested themes; reference images are not packaged. Only the selected scene mounts. Animation off, reduced motion, hidden-page pause and Vivid/Subtle controls remain supported. No permissions, providers or dependencies were added. Release screenshots use synthetic hardware with no real name or location. Source, reachable history, image metadata and packaged ZIPs are scanned before publication.
+
+## v1.6.2 Aztec redesign
+
+Aztec's original SVG geometry and CSS motion were replaced within the existing scene pack. The revised palette recognizes its previous default accent and preserves other custom colors. No permission, provider, dependency, background task or animation timer was added. The selected-scene node/animation limits, reduced-motion setting and hidden-page pause remain enforced by validation. Documentation screenshots use synthetic hardware and no personal name or location. Current source, new preview metadata and packaged ZIPs are checked for secret/private-file candidates; the unchanged historical baseline was scanned for v1.6.1.
