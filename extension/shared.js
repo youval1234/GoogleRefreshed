@@ -43,10 +43,12 @@
     {"id":"magical","name":"Magical","group":"Fantasy & Mystery","world":"magic","accent":"#aa8243","light":["#faf3e6","#4b3b34","#917d62","#e4d4b8","#f0e3cc","#d5b77e"],"dark":["#241d30","#fff0d8","#cfb99a","#57435c","#3a2b40","#d0a363"]},
     {"id":"fantasy","name":"Fantasy","group":"Fantasy & Mystery","world":"fantasy","accent":"#7b6aaf","light":["#f0eff7","#3a3557","#7c7598","#d2cbe5","#e3def0","#b7c9ce"],"dark":["#131b2b","#f1ecff","#b2afcf","#424964","#252d46","#88acb4"]},
     {"id":"scary","name":"Scary","group":"Fantasy & Mystery","world":"scary","accent":"#a97876","light":["#eee8e6","#4c393e","#8d7779","#d8c7ca","#e6d6d7","#b99b9f"],"dark":["#191c24","#f0e5e2","#baa4a7","#4e414e","#2f2935","#947481"]},
+    {"id":"lerouge","name":"Le Rouge","group":"Fantasy & Mystery","world":"lerouge","accent":"#bd4549","light":["#edddd3","#4c282a","#94716b","#d8b3aa","#e2c7bb","#bc6970"],"dark":["#160b0d","#f6e4d1","#c09b96","#5c2c31","#2a121a","#a52d37"]},
     {"id":"shadow","name":"Shadow","world":"shadow","accent":"#7d879b","light":["#efeff2","#3a3f4c","#7c8292","#d0d2dc","#e1e2e9","#b2b9c9"],"dark":["#191e2b","#ecedf5","#adb4c6","#3e465d","#2b3347","#8e9bb8"],"group":"Fantasy & Mystery"},
-    {"id":"colorful","name":"Colorful","group":"Color & Retro","world":"colorful","accent":"#a77491","light":["#f6f0f4","#493746","#887487","#dfcdd9","#ebdce7","#c3a4bc"],"dark":["#212136","#f8eef7","#c3afc8","#51445e","#343049","#ad8cae"]},
-    {"id":"rainbow","name":"Rainbow","group":"Color & Retro","world":"rainbow","accent":"#8b79b4","light":["#f2f1f9","#393951","#7a7897","#d4d1e6","#e5e2f1","#bbb0d5"],"dark":["#171a2d","#f3eeff","#b5afcf","#454361","#292a46","#a89acb"]},
-    {"id":"retro","name":"Retro","world":"retro","accent":"#b77c57","light":["#f4e9d5","#513e37","#927c63","#ddc9ab","#ead9bc","#c1aa7b"],"dark":["#2b2225","#f5e6c8","#c5ab8e","#60473f","#432e2c","#b58e62"],"group":"Color & Retro"},
+    {"id":"colorful","name":"Colorful","group":"Color & Style","world":"colorful","accent":"#a77491","light":["#f6f0f4","#493746","#887487","#dfcdd9","#ebdce7","#c3a4bc"],"dark":["#212136","#f8eef7","#c3afc8","#51445e","#343049","#ad8cae"]},
+    {"id":"rainbow","name":"Rainbow","group":"Color & Style","world":"rainbow","accent":"#8b79b4","light":["#f2f1f9","#393951","#7a7897","#d4d1e6","#e5e2f1","#bbb0d5"],"dark":["#171a2d","#f3eeff","#b5afcf","#454361","#292a46","#a89acb"]},
+    {"id":"retro","name":"Retro","world":"retro","accent":"#b77c57","light":["#f4e9d5","#513e37","#927c63","#ddc9ab","#ead9bc","#c1aa7b"],"dark":["#2b2225","#f5e6c8","#c5ab8e","#60473f","#432e2c","#b58e62"],"group":"Color & Style"},
+    {"id":"fashion","name":"Fashion","group":"Color & Style","world":"fashion","accent":"#a17e86","light":["#f6f0e9","#44363e","#89757e","#ddcfd2","#ebe0df","#c6b2b2"],"dark":["#211c25","#f5eae7","#bea8b4","#51404e","#352a38","#a2879b"]},
     {"id":"aztec","name":"Aztec","world":"aztec","accent":"#8c9a70","light":["#f1f0e3","#3c4a38","#7f886a","#d1d8bf","#e2e6d2","#b7c58d"],"dark":["#1a2926","#f1f0dc","#b4c1a3","#42564b","#2b3f33","#93ab79"],"group":"Architecture & Futures"},
     {"id":"futuristic","name":"Futuristic","group":"Architecture & Futures","world":"future","accent":"#008c9e","light":["#eaf7f8","#143c49","#4b7783","#b5dce5","#d6eff3","#50c2d4"],"dark":["#07151f","#dcfaff","#92c3ce","#164557","#0d2d3b","#00c9e2"]},
     {"id":"city","name":"City Skyline","group":"Architecture & Futures","world":"city","accent":"#8098bf","light":["#eef2f7","#35455e","#7b8ca3","#cbd6e4","#dfe7ef","#afc3d9"],"dark":["#142131","#edf2ff","#b0bdd3","#3c506c","#293c55","#87a8cb"]},
@@ -54,6 +56,17 @@
   ];
   const preview = ['localhost','127.0.0.1'].includes(location.hostname) || location.protocol === 'file:';
   const resource = path => preview ? new URL(path, location.href).href : chrome.runtime.getURL(path);
+  // Use the viewer's local clock; midnight is still their night, not their morning.
+  const greeting = (now = new Date(), rawName = '') => {
+    const hour = now.getHours();
+    const [lead, phrase] = hour < 5 ? ['Still ', 'up']
+      : hour < 12 ? ['Good ', 'morning']
+      : hour < 17 ? ['Good ', 'afternoon']
+      : hour < 21 ? ['Good ', 'evening'] : ['Enjoy your ', 'night'];
+    // Keep a saved name as plain text and discard invisible direction controls.
+    const name = typeof rawName === 'string' ? rawName.replace(/[\u0000-\u001f\u007f\u061c\u200e\u200f\u202a-\u202e\u2066-\u2069]/g, '').trim().slice(0, 32) : '';
+    return {lead, phrase, name};
+  };
   // A first visit has no saved choice yet, so it follows the operating system.
   const appearance = settings => ['light','dark'].includes(settings?.appearance)?settings.appearance:'system';
   const palette = settings => {
@@ -76,5 +89,5 @@
     else{u=new URL('https://www.google.com/search');u.searchParams.set('q',query);if(mode==='images')u.searchParams.set('udm','2');if(mode==='videos')u.searchParams.set('tbm','vid');}
     return u.href;
   }
-  globalThis.GoogleRefreshed = {themes,appearance,palette,logo,resource,fonts,loadFont,engines,searchURL};
+  globalThis.GoogleRefreshed = {themes,appearance,palette,logo,resource,fonts,loadFont,engines,searchURL,greeting};
 })();

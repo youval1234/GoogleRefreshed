@@ -38,7 +38,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
      return scriptRejected&&largeRejected&&unsafeImageRejected&&!globalThis.remoteScriptRan;
    });assert.equal(safe,true);
  });
- const home=async()=>{await page.goto('https://www.google.com/');await page.locator('#still-home').waitFor();};await home();
+ const home=async()=>{await page.goto('https://www.google.com/');await page.locator('#still-home').waitFor();await page.locator('#greeting').waitFor();if(await page.locator('#welcome-dialog').isVisible()){await page.getByRole('button',{name:'Skip for now',exact:true}).click();await page.locator('#welcome-dialog').waitFor({state:'hidden'});}};await home();
  await check('Modern logo, local font, visible version, and larger date',async()=>{
    assert.equal(await page.locator('.brand .refreshed-logo').count(),1);assert.equal(await page.getByRole('link',{name:'GoogleRefreshed version '+require('./extension/manifest.json').version}).count(),1);assert.equal(await page.locator('.date i').count(),0);assert.equal(await page.locator('.search-box .key').count(),0);
    await page.waitForFunction(()=>{const r=document.querySelector('#still-home').shadowRoot;return getComputedStyle(r.querySelector('.date')).fontSize==='15px'&&getComputedStyle(r.querySelector('h1')).fontFamily.includes('GR Manrope');});
@@ -65,7 +65,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
    assert.match(await page.locator('.app').evaluate(x=>getComputedStyle(x).fontFamily),/GR Outfit/);await page.getByRole('button',{name:'Close customization'}).click();await page.waitForTimeout(250);await home();assert.match(await page.locator('.app').evaluate(x=>getComputedStyle(x).fontFamily),/GR Outfit/);
  });
  await check('All themes and both appearance modes remain selectable',async()=>{
-   await page.getByRole('button',{name:'Customize',exact:true}).click();assert.equal(await page.locator('[data-theme-choice]').count(),50);
+   await page.getByRole('button',{name:'Customize',exact:true}).click();assert.equal(await page.locator('[data-theme-choice]').count(),52);
    for(const theme of await page.locator('[data-theme-choice]').all()){await theme.click();for(const appearance of ['light','dark']){await page.locator(`[data-appearance-choice=${appearance}]`).click();assert.equal(await page.locator('.app').getAttribute('data-appearance'),appearance);}}
    await page.getByRole('button',{name:'Aurora',exact:true}).click();await page.getByRole('button',{name:'Dark',exact:true}).click();await page.getByRole('combobox',{name:'Homepage font',exact:true}).selectOption('manrope');await page.getByRole('button',{name:'Close customization'}).click();
  });

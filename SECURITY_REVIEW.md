@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-28 for GoogleRefreshed v1.6.0.
+Reviewed on 2026-10-29 for GoogleRefreshed v1.6.1.
 
 ## Scope
 
@@ -56,3 +56,9 @@ The optional new-tab toggle adds `tabs` as an optional permission only. It is re
 The catalog contains 50 themes, including 12 new worlds and 12 rebuilt scenes. Original SVG templates are bundled in four scene packs; only the selected scene is mounted. The packs contain no remote resources, JavaScript animation loops or timers. CSS artwork respects animation off, reduced motion and hidden-page pause. Theme filtering changes only the picker view; saved theme IDs and existing privacy settings remain compatible. No permissions, network destinations or runtime dependencies were added.
 
 MIT LICENSE and third-party NOTICE.md are included in source and both ZIPs. Font notices retain their original licenses. New screenshots use synthetic hardware fixtures, UTC and no personal greeting or location. Current tracked source, reachable history, screenshots/metadata and release ZIPs are scanned for secret and private-file candidates before publication.
+
+## v1.6.1 welcome, Le Rouge and Fashion
+
+The optional welcome form stores the display name and completion flag in local extension settings. Both fields remain outside the browser-sync whitelist. Saving, skipping and Escape complete the prompt once; updates preserve established settings, and resetting preferences does not reopen onboarding. Names are rendered as plain text in a bidirectional isolation element, with invisible direction controls removed from the displayed value. Greetings use local hours without additional requests or timers.
+
+Le Rouge and Fashion add two bundled SVG/CSS packs, bringing the catalog to 52 themes. Artwork is original vector geometry inspired by the requested themes; reference images are not packaged. Only the selected scene mounts. Animation off, reduced motion, hidden-page pause and Vivid/Subtle controls remain supported. No permissions, providers or dependencies were added. Release screenshots use synthetic hardware with no real name or location. Source, reachable history, image metadata and packaged ZIPs are scanned before publication.

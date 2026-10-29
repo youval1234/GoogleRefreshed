@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GoogleRefreshed",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "A considered Google homepage. Your search, shortcuts, colors, and a little space to focus.",
   "permissions": [
     "storage",
@@ -46,7 +46,9 @@
         "scene-nature.css",
         "scene-worlds.css",
         "scene-studio.css",
-        "scene-reef.css"
+        "scene-reef.css",
+        "scene-rouge.css",
+        "scene-fashion.css"
       ],
       "matches": [
         "https://www.google.com/*",
@@ -89,6 +91,8 @@
         "scene-worlds.js",
         "scene-studio.js",
         "scene-reef.js",
+        "scene-rouge.js",
+        "scene-fashion.js",
         "scenes.js",
         "content.js"
       ],

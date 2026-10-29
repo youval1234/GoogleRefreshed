@@ -12,25 +12,45 @@ let context;
  await context.route('https://www.google.com/**',r=>r.fulfill({contentType:'text/html',body:'<!doctype html><html style="color-scheme:light"><title>Google fixture</title><body>Native Google</body></html>'}));
  const page=await context.newPage();await page.goto('https://www.google.com/');await page.locator('#still-home').waitFor();
  const frame=page.frameLocator('#hardware-frame');await frame.locator('#cpu-model').filter({hasText:'Example CPU'}).waitFor();
+ async function canvasMatches(){
+   const iframe=page.locator('#hardware-frame'),body=frame.locator('body');
+   const box=await iframe.boundingBox();
+   const coords=[.18,.4,.62,.85,.97].flatMap(t=>{const y=Math.floor(box.y+box.height*t);return [[Math.floor(box.x+1),y],[Math.floor(box.x+box.width-2),y]];});
+   const savedFrameVisibility=await iframe.evaluate(e=>e.style.visibility),savedBodyVisibility=await body.evaluate(e=>e.style.visibility);
+   const actual=path.join(profile,'current.png'),reference=path.join(profile,'backdrop.png');
+   try{
+     // Hide monitor text/graphs while retaining the iframe's native canvas.
+     await body.evaluate(e=>e.style.visibility='hidden');
+     await page.screenshot({path:actual,animations:'disabled'});
+     // Compare the exact same screen pixels with only the iframe hidden. Artwork
+     // may cross its boundary, so neighboring pixels are not a valid reference.
+     await iframe.evaluate(e=>e.style.visibility='hidden');
+     await page.screenshot({path:reference,animations:'disabled'});
+   }finally{
+     await iframe.evaluate((e,value)=>e.style.visibility=value,savedFrameVisibility);
+     await body.evaluate((e,value)=>e.style.visibility=value,savedBodyVisibility);
+   }
+   const pairs=JSON.parse(execFileSync('python',['-c','from PIL import Image; import sys,json; a=Image.open(sys.argv[1]).convert("RGB"); b=Image.open(sys.argv[2]).convert("RGB"); print(json.dumps([[a.getpixel(tuple(p)),b.getpixel(tuple(p))] for p in json.loads(sys.argv[3])]))',actual,reference,JSON.stringify(coords)],{encoding:'utf8'}));
+   return pairs.filter(([actual,expected])=>actual.every((value,i)=>Math.abs(value-expected[i])<12)).length;
+ }
  async function verify(label,appearance){
    await page.waitForFunction(mode=>document.querySelector('#still-home').shadowRoot.querySelector('.app').dataset.appearance===mode,appearance);
    const expected=await page.locator('.app').evaluate(e=>getComputedStyle(e).color);
    await frame.locator('body').evaluate((e,expected)=>new Promise((resolve,reject)=>{const start=performance.now();function check(){if(getComputedStyle(e).color===expected)resolve();else if(performance.now()-start>2000)reject(new Error('Hardware text palette does not match homepage'));else requestAnimationFrame(check);}check();}),expected);
    await page.locator('#hardware-frame').scrollIntoViewIfNeeded();
-   const screenshot=path.join(profile,'current.png');await page.screenshot({path:screenshot,animations:'disabled'});
-   const box=await page.locator('#hardware-frame').boundingBox();
-   // Sample both edges at several heights: a background curve can cross one pixel.
-   // An opaque frame canvas disagrees throughout, rather than at a lone artwork edge.
-   const coords=[.18,.4,.62,.85,.97].flatMap(t=>{const y=Math.floor(box.y+box.height*t);return [[Math.floor(box.x+1),y],[Math.floor(box.x-2),y],[Math.floor(box.x+box.width-2),y],[Math.floor(box.x+box.width+2),y]];});
-   const pixels=JSON.parse(execFileSync('python',['-c','from PIL import Image; import sys,json; im=Image.open(sys.argv[1]).convert("RGB"); print(json.dumps([im.getpixel(tuple(p)) for p in json.loads(sys.argv[2])]))',screenshot,JSON.stringify(coords)],{encoding:'utf8'}));
-   const matches=pixels.filter((_,n)=>n%2===0).filter((p,n)=>p.every((v,i)=>Math.abs(v-pixels[n*2+1][i])<12)).length;
+   const matches=await canvasMatches();
    assert.ok(matches>=7,label+': frame canvas must blend with widget, not white/black');
    console.log('PASS '+label);
  }
  await verify('System mode starts light','light');
+ // Recreate the original native-canvas regression and ensure the visual probe
+ // rejects it even though the HTML and body backgrounds remain transparent.
+ const savedScheme=await frame.locator('html').evaluate(e=>e.style.colorScheme);
+ try{await frame.locator('html').evaluate(e=>e.style.colorScheme='dark');assert.ok(await canvasMatches()<7,'Canvas probe must reject an opposite color-scheme canvas');}
+ finally{await frame.locator('html').evaluate((e,scheme)=>e.style.colorScheme=scheme,savedScheme);}
  await page.emulateMedia({colorScheme:'dark'});await verify('System mode follows a live OS switch to dark','dark');
  await page.emulateMedia({colorScheme:'light'});await verify('System mode follows a live OS switch back to light','light');
- const themes=await page.locator('[data-theme-choice]').evaluateAll(nodes=>nodes.map(x=>x.dataset.themeChoice));assert.equal(themes.length,50);
+ const themes=await page.locator('[data-theme-choice]').evaluateAll(nodes=>nodes.map(x=>x.dataset.themeChoice));assert.equal(themes.length,52);
  for(const theme of themes)for(const appearance of ['dark','light']){
    await worker.evaluate(async value=>{const saved=(await chrome.storage.local.get('stillSettings')).stillSettings;await chrome.storage.local.set({stillSettings:{...saved,...value}});},{theme,appearance});await verify(theme+' '+appearance,appearance);
  }

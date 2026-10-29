@@ -1,0 +1,23 @@
+/* Fabric and reflected light animate independently; static placement lives on parent groups. */
+.app[data-motion=on] .q-fashion-mirror-light{animation:q-fashion-reflect 22s ease-in-out infinite alternate}
+.app[data-motion=on] .q-fashion-gown-skirt{animation:q-fashion-pleats 12s ease-in-out infinite alternate;transform-origin:0 -181px}
+.app[data-motion=on] .q-fashion-shoulder-drape{animation:q-fashion-chiffon 10s -3s ease-in-out infinite alternate;transform-origin:-39px -277px}
+.app[data-motion=on] .q-fashion-beadwork{animation:q-fashion-beads 9s ease-in-out infinite alternate}
+.app[data-motion=on] .q-fashion-label{animation:q-fashion-tag 13s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .q-fashion-spotlight{animation:q-fashion-light 16s ease-in-out infinite alternate;transform-origin:0 17px}
+.app[data-motion=on] .q-fashion-poster{animation:q-fashion-poster-light 15s -6s ease-in-out infinite alternate}
+.app[data-motion=on] .q-fashion-garment{animation:q-fashion-tailoring 14s var(--q-fashion-delay,0s) ease-in-out infinite alternate;transform-origin:3px 15px}
+.app[data-motion=on] .q-fashion-measure{animation:q-fashion-ribbon 11s ease-in-out infinite alternate;transform-origin:54px 889px}
+.app[data-motion=on] .q-fashion-fabric-spill{animation:q-fashion-fabric 15s -5s ease-in-out infinite alternate;transform-origin:-70px -77px}
+.app[data-motion=on] .q-fashion-mote{animation:q-fashion-dust 19s var(--q-fashion-delay,0s) ease-in-out infinite alternate}
+@keyframes q-fashion-reflect{from{transform:translateX(-33px);opacity:.45}to{transform:translateX(29px);opacity:.95}}
+@keyframes q-fashion-pleats{from{transform:skewX(-1deg) scaleX(.98)}to{transform:skewX(1.6deg) scaleX(1.02)}}
+@keyframes q-fashion-chiffon{from{transform:rotate(-1.5deg) skewX(-1deg)}to{transform:rotate(2.5deg) skewX(1.5deg)}}
+@keyframes q-fashion-beads{from{opacity:.45}to{opacity:1}}
+@keyframes q-fashion-tag{from{transform:rotate(-5deg)}to{transform:rotate(4deg)}}
+@keyframes q-fashion-light{from{transform:rotate(-2deg);opacity:.5}to{transform:rotate(2deg);opacity:.95}}
+@keyframes q-fashion-poster-light{from{opacity:.72}to{opacity:1}}
+@keyframes q-fashion-tailoring{from{transform:rotate(-2deg) skewX(-.4deg)}to{transform:rotate(2deg) skewX(.5deg)}}
+@keyframes q-fashion-ribbon{from{transform:skewX(-1.5deg) scaleY(.98)}to{transform:skewX(1.8deg) scaleY(1.025)}}
+@keyframes q-fashion-fabric{from{transform:skewX(-1deg) scaleY(.98)}to{transform:skewX(1.4deg) scaleY(1.03)}}
+@keyframes q-fashion-dust{from{transform:translate(-6px,11px);opacity:.15}to{transform:translate(11px,-12px);opacity:.7}}

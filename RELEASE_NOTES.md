@@ -1,43 +1,23 @@
-# GoogleRefreshed v1.6.0
+# GoogleRefreshed v1.6.1
 
-A larger, organized theme library: 12 new worlds and 12 rebuilt scenes, for 50 themes total. Each has original local vector artwork, its own light/dark palette, and distinct motion.
+## Le Rouge and Fashion
 
-## New worlds
+- **Le Rouge** — An original organic horror department store: headless ivory rib-couture sculpture, sinewy crimson fabric, stepped display plinths, hanging bags, ceiling gantries and theatrical spotlights. Animated fabric, suspended displays and red light build its atmosphere.
+- **Fashion** — A separate couture atelier with a pleated gown, tailored garments, fabric rolls, mood board and brass fittings. Distinct fabric, light and tailoring animations create a polished fashion setting.
 
-- **Snow** — Snowy cabin, layered pines and independently drifting snowflakes.
-- **Black Hole** — Dark horizon, photon ring, warped accretion disk and light trails.
-- **Coral Reef** — Dense fan/staghorn/plate corals, sponges, anemone, clownfish, tang, angelfish, independent schools, articulated turtle and water shimmer.
-- **Hawaii** — Volcanic coast, hibiscus, palm fronds and canoe.
-- **Aztec** — Twin-shrine stepped architecture, masonry, stela, torches and agave.
-- **Desert** — Sandstone strata, dune contours, heat haze and camel caravan.
-- **Cave** — Rock depth, stalactites, glowing mushrooms, drips and pool.
-- **Emerald** — Octagonal cut gemstones, facets, mineral veins and restrained glints.
-- **Retro** — Shaded CRT, scanbeam, vinyl/stylus, cassette reels and tape.
-- **Radioactive** — Contained glass reactor, coolant, gauge, valve and steam.
-- **Shadow** — Colonnade, stairs, doorway, pendulum and synchronized cast shadow.
-- **Fjord** — Irregular sheer cliffs with strata, a winding inlet, waterfalls and spray, staggered forest, shoreline boathouse and ferry.
+Both themes have light/dark palettes, bringing the library to **52 themes across nine collections**. Color & Style groups Fashion with Colorful, Rainbow and Retro.
 
-## Rebuilt scenes
+## A more personal welcome
 
-- **Ocean** — Breaking surf, foam, lighthouse beam and sailing yacht.
-- **Spring** — Blossoming branch, layered flowers, butterfly and bee.
-- **Midnight** — Observatory, pivoting telescope, star trails and reflections.
-- **Cosmic** — Shaded gas giant, layered rings, probe and nebula.
-- **Amber** — Resin with fossil veins, bubbles and refraction.
-- **Ice** — Sculpted ice walls, arch, facets and moving sheen.
-- **Colorful** — Articulated kinetic mobile and folded color sculpture.
-- **Sunset** — Terraced coastal village, cliffs, cypress, sailboat and sea glints.
-- **Library** — Arched oak bookcase, bound books, reading chair, page and warm lamp.
-- **Office** — Window and city, hanging plant, monitor, keyboard and coffee steam.
-- **Science** — Morphing helix, graduated glass retort, bubbles and petri dish.
-- **Scary** — Barked woodland, crooked house, candle, swaying lantern and fog.
+- New installations ask for an optional name or nickname on the first homepage visit. Save it, skip, or press Escape. The prompt stays dismissed across reloads and open tabs.
+- Names stay local, remain outside browser settings sync, and can be edited in Customize. Existing installations retain their settings without an interruption.
+- Local-time greetings now distinguish overnight (00:00–04:59), morning (05:00–11:59), afternoon (12:00–16:59), evening (17:00–20:59) and night (21:00–23:59). At 1 am, the homepage says “Still up”.
+- Removed the stray period on right-to-left Google pages. English text and RTL names keep the correct reading order, and names remain safe plain text.
 
-## Theme picker and licensing
+No new permissions, external services, runtime dependencies or JavaScript animation loops. Motion still honors reduced motion, animation off, hidden-tab pause and Vivid/Subtle intensity.
 
-Themes are organized into nine curated collections. Search by name or collection, filter a collection, and see clear empty results. Existing theme IDs and saved settings are preserved. The optional new-tab and system-appearance features from v1.5.4 remain.
+## Update
 
-The repository now includes the MIT license for original code/artwork and third-party notices. Bundled fonts retain their SIL Open Font License notices. Both release ZIPs include LICENSE and NOTICE.md.
+For an unpacked installation, replace the extension files with the contents of GoogleRefreshed-v1.6.1.zip, open brave://extensions, click Reload on GoogleRefreshed and refresh Google. Keep using the same folder to preserve the extension identity and settings. Local development files already contain this update.
 
-Only the selected scene is mounted. The art uses bounded SVG/CSS motion, without a JavaScript rendering loop, remote assets, extra dependencies or new permissions. Animation off, reduced motion, hidden-page pause and narrow layouts are checked. The matching manual toolbar library now has 100 light/dark packages. Static previews are in docs/v160.
-
-Update the files in your existing extension folder, reload GoogleRefreshed at brave://extensions, then refresh Google. The local preview only needs a refresh.
+Matching toolbar themes remain separate, optional Chromium theme packages. The companion archive now includes 104 light/dark themes. They are installed manually; the extension cannot automatically recolor Brave’s native toolbar.

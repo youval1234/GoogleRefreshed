@@ -1,0 +1,25 @@
+/* Le Rouge: cloth, anatomy-inspired sculpture and suspended store displays. */
+.app[data-motion=on] .q-rouge-canopy{animation:q-rouge-ceiling 21s ease-in-out infinite alternate;transform-origin:800px 0}
+.app[data-motion=on] .q-rouge-bag{animation:q-rouge-bag var(--q-period,21s) var(--q-delay,0s) ease-in-out infinite alternate;transform-origin:0 -300px}
+.app[data-motion=on] .q-rouge-spotlight{animation:q-rouge-spot 15s ease-in-out infinite alternate;transform-origin:1460px 197px}
+.app[data-motion=on] .q-rouge-cloak{animation:q-rouge-cloak 14s ease-in-out infinite alternate;transform-origin:0 -125px}
+.app[data-motion=on] .q-rouge-thorax{animation:q-rouge-breath 9s ease-in-out infinite alternate;transform-origin:0 -45px}
+.app[data-motion=on] .q-rouge-arm{animation:q-rouge-arm 19s var(--q-delay,0s) ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .q-rouge-arm-right{animation:q-rouge-hand 17s -7s ease-in-out infinite alternate;transform-origin:0 0}
+.app[data-motion=on] .q-rouge-shell-ribs{animation:q-rouge-shell 13s ease-in-out infinite alternate;transform-origin:0 -190px}
+.app[data-motion=on] .q-rouge-heartcloth{animation:q-rouge-heartcloth 11s ease-in-out infinite alternate;transform-origin:8px -350px}
+.app[data-motion=on] .q-rouge-display-drape{animation:q-rouge-spill 16s ease-in-out infinite alternate;transform-origin:0 118px}
+.app[data-motion=on] .q-rouge-floorcloth{animation:q-rouge-floor 23s -8s ease-in-out infinite alternate;transform-origin:800px 1000px}
+.app[data-motion=on] .q-rouge-mote{animation:q-rouge-mote 22s var(--q-delay,0s) ease-in-out infinite alternate}
+@keyframes q-rouge-ceiling{from{transform:scaleY(.97) skewX(-.3deg)}to{transform:scaleY(1.05) skewX(.35deg)}}
+@keyframes q-rouge-bag{from{transform:rotate(-2.1deg)}to{transform:rotate(2.5deg)}}
+@keyframes q-rouge-spot{from{transform:skewX(-.8deg);opacity:.68}to{transform:skewX(.6deg);opacity:1}}
+@keyframes q-rouge-cloak{from{transform:skewX(-.8deg) scaleX(.985)}to{transform:skewX(.9deg) scaleX(1.025)}}
+@keyframes q-rouge-breath{from{transform:scaleX(.98) scaleY(.99)}to{transform:scaleX(1.065) scaleY(1.025)}}
+@keyframes q-rouge-arm{from{transform:rotate(-1.5deg)}to{transform:rotate(2deg)}}
+@keyframes q-rouge-hand{from{transform:rotate(-2deg)}to{transform:rotate(1.4deg)}}
+@keyframes q-rouge-shell{from{transform:scaleX(.99)}to{transform:scaleX(1.045)}}
+@keyframes q-rouge-heartcloth{from{transform:skewX(-1.5deg) scaleX(.97)}to{transform:skewX(1.7deg) scaleX(1.045)}}
+@keyframes q-rouge-spill{from{transform:skewX(-1.5deg) scaleY(.98)}to{transform:skewX(1.5deg) scaleY(1.035)}}
+@keyframes q-rouge-floor{from{transform:translate(-8px,3px) scaleY(.95);opacity:.72}to{transform:translate(9px,-3px) scaleY(1.04);opacity:1}}
+@keyframes q-rouge-mote{from{transform:translate(-7px,14px);opacity:.09}to{transform:translate(12px,-23px);opacity:.45}}

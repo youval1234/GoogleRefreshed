@@ -19,7 +19,7 @@
         return [{name:String(item.name||'Website').slice(0,28),url:url.href,color:/^#[a-f\d]{6}$/i.test(item.color)?item.color:'#787a6d',glyph:String(item.glyph||'W').slice(0,2),group:['personal','work','study'].includes(item.group)?item.group:'personal',iconMode:item.iconMode==='text'?'text':'auto'}];
       }catch{return [];}
     });
-    // Exclude name, notes, photo bytes, city/coordinates, samples and metadata.
+    // Exclude name, welcome state, notes, photo bytes, city/coordinates, samples and metadata.
     return out;
   }
   let queue=Promise.resolve(),timer;

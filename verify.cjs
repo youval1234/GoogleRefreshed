@@ -13,7 +13,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
  const errors=[]; page.on('pageerror',e=>errors.push(e.message));
  await context.route('https://www.google.com/**',route=>route.fulfill({contentType:'text/html',body:nativeHTML}));
  await context.route('https://www.google.co.il/**',route=>route.fulfill({contentType:'text/html',body:nativeHTML}));
- const home=async()=>{await page.goto('https://www.google.com/');await page.locator('#still-home').waitFor();};
+ const home=async()=>{await page.goto('https://www.google.com/');await page.locator('#still-home').waitFor();await page.locator('#greeting').waitFor();if(await page.locator('#welcome-dialog').isVisible()){await page.getByRole('button',{name:'Skip for now',exact:true}).click();await page.locator('#welcome-dialog').waitFor({state:'hidden'});}};
  const shadow=fn=>page.evaluate(fn);
  await check('Real extension injects on Google homepage',home);
  await check('Original homepage is inert while redesigned homepage is active',async()=>assert.equal(await page.locator('#fixture-native').evaluate(e=>e.inert),true));

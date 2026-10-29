@@ -18,7 +18,7 @@
     return ({'mail.google.com':'gmail','www.youtube.com':'youtube','youtube.com':'youtube','drive.google.com':'drive','calendar.google.com':'calendar','chatgpt.com':'chatgpt','maps.google.com':'maps','photos.google.com':'photos','translate.google.com':'translate','myaccount.google.com':'google','www.google.com':'google'})[host];
   };
   const defaults = {
-    engine:'google',motionIntensity:'vivid',worldClock:true,focusTimer:true,worldZone:'UTC',focusMinutes:25,font:'manrope',theme: 'paper', appearance: 'system', animations: true, accent: '#c65332', name: '', clock: true, focus: true, shortcutsVisible: true,
+    welcomeComplete:false,engine:'google',motionIntensity:'vivid',worldClock:true,focusTimer:true,worldZone:'UTC',focusMinutes:25,font:'manrope',theme: 'paper', appearance: 'system', animations: true, accent: '#c65332', name: '', clock: true, focus: true, shortcutsVisible: true,
     weatherEnabled: true, newsEnabled: true, autoLocation:true, localNews:true, newsLanguageAuto:true, colorfulWeather:true, newsImages:true, newsSource:'bing', city: null, units: 'celsius', newsRegion: 'US', newsLanguage: 'en', newsTopic: 'local', newsQuery: '', newsCount: 6,
     homeCard:'hardware',suggestionImages:true,resultsTheme:true, hour24: true, newTab: false, newTabHome: false, compact: false, suggestions:true, note: '', photo: '', activeGroup:'personal',
     shortcuts: [
@@ -53,6 +53,8 @@
   function clean(input) {
     const s = {...defaults, shortcuts: defaults.shortcuts.map(x => ({...x}))};
     if (!input || typeof input !== 'object') return s;
+    // Existing installations keep their homepage; only a new install needs the welcome step.
+    s.welcomeComplete = typeof input.welcomeComplete === 'boolean' ? input.welcomeComplete : Object.keys(input).length > 0;
     if(GoogleRefreshed.engines.some(e=>e.id===input.engine))s.engine=input.engine;
     if(['vivid','subtle'].includes(input.motionIntensity))s.motionIntensity=input.motionIntensity;
     for(const key of ['worldClock','focusTimer'])if(typeof input[key]==='boolean')s[key]=input[key];
@@ -99,7 +101,7 @@
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
   let saveWaiters = [];
   const repoURL = 'https://github.com/youval1234/GoogleRefreshed';
-  const version = preview ? '1.6.0' : chrome.runtime.getManifest().version;
+  const version = preview ? '1.6.1' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();
@@ -131,9 +133,9 @@
     .group-control{display:flex;align-items:center;gap:15px}.group-select{font-size:11px;color:var(--muted);background:transparent;border:0;padding:4px;max-width:100px}.command-modal{width:min(560px,calc(100vw - 30px));border-radius:18px;margin-top:14vh}.command-input{width:100%;border:0;border-bottom:1px solid var(--line);padding:22px 24px;background:transparent;font-size:17px;outline:none!important}.commands{padding:8px;max-height:400px;overflow:auto}.command-option{width:100%;display:flex;justify-content:space-between;gap:14px;padding:13px 16px;border-radius:10px;text-align:left;font-size:12px}.command-option[aria-selected=true]{background:var(--soft)}.command-option small{color:var(--muted);font-size:10px;flex-shrink:0}.command-footer{padding:12px 23px;border-top:1px solid var(--line);color:var(--muted);font-size:10px;display:flex;justify-content:space-between}.command-empty{padding:18px;color:var(--muted);font-size:12px}.page-tabs{display:flex;justify-content:center;gap:5px;width:fit-content;margin:30px auto 0;padding:4px;border:1px solid var(--line);border-radius:100px;background:var(--panel)}.page-tabs button{padding:7px 22px;border-radius:100px;font-size:11px;color:var(--muted)}.page-tabs button[aria-selected=true]{background:var(--fg);color:var(--bg)}.data-panel{margin-top:28px}.data-card{border:1px solid var(--line);border-radius:17px;padding:24px;background:var(--panel)}.data-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.data-heading h2{font:28px Georgia;margin:0 0 5px}.data-heading p{margin:0}.data-status{font-size:12px;color:var(--muted);padding:22px 0}.city-search{display:flex;gap:8px;margin-top:18px}.city-search input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;background:var(--field);padding:12px}.city-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.weather-now{display:flex;gap:23px;align-items:center;margin:25px 0}.weather-symbol{font-size:52px;line-height:1}.temperature{font-size:54px;letter-spacing:-3px;line-height:1.2}.weather-detail{font-size:12px;color:var(--muted)}.forecast{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.forecast-day{background:var(--field);border-radius:12px;padding:14px 8px;text-align:center;font-size:11px}.forecast-day>span{font-size:23px;display:block;margin:9px 0}.forecast-day small{color:var(--muted)}.source-note{font-size:10px;color:var(--muted);margin-top:18px}.source-note a{text-decoration:underline}.news-controls{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.news-controls select{border:1px solid var(--line);padding:9px 12px;border-radius:10px;background:var(--field);font-size:12px}.news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.news-item{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:21px;border:1px solid var(--line);border-radius:14px;background:var(--field);transition:transform .2s;min-width:0}.news-item:hover{transform:translateY(-3px)}.news-item h3{font-size:14px;line-height:1.6;font-weight:500;margin:0;overflow-wrap:anywhere}.news-item small{font-size:10px;color:var(--muted)}.news-item .article-source{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--accent)}.data-panel .button:disabled{opacity:.5;cursor:wait}.data-status:empty{display:none}.page-tabs+.shortcuts{margin-top:27px}.news-empty{font-size:12px;color:var(--muted);line-height:1.8}.setting-select{margin-top:8px}.privacy-hint{font-size:10px;line-height:1.8;color:var(--muted)}
     @media(min-height:900px){main{margin-top:5vh}}#panel-home .shortcuts{margin-top:28px}@media(max-width:650px){.topnav>a{display:none}.topnav{gap:9px}.brand{font-size:16px;gap:9px}.brand>img{width:21px;height:21px}.brand small{display:none}.news-grid{grid-template-columns:1fr}.data-card{padding:18px}.forecast{gap:5px}.forecast-day{padding:10px 3px;font-size:10px}.page-tabs button{padding:7px 17px}.city-search{flex-wrap:wrap}.city-search input{width:100%}.temperature{font-size:44px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   `;
-  root.innerHTML = `<style>${css}</style><div class="app" data-theme="paper"><div class="photo"></div><div class="wash"></div><div class="scene" aria-hidden="true"><div class="theme-art"></div><div class="scene-grid"></div><div class="scene-stars"></div><div class="scene-ribbon"></div><div class="scene-moon"></div><div class="scene-particles">${particleMarkup()}</div></div><div class="scroll-content">
+  root.innerHTML = `<style>${css}</style><div class="app" data-theme="paper" lang="en" dir="ltr"><div class="photo"></div><div class="wash"></div><div class="scene" aria-hidden="true"><div class="theme-art"></div><div class="scene-grid"></div><div class="scene-stars"></div><div class="scene-ribbon"></div><div class="scene-moon"></div><div class="scene-particles">${particleMarkup()}</div></div><div class="scroll-content">
     <header class="top"><a class="brand" href="https://www.google.com/" aria-label="Google home">${GoogleRefreshed.logo}<span class="brand-name">Google <strong>Refreshed</strong></span><small>v${version}</small></a><nav class="topnav" aria-label="Google services"><a href="https://mail.google.com/">Gmail</a><a href="https://www.google.com/imghp">Images</a><button class="round" id="quick-mode" title="Switch to dark mode" aria-label="Switch to dark mode">${icon('moon')}</button><button class="round" id="apps" title="Google apps" aria-label="Google apps">${icon('grid')}</button><button class="classic" id="classic">Classic Google ↗</button></nav></header>
-    <main><section class="intro"><div class="eyebrow date"><span id="date"></span></div><h1 id="greeting">Good <em>evening.</em></h1><p class="subtitle">Search Google. Make the day yours.</p></section>
+    <main><section class="intro"><div class="eyebrow date"><span id="date"></span></div><h1 id="greeting" dir="ltr"></h1><p class="subtitle">Search Google. Make the day yours.</p></section>
     <section class="search-wrap" aria-label="Google search"><form class="search-box" id="search" action="https://www.google.com/search" method="get" role="search"><label class="engine-picker" title="Choose search engine"><img id="engine-google-icon" class="google-icon" src="${assetURL('google')}" alt=""><span id="engine-letter" hidden></span><span class="engine-chevron" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m4 6 4 4 4-4"/></svg></span><select id="engine-quick" aria-label="Search engine">${GoogleRefreshed.engines.map(e=>`<option value="${e.id}"><img class="engine-option-icon" src="${assetURL(e.id)}" alt="">${e.name}</option>`).join('')}</select></label><input type="search" class="query" name="q" placeholder="Search Google or explore an idea" aria-label="Search Google" autocomplete="off" aria-autocomplete="list" aria-controls="suggestion-list" aria-expanded="false" dir="auto" required maxlength="2048"><button type="button" id="search-images" class="search-image-button" aria-label="Reverse image search" title="Search by image with Google Lens">${icon('image')}</button><button type="submit" class="submit" aria-label="Search Google">${icon('arrow')}</button></form><div class="suggestion-popup" id="suggestion-popup" hidden><div id="suggestion-list" role="listbox" aria-label="Google search suggestions"></div><div class="suggestion-credit">Suggestions from Google</div></div><div class="modes" aria-label="Search type">${['all','images','videos','maps'].map(x => `<button class="mode" data-mode="${x}" aria-pressed="${x === 'all'}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</div></section>
     <nav class="page-tabs" role="tablist" aria-label="Homepage tabs">${['home','weather','news'].map(x=>`<button role="tab" id="tab-${x}" data-tab="${x}" aria-selected="${x==='home'}" aria-controls="panel-${x}" tabindex="${x==='home'?0:-1}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</nav><div id="panel-home" role="tabpanel" aria-labelledby="tab-home">
     <section class="shortcuts"><div class="section-head"><span class="eyebrow">Your everyday <span id="shortcut-count"></span></span><div class="group-control"><select id="shortcut-group" class="group-select" aria-label="Shortcut group"><option value="personal">Personal</option><option value="work">Work</option><option value="study">Study</option><option value="all">All groups</option></select><button class="text-button" id="quick-add-shortcut">+ Add shortcut</button><button class="text-button" id="edit-shortcuts">Edit shortcuts ↗</button></div></div><div class="shortcut-grid"></div></section>
@@ -151,6 +153,7 @@
       <div class="group"><h3>Your shortcuts</h3><button class="button" id="manage-shortcuts">Manage shortcuts ${icon('arrow')}</button></div>
       <div class="group"><h3>Across your devices</h3><label class="toggle">Use browser settings sync<input id="browser-sync" type="checkbox"></label><p class="hint">Opt in on each device. Shares appearance, shortcuts, and widget preferences through your browser’s sync service. Notes, photos, your name, location coordinates, and hardware data stay local.</p><button class="button" id="sync-now">Check browser sync</button><p class="hint" id="sync-status" role="status">Checking availability…</p><p class="hint">Brave may expose this storage API without syncing extension settings across devices. A saved copy does not confirm delivery. Enable browser sync and use the same extension ID on both devices; unpacked installs can have different IDs. Export / Import works as a manual alternative.</p><p class="hint" id="sync-id" style="overflow-wrap:anywhere"></p></div><div class="group"><h3>Keep it yours</h3><div class="buttons"><button class="button" id="export">Export settings</button><label class="button">Import settings<input id="import" type="file" accept="application/json,.json" hidden></label></div><p class="hint">Exports include your note and photo. No analytics, remote fonts, or tracking.</p><button class="text-button" id="native">Open classic Google, including voice & Lens ↗</button></div>
       <div class="group"><h3>GoogleRefreshed · v${version}</h3><a class="button" id="check-updates" href="${repoURL}/releases/latest" target="_blank" rel="noopener noreferrer">Check GitHub for updates ${icon('external')}</a><p class="hint">Opens the latest GitHub release. Compare its version with v${version}, download the new files, then reload the extension in Brave.</p><a class="text-button" href="${repoURL}" target="_blank" rel="noopener noreferrer">View repository ↗</a></div></div></dialog>
+    <dialog class="modal welcome-modal" id="welcome-dialog" aria-labelledby="welcome-title" aria-describedby="welcome-description"><div class="welcome-mark">${GoogleRefreshed.logo}</div><div class="dialog-head"><h2 id="welcome-title">A little more you.</h2></div><form class="panel-content" id="welcome-form"><p id="welcome-description">What should we call you? A name or nickname makes your homepage feel like home.</p><label class="field" for="welcome-name">Your name or nickname <span class="hint">(optional)</span><input id="welcome-name" maxlength="32" placeholder="How you like to be addressed" autocomplete="off" dir="auto" autofocus></label><p class="hint">Saved on this device. Your name is not sent to a server or included in browser settings sync. You can change it in Customize.</p><div class="buttons"><button class="button primary" id="welcome-save" type="submit">Make it mine ${icon('arrow')}</button><button class="button" id="welcome-skip" type="button">Skip for now</button></div><p class="error" id="welcome-error" role="alert"></p></form></dialog>
     <dialog class="modal" id="shortcut-dialog" aria-labelledby="shortcut-title"><div class="dialog-head"><h2 id="shortcut-title">Your everyday.</h2><button class="close" data-close aria-label="Close shortcuts">${icon('close')}</button></div><div class="panel-content"><p class="hint">Keep your favorite places a little closer.</p><div id="shortcut-list"></div><button class="button" id="add-shortcut" style="margin-top:18px">${icon('plus')} Add shortcut</button></div></dialog>
     <dialog class="modal" id="link-dialog" aria-labelledby="link-title"><div class="dialog-head"><h2 id="link-title">Add a little shortcut.</h2><button class="close" data-close aria-label="Close shortcut editor">${icon('close')}</button></div><form class="panel-content" id="link-form"><label class="field">Name<input id="link-name" maxlength="28" required placeholder="A favorite place" autocomplete="off" dir="auto"></label><label class="field">Website<input id="link-url" maxlength="2048" required placeholder="example.com" autocomplete="off"></label><label class="field">Group<select id="link-group"><option value="personal">Personal</option><option value="work">Work</option><option value="study">Study</option></select></label><label class="toggle">Use the original service icon<input type="checkbox" id="link-original" checked></label><label class="field">Custom icon or initials<input id="link-glyph" maxlength="4" placeholder="e.g. ✦ or AB"></label><label class="field">Shortcut color<input id="link-color" type="color"></label><p class="error" id="link-error" role="alert"></p><div class="buttons"><button class="button primary" type="submit">Save shortcut ${icon('arrow')}</button></div></form></dialog>
     <dialog class="modal" id="lens-dialog" aria-labelledby="lens-title"><div class="dialog-head"><h2 id="lens-title">Search by image.</h2><button class="close" data-close aria-label="Close reverse image search">${icon('close')}</button></div><div class="panel-content"><p class="hint">Find similar images, identify objects, or discover where a picture appears with Google Lens.</p><form id="lens-upload" action="https://lens.google.com/v3/upload" method="post" enctype="multipart/form-data"><label class="field">Upload an image<input id="lens-file" name="encoded_image" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" required></label><button class="button primary" type="submit">Search this image</button></form><div class="group"><form id="lens-link"><label class="field">Or paste an image link<input id="lens-url" type="url" placeholder="https://example.com/photo.jpg" maxlength="8192" required autocomplete="off"></label><button class="button" type="submit">Search image link</button></form></div><p class="error" id="lens-error" role="alert"></p><p class="hint">Choose a JPG, PNG, WebP, GIF, or AVIF up to 20 MB. Your image or link goes directly to Google Lens when you search. GoogleRefreshed does not save it.</p></div></dialog>
@@ -182,11 +185,15 @@
   function save(){clearTimeout(saveTimer);saveTimer=setTimeout(flushSave,180);return new Promise(resolve=>saveWaiters.push(resolve));}
   addEventListener('pagehide',flushSave);
   function updateClock() {
-    const now = new Date(), hour = now.getHours();
+    const now = new Date();
     $('#date').textContent = dateFormatter.format(now);
-    const daypart = hour < 12 ? 'morning' : hour < 18 ? 'afternoon' : 'evening';
-    $('#greeting').replaceChildren(document.createTextNode('Good '));
-    const em = document.createElement('em'); em.textContent = `${daypart}${settings.name ? ', ' + settings.name : ''}.`; $('#greeting').append(em);
+    const greeting = GoogleRefreshed.greeting(now, settings.name);
+    const em = document.createElement('em'); em.textContent = greeting.phrase;
+    if (greeting.name) {
+      const name = document.createElement('bdi'); name.dir = 'auto'; name.textContent = greeting.name;
+      em.append(document.createTextNode(', '), name);
+    }
+    $('#greeting').replaceChildren(document.createTextNode(greeting.lead), em);
     $('#time').textContent = new Intl.DateTimeFormat(undefined, {hour:'2-digit',minute:'2-digit',hour12:!settings.hour24}).format(now);
     $('#time').dateTime = now.toISOString();
     $('#timezone').textContent = localZone;
@@ -246,6 +253,7 @@
   }
   $('#shortcut-group').onchange=e=>{settings.activeGroup=e.target.value;renderShortcuts();save();};
   function apply() {
+    if(settings.welcomeComplete && $('#welcome-dialog').open) $('#welcome-dialog').close();
     if($('.theme-art').dataset.theme!==settings.theme){$('.theme-art').innerHTML=globalThis.GoogleRefreshedScenes?.render(settings.theme)||'';$('.theme-art').dataset.theme=settings.theme;}
     app.dataset.motionIntensity=settings.motionIntensity;$('#motion-intensity').value=settings.motionIntensity;
     const engine=GoogleRefreshed.engines.find(e=>e.id===settings.engine)||GoogleRefreshed.engines[0];$('#engine-quick').value=$('#engine-setting').value=engine.id;$('#engine-google-icon').hidden=false;$('#engine-google-icon').src=assetURL(engine.id);$('#engine-letter').hidden=true;$('#engine-google-icon').onerror=()=>{$('#engine-google-icon').hidden=true;$('#engine-letter').hidden=false;};$('#engine-letter').textContent=engine.letter;$('#engine-letter').style.color=engine.color;$('.query').setAttribute('aria-label','Search '+engine.name);$('.query').placeholder='Search '+engine.name+' or explore an idea';$('#search .submit').setAttribute('aria-label','Search '+engine.name);$('#search').action=GoogleRefreshed.searchURL(engine.id,'all','').split('?')[0];
@@ -273,7 +281,7 @@
     $('#home-card').value=settings.homeCard;$('#daily-title').textContent=settings.homeCard==='hardware'?'System activity':'Daily focus';$('#hardware-status').hidden=settings.homeCard!=='hardware';
  $('#name').value = settings.name; $('#accent').value = settings.accent;
     $$('[data-setting]').forEach(el => el.checked = settings[el.dataset.setting]);
-    const themeEmblems={paper:'▱',sage:'❧',ocean:'≈',rose:'❀',futuristic:'⌘',mystic:'☽',magical:'✧',rustic:'▥',solar:'☀',spring:'✿',summer:'☼',autumn:'♧',winter:'❄',midnight:'⋆',aurora:'〰',cosmic:'◉',noir:'◧',amber:'♦',ice:'◇',flowers:'❁',fantasy:'♜',code:'{ }',cloudy:'☁',scary:'☾',colorful:'●',storm:'ϟ',sunset:'◒',math:'∑',library:'▤',office:'▣',science:'⚛',nature:'♧',city:'▥',rainbow:'⌒',lunar:'◐',sakura:'✿',fire:'♨',magma:'▲',snow:'❄',blackhole:'◉',coralreef:'❋',hawaii:'✺',aztec:'▰',desert:'◭',cave:'⌁',emerald:'◇',retro:'▣',radioactive:'☢',shadow:'◐',fjord:'∿'};
+    const themeEmblems={paper:'▱',sage:'❧',ocean:'≈',rose:'❀',futuristic:'⌘',mystic:'☽',magical:'✧',rustic:'▥',solar:'☀',spring:'✿',summer:'☼',autumn:'♧',winter:'❄',midnight:'⋆',aurora:'〰',cosmic:'◉',noir:'◧',amber:'♦',ice:'◇',flowers:'❁',fantasy:'♜',code:'{ }',cloudy:'☁',scary:'☾',colorful:'●',storm:'ϟ',sunset:'◒',math:'∑',library:'▤',office:'▣',science:'⚛',nature:'♧',city:'▥',rainbow:'⌒',lunar:'◐',sakura:'✿',fire:'♨',magma:'▲',snow:'❄',blackhole:'◉',coralreef:'❋',hawaii:'✺',aztec:'▰',desert:'◭',cave:'⌁',emerald:'◇',retro:'▣',radioactive:'☢',shadow:'◐',fjord:'∿',lerouge:'♜',fashion:'✂'};
     $$('[data-theme-choice]').forEach(el=>{const t=themeById(el.dataset.themeChoice),p=dark?t.dark:t.light;el.setAttribute('aria-pressed',String(t.id===settings.theme));el.style.background=p[0];el.style.color=p[1];el.style.borderColor=t.id===settings.theme?settings.accent:p[3];const sample=el.querySelector('.theme-sample');sample.style.setProperty('--sample',p[0]);sample.style.setProperty('--sample-soft',p[4]);sample.style.setProperty('--sample-fg',p[1]);if(!sample.firstElementChild){const emblem=document.createElement('span');emblem.className='theme-emblem';emblem.setAttribute('aria-hidden','true');emblem.textContent=themeEmblems[t.id]||'✧';sample.append(emblem);}});
     $$('[data-appearance-choice]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.appearanceChoice===settings.appearance)));
     $$('[data-accent]').forEach(el => el.setAttribute('aria-pressed',String(el.dataset.accent === settings.accent)));
@@ -427,7 +435,25 @@
   }
   function openDialog(id) { if (!$(id).open) $(id).showModal(); }
   $$('[data-close]').forEach(button => button.onclick = () => button.closest('dialog').close());
-  $$('dialog').forEach(dialog => dialog.addEventListener('click', e => { if (e.target !== dialog) return; const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.close(); }));
+  $$('dialog').forEach(dialog => dialog.addEventListener('click', e => { if (e.target !== dialog || dialog.id === 'welcome-dialog') return; const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.close(); }));
+  let finishingWelcome = false;
+  async function finishWelcome(skip = false) {
+    if(finishingWelcome)return;
+    finishingWelcome=true;$('#welcome-save').disabled=$('#welcome-skip').disabled=true;$('#welcome-error').textContent='';
+    const previousName=settings.name;
+    settings.name=skip?'':$('#welcome-name').value.trim().slice(0,32);settings.welcomeComplete=true;
+    if(await save()){
+      $('#welcome-dialog').close();apply();$('.query').focus();
+      if(params.get('still')==='customize')openDialog('#settings');
+    }else{
+      settings.name=previousName;settings.welcomeComplete=false;
+      $('#welcome-error').textContent='Your name could not be saved. Please try again.';
+    }
+    finishingWelcome=false;$('#welcome-save').disabled=$('#welcome-skip').disabled=false;
+  }
+  $('#welcome-form').onsubmit=e=>{e.preventDefault();finishWelcome();};
+  $('#welcome-skip').onclick=()=>finishWelcome(true);
+  $('#welcome-dialog').addEventListener('cancel',e=>{e.preventDefault();finishWelcome(true);});
   async function refreshSync(message={type:'browserSyncStatus'}){
     const checkbox=$('#browser-sync'),button=$('#sync-now'),status=$('#sync-status');
     if(preview){checkbox.disabled=button.disabled=true;status.textContent='Available in the installed extension. The preview keeps settings on this device.';return;}
@@ -623,7 +649,7 @@
     try{
       if(await flushSave()===false)return;
       if(!preview){await requestData({type:'browserSyncEnable',enabled:false});await requestData({type:'newTabHome',enabled:false});}
-      settings=clean(defaults);settings.photoNewsMigrated=true;resetFocus();apply();
+      settings=clean({...defaults,welcomeComplete:true});settings.photoNewsMigrated=true;resetFocus();apply();
       if(await save()){toast('Default homepage settings restored.');refreshSync();if(activeTab==='news')loadNews();if(activeTab==='weather')loadWeather();}
     }catch(error){toast(error.message||'Could not reset settings. Try again.');}
     finally{$('#reset').disabled=false;clearResetConfirmation();}
@@ -668,7 +694,8 @@
     const reveal=()=>{if(!preview)GoogleRefreshedBoot?.release();};designStyle.onload=reveal;designStyle.onerror=reveal;root.append(designStyle);setTimeout(reveal,700);
     new MutationObserver(()=>{if(!classic)suppressOriginal();}).observe(document.body,{childList:true});
     scheduleClock();
-    if(params.get('still')==='customize')openDialog('#settings');
+    if(!settings.welcomeComplete)openDialog('#welcome-dialog');
+    else if(params.get('still')==='customize')openDialog('#settings');
   }
   start();
 })();
