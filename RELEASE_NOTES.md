@@ -1,13 +1,9 @@
-# GoogleRefreshed v1.6.2
+# GoogleRefreshed v1.6.3
 
-Aztec has been rebuilt as a detailed architectural scene with a monumental temple precinct, layered terraces, carved reliefs, serpent sculptures, weathered masonry, blue-and-ochre details and a lake landscape.
+Custom shortcuts now use Brave/Chromium's favicon cache instead of falling back to initials for every website outside the built-in icon list. The exact saved website URL is used, so subdomains remain distinct and editing a shortcut updates its icon.
 
-Flames, rising incense, torchlight, water reflections, clouds and vegetation move independently. Buildings remain still. Both light/dark palettes have been revised; custom accents are preserved, and the previous default accent updates automatically.
+Bundled service icons and explicitly chosen initials remain supported. Unavailable icon images fall back to initials. The favicon permission enables browser-provided icons; no external icon aggregator or broad website access is added.
 
-The scene uses original local vector artwork. No permissions, remote assets, providers, runtime dependencies or animation timers were added. Motion still respects animation off, reduced motion, hidden-tab pause and Subtle intensity. The catalog remains at 52 themes.
+If a website's icon has not been cached, open the website once and refresh GoogleRefreshed.
 
-## Update
-
-Local development files already contain v1.6.2. At brave://extensions, reload GoogleRefreshed and refresh Google.
-
-For another unpacked installation, extract GoogleRefreshed-v1.6.2.zip over the existing extension folder, then reload the extension and refresh Google. Keep the same folder to preserve its identity and preferences. The optional matching browser-theme archive includes the revised Aztec colors.
+Reload GoogleRefreshed at brave://extensions and refresh Google. Other installations can extract GoogleRefreshed-v1.6.3.zip over their existing extension folder and reload.

@@ -1,6 +1,6 @@
 # Security and privacy publication review
 
-Reviewed on 2026-10-29 for GoogleRefreshed v1.6.2.
+Reviewed on 2026-10-30 for GoogleRefreshed v1.6.3.
 
 ## Scope
 
@@ -66,3 +66,7 @@ Le Rouge and Fashion add two bundled SVG/CSS packs, bringing the catalog to 52 t
 ## v1.6.2 Aztec redesign
 
 Aztec's original SVG geometry and CSS motion were replaced within the existing scene pack. The revised palette recognizes its previous default accent and preserves other custom colors. No permission, provider, dependency, background task or animation timer was added. The selected-scene node/animation limits, reduced-motion setting and hidden-page pause remain enforced by validation. Documentation screenshots use synthetic hardware and no personal name or location. Current source, new preview metadata and packaged ZIPs are checked for secret/private-file candidates; the unchanged historical baseline was scanned for v1.6.1.
+
+## v1.6.3 shortcut favicon lookup
+
+Custom shortcuts use Chromium's internal favicon endpoint keyed by the saved, validated destination URL. The new `favicon` permission and `_favicon/*` resource are scoped to existing Google page matches; no browsing-history or broad host permission is requested. The installed extension adds no remote icon provider and stores no extra icon bytes, cache or history. Bundled brands retain their local icons; custom initials remain opt-in, and unavailable images have a bounded text fallback. The standalone development preview may request the chosen HTTPS site's `/favicon.ico` without a referrer. Destination edits rebuild the icon URL, preventing stale logos. Targeted checks exercise exact-site lookup, subdomain separation, bundled/custom icons, load failure and persistence.

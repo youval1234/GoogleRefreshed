@@ -101,7 +101,7 @@
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
   let saveWaiters = [];
   const repoURL = 'https://github.com/youval1234/GoogleRefreshed';
-  const version = preview ? '1.6.2' : chrome.runtime.getManifest().version;
+  const version = preview ? '1.6.3' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();
@@ -206,11 +206,22 @@
   reducedMotion.addEventListener('change',()=>{if(settings)updateMotion();});
   systemDark.addEventListener('change',()=>{if(settings?.appearance==='system')apply();});
   function makeShortcut(item, index, services = false) {
-    const a = document.createElement('a'); a.className = 'shortcut'; a.href = item.url; a.title = item.url;
+    const a = document.createElement('a'); a.className = 'shortcut'; a.href = item.url; a.title = item.url; a.ariaLabel = item.name;
     if (!services && settings.newTab) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
     const glyph = document.createElement('span'); glyph.className = 'tile'; glyph.style.setProperty('--tile', item.color);
     const service=officialIcon(item.url);
-    if(service&&item.iconMode!=='text'){const image=document.createElement('img');image.className='service-icon';image.alt='';image.width=25;image.height=25;image.dataset.service=service;image.src=assetURL(service);image.onerror=()=>{image.remove();glyph.textContent=item.glyph;};glyph.append(image);}else glyph.textContent=item.glyph;
+    if(item.iconMode!=='text'){
+      const image=document.createElement('img');image.className='service-icon';image.alt='';image.width=25;image.height=25;
+      image.referrerPolicy='no-referrer';image.decoding='async';
+      const site=new URL(item.url);
+      const sources=[];
+      if(service){image.dataset.service=service;sources.push(assetURL(service));}
+      if(preview&&site.protocol==='https:')sources.push(new URL('/favicon.ico',site.origin).href);
+      if(!preview){const favicon=new URL(chrome.runtime.getURL('_favicon/'));favicon.searchParams.set('pageUrl',site.href);favicon.searchParams.set('size','64');sources.push(favicon.href);}
+      let next=1;
+      image.onerror=()=>{if(next<sources.length)image.src=sources[next++];else{image.remove();glyph.textContent=item.glyph;}};
+      if(sources.length){image.src=sources[0];glyph.append(image);}else glyph.textContent=item.glyph;
+    }else glyph.textContent=item.glyph;
     const label = document.createElement('span'); label.textContent = item.name;
     const arrow = document.createElement('span'); arrow.className = 'go'; arrow.textContent = '↗'; arrow.ariaHidden = 'true';
     a.append(glyph,label,arrow);if(services)return a;
