@@ -14,8 +14,19 @@
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const assetURL = name => preview ? new URL(`icons/services/${name}.png`,location.href).href : chrome.runtime.getURL(`icons/services/${name}.png`);
   const officialIcon = url => {
-    const host = new URL(url).hostname;
-    return ({'mail.google.com':'gmail','www.youtube.com':'youtube','youtube.com':'youtube','drive.google.com':'drive','calendar.google.com':'calendar','chatgpt.com':'chatgpt','maps.google.com':'maps','photos.google.com':'photos','translate.google.com':'translate','myaccount.google.com':'google','www.google.com':'google'})[host];
+    const site = new URL(url), host = site.hostname;
+    const services = {'mail.google.com':'gmail','www.youtube.com':'youtube','youtube.com':'youtube','drive.google.com':'drive','calendar.google.com':'calendar','chatgpt.com':'chatgpt','maps.google.com':'maps','photos.google.com':'photos','translate.google.com':'translate','myaccount.google.com':'google','accounts.google.com':'google','finance.google.com':'finance','news.google.com':'news','keep.google.com':'keep','meet.google.com':'meet','gemini.google.com':'gemini','books.google.com':'books','scholar.google.com':'scholar','earth.google.com':'earth','shopping.google.com':'shopping','classroom.google.com':'classroom','sites.google.com':'sites','sheets.google.com':'sheets','slides.google.com':'slides','forms.google.com':'forms'};
+    if (host === 'docs.google.com') {
+      return ({document:'docs',spreadsheets:'sheets',presentation:'slides',forms:'forms'})[site.pathname.split('/')[1]] || 'docs';
+    }
+    // Match complete path segments, never a lookalike hostname or /finance-other.
+    if (['www.google.com','google.com','www.google.co.il','google.co.il'].includes(host)) {
+      const service = ({finance:'finance',maps:'maps',travel:'travel',flights:'travel',shopping:'shopping',books:'books',news:'news'})[site.pathname.split('/')[1]];
+      if (service) return service;
+      if (['/','/webhp','/search'].includes(site.pathname)) return 'google';
+      return;
+    }
+    return services[host];
   };
   const defaults = {
     welcomeComplete:false,engine:'google',motionIntensity:'vivid',worldClock:true,focusTimer:true,worldZone:'UTC',focusMinutes:25,font:'manrope',theme: 'paper', appearance: 'system', animations: true, accent: '#c65332', name: '', clock: true, focus: true, shortcutsVisible: true,
@@ -101,7 +112,7 @@
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
   let saveWaiters = [];
   const repoURL = 'https://github.com/youval1234/GoogleRefreshed';
-  const version = preview ? '1.6.3' : chrome.runtime.getManifest().version;
+  const version = preview ? '1.6.4' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();

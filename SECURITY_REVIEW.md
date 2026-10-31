@@ -1,3 +1,7 @@
+## v1.6.4 follow-up
+
+Customize positioning and Google service logo routing add no permissions, dependencies, credentials or runtime network calls. Product icons are bundled PNGs from the official sources recorded in `extension/icons/services/sources.json`. Host checks use exact matches and route checks use complete path segments. Unknown Google paths retain native favicon lookup. Scoped source and release-archive scanning found no secret/private-file candidates; this is not a new complete-history audit.
+
 # Security and privacy publication review
 
 Reviewed on 2026-10-30 for GoogleRefreshed v1.6.3.

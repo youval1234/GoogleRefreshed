@@ -12,5 +12,21 @@
   "duckduckgo": "https://duckduckgo.com/favicon.ico",
   "bing": "https://www.bing.com/favicon.ico",
   "ecosia": "https://www.ecosia.org/favicon.ico",
-  "brave": "https://brave.com/favicon.ico"
+  "brave": "https://brave.com/favicon.ico",
+  "finance": "https://www.gstatic.com/finance/favicon/finance_v2_120x120.png",
+  "news": "https://www.gstatic.com/images/branding/product/2x/news_48dp.png",
+  "docs": "https://www.gstatic.com/images/branding/product/2x/docs_2020q4_48dp.png",
+  "sheets": "https://www.gstatic.com/images/branding/product/2x/sheets_2020q4_48dp.png",
+  "slides": "https://www.gstatic.com/images/branding/product/2x/slides_2020q4_48dp.png",
+  "forms": "https://www.gstatic.com/images/branding/product/2x/forms_2020q4_48dp.png",
+  "meet": "https://www.gstatic.com/images/branding/product/2x/meet_2020q4_48dp.png",
+  "gemini": "https://www.gstatic.com/lamda/images/gemini_sparkle_4g_512_lt_f94943af3be039176192d.png",
+  "books": "https://www.gstatic.com/images/branding/product/2x/play_books_48dp.png",
+  "scholar": "https://scholar.google.com/favicon.ico",
+  "earth": "https://www.gstatic.com/earth/00-favicon.ico",
+  "shopping": "https://www.gstatic.com/gsx/shopping_favicon-32x32.png",
+  "travel": "https://www.gstatic.com/images/branding/product/2x/travel_48dp.png",
+  "keep": "https://www.gstatic.com/images/branding/product/2x/keep_2020q4_48dp.png",
+  "classroom": "https://www.gstatic.com/images/branding/product/2x/classroom_48dp.png",
+  "sites": "https://www.gstatic.com/images/branding/product/2x/sites_2020q4_48dp.png"
 }
