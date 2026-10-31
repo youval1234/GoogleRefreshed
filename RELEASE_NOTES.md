@@ -1,10 +1,7 @@
-# GoogleRefreshed v1.6.4
+# GoogleRefreshed v1.6.5
 
-- Keep Customize visible at the bottom right of the window while scrolling the homepage, weather or news.
-- Recognize Google services by hostname and URL path. Finance and its quote pages now show the official Finance logo instead of the generic Google G.
-- Bundle official icons for Docs, Sheets, Slides, Forms, News, Keep, Meet, Gemini, Books, Scholar, Earth, Shopping, Travel, Classroom and Sites. Existing Google service icons remain available.
-- Unknown paths retain native favicon lookup; custom initials remain supported. No additional permissions or runtime network requests.
+Replace Google Finance's opaque white-backed favicon with Google Finance's official transparent PNG. The logo now blends with light and dark shortcut cards like the other bundled Google service logos.
 
-Verified in isolated Brave: seven targeted checks, including service-path routing, image decoding, lookalike-host fallbacks, and Customize visibility and click behavior at three scroll positions on desktop and mobile. The 17 core checks also pass.
+Checked all bundled service PNGs for transparency and reran the seven shortcut and scrolling checks in isolated Brave. No new permissions, dependencies or runtime network requests.
 
-Reload GoogleRefreshed at brave://extensions and refresh Google. Other installations can extract GoogleRefreshed-v1.6.4.zip over their existing extension folder and reload.
+Reload GoogleRefreshed at brave://extensions and refresh Google. Other installations can extract GoogleRefreshed-v1.6.5.zip over their existing extension folder and reload.
