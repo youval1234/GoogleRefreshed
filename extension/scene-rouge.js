@@ -1,7 +1,7 @@
 // Le Rouge: an original theatrical horror department store. No remote art or frame loop.
 (() => {
   'use strict';
-  (globalThis.GoogleRefreshedScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line}) => {
+  (globalThis.SearchscapeScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line}) => {
     const bone='#e8cdb2', edge='#b99b86', red='#a32436', hot='#dc5c55', deep='#490f20', metal='#8f645a';
     const at=(x,y,body,extra='')=>`<g transform="translate(${x} ${y})" ${extra}>${body}</g>`;
     const ellipse=(x,y,rx,ry,fill,extra='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" ${extra}/>`;

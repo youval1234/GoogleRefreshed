@@ -1,3 +1,9 @@
+## v2.0.0 follow-up
+
+Searchscape adds a local extension new-tab page and split incognito mode. Normal new-tab use adds no host permissions. Private use still requires the user’s browser setting. Automatic review blocked the attempted private redirect change; the existing optional redirect retains its Google destination. No claim is made that private new-tab override works.
+
+SearXNG addresses are validated: HTTPS or HTTP localhost, no embedded credentials, query or fragment. Searches navigate directly to the chosen instance; the address remains local and is excluded from preference sync. Service ecosystems contain fixed HTTPS destinations and use the existing icon lookup. Existing settings keys remain unchanged; older exports remain accepted. Source and v2.0 release archives were scanned for secret/private-file candidates, with no findings. This is not a new complete-history audit.
+
 ## v1.7.0 follow-up
 
 Shortcut reordering changes the existing settings array through the existing local/save and optional sync mechanisms. No permissions, network endpoints, dependencies or new stored identifiers are added. Drag previews clone existing local DOM and are removed at completion; pointer listeners, animation frames and temporary click guards are bounded and cleaned up. Scoped source and release-archive scanning found no secret/private-file candidates; this is not a new complete-history audit.
@@ -8,7 +14,7 @@ Customize positioning and Google service logo routing add no permissions, depend
 
 # Security and privacy publication review
 
-Reviewed on 2026-10-30 for GoogleRefreshed v1.6.3.
+Reviewed on 2026-10-30 for Searchscape v1.6.3.
 
 ## Scope
 
@@ -33,7 +39,7 @@ No credentials, API tokens, passwords, private keys, cookies, browser histories,
 
 ## Remaining boundaries
 
-GoogleRefreshed is integrated into Google pages; the greeting and ordinary UI preferences are visible page content. Hardware/notes are isolated, but the extension does not prevent Google from executing its own page scripts or receiving searches. Optional services receive their requested queries and the client's IP address. Companion native themes are installed manually, and arbitrary websites retain their own styles. Provider internals are outside this review.
+Searchscape is integrated into Google pages; the greeting and ordinary UI preferences are visible page content. Hardware/notes are isolated, but the extension does not prevent Google from executing its own page scripts or receiving searches. Optional services receive their requested queries and the client's IP address. Companion native themes are installed manually, and arbitrary websites retain their own styles. Provider internals are outside this review.
 
 The review combines static inspection, pattern scanning, archive checks, and targeted browser tests. The scan can be rerun with `python security-audit.py`; it reports candidate paths without printing candidate secret values.
 

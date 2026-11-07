@@ -3,7 +3,7 @@ const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert/strict');
 const meta={location:{hostname:'localhost'},URL};
 vm.runInNewContext(fs.readFileSync(path.join(__dirname,'extension/shared.js'),'utf8'),meta);
-const theme=meta.GoogleRefreshed.themes.find(t=>t.id==='aztec');
+const theme=meta.Searchscape.themes.find(t=>t.id==='aztec');
 const capture=process.env.GR_CAPTURE_PREVIEWS==='1';
 const luminance=hex=>{const rgb=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).map(n=>n<=.04045?n/12.92:((n+.055)/1.055)**2.4);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];};
 let context,checks=0;

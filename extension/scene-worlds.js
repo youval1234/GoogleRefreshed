@@ -1,6 +1,6 @@
 // Original local vector scenes. Factories run only when the selected world is mounted.
 'use strict';
-(globalThis.GoogleRefreshedScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line,caption})=>{
+(globalThis.SearchscapeScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line,caption})=>{
   const ellipse=(x,y,rx,ry,fill=a,extra='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" ${extra}/>`;
   const placed=(x,y,body,angle=0,scale=1)=>`<g transform="translate(${x} ${y}) rotate(${angle}) scale(${scale})">${body}</g>`;
   const flecks=(prefix,count,color=f)=>Array.from({length:count},(_,i)=>circle((i*379+93)%1600,(i*227+81)%1000,.8+i%3*.55,color,`opacity="${.15+i%4*.07}" class="${prefix}" style="--w-phase:-${i*1.31}s"`)).join('');

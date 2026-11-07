@@ -57,13 +57,13 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
    assert.match(await page.getByRole('alert').innerText(),/http/);assert.equal(await page.getByRole('link',{name:'Unsafe',exact:true}).count(),0);
    await page.getByRole('button',{name:'Close shortcut editor'}).click();
  });
- await check('Classic Google restores native controls and can reopen GoogleRefreshed',async()=>{
-   await page.getByRole('button',{name:'Classic Google',exact:false}).click();
+ await check('Classic Google restores native controls and can reopen Searchscape',async()=>{
+   await page.getByRole('button',{name:'Provider homepage',exact:false}).click();
    assert.equal(await page.locator('#fixture-native').evaluate(e=>e.inert),false);await page.getByLabel('Native Google search').fill('Native works');
-   await page.getByRole('button',{name:/Back to GoogleRefreshed/}).click();assert.equal(await page.locator('#fixture-native').evaluate(e=>e.inert),true);
+   await page.getByRole('button',{name:/Back to Searchscape/}).click();assert.equal(await page.locator('#fixture-native').evaluate(e=>e.inert),true);
  });
  await check('Apps menu and Escape work',async()=>{
-   await page.getByRole('button',{name:'Google apps',exact:true}).click();
+   await page.getByRole('button',{name:'Open services',exact:true}).click();
    assert.equal(await page.locator('#google-apps a').count(),9);await page.keyboard.press('Escape');assert.equal(await page.locator('#apps-dialog').isVisible(),false);
  });
  await check('Settings export, import, and photo upload work',async()=>{
@@ -71,7 +71,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
    await page.locator('#photo-file').setInputFiles(path.resolve(ext,'icons/128.png'));
    await page.waitForFunction(()=>document.querySelector('#still-home').shadowRoot.querySelector('.app').classList.contains('has-photo'));
    const download=page.waitForEvent('download');await page.getByRole('button',{name:'Export settings'}).click();
-   const exported=JSON.parse(fs.readFileSync(await (await download).path(),'utf8'));assert.equal(exported.format,'google-refreshed');assert.match(exported.settings.photo,/^data:image\/jpeg/);
+   const exported=JSON.parse(fs.readFileSync(await (await download).path(),'utf8'));assert.equal(exported.format,'searchscape');assert.match(exported.settings.photo,/^data:image\/jpeg/);
    exported.settings.name='Imported';
    await page.locator('#import').setInputFiles({name:'settings.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(exported))});
    await page.waitForFunction(()=>document.querySelector('#still-home').shadowRoot.querySelector('h1').textContent.includes('Imported'));

@@ -16,7 +16,7 @@
     if(text.length>500000)throw new Error('This source returned too much data.');
     return text;
   }
-  globalThis.GoogleRefreshedData = async (message,signal) => {
+  globalThis.SearchscapeData = async (message,signal) => {
     if(message.type==='suggestions'){
       const query=String(message.query||'').trim().slice(0,200);if(!query)return [];
       const url=new URL('https://www.google.com/complete/search');url.search=new URLSearchParams({client:'gws-wiz',q:query,hl:languages.has(message.language)?message.language:'en'});

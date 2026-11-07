@@ -1,7 +1,7 @@
 // A layered reef ecosystem. All marine geometry is local and mounted only on selection.
 (() => {
   'use strict';
-  (globalThis.GoogleRefreshedScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line}) => {
+  (globalThis.SearchscapeScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line}) => {
     const at=(x,y,body,extra='')=>`<g transform="translate(${x} ${y})" ${extra}>${body}</g>`;
     const ellipse=(x,y,rx,ry,fill,extra='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" ${extra}/>`;
     const clownBody='M-40 0C-29-21-5-29 20-19Q38-13 44 0C31 23 10 28-12 18Q-31 13-40 0Z';

@@ -2,16 +2,16 @@
   'use strict';
   const preview=['localhost','127.0.0.1'].includes(location.hostname),$=id=>document.getElementById(id);
   let settings={},visible=false,timer,busy=false,previous=null,saveTimer;
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(GoogleRefreshed.appearance(settings)==='system')apply(settings);});
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(Searchscape.appearance(settings)==='system')apply(settings);});
   const history=[];
-  const reportStatus=state=>parent.postMessage({type:'google-refreshed-monitor-status',state},'*');
+  const reportStatus=state=>parent.postMessage({type:'searchscape-monitor-status',state},'*');
   // Only a layout height crosses into the page; hardware values and notes stay private.
-  new ResizeObserver(()=>parent.postMessage({type:'google-refreshed-frame-size',height:Math.ceil(document.body.getBoundingClientRect().height)+2},'*')).observe(document.body);
+  new ResizeObserver(()=>parent.postMessage({type:'searchscape-frame-size',height:Math.ceil(document.body.getBoundingClientRect().height)+2},'*')).observe(document.body);
   async function read(){if(preview){try{return JSON.parse(localStorage.getItem('stillSettings'))||{};}catch{return {};}}return (await chrome.storage.local.get('stillSettings')).stillSettings||{};}
-  function apply(value){const wasPolling=canPoll();settings=value;const {colors,accent,dark}=GoogleRefreshed.palette(settings);const el=document.documentElement;el.style.setProperty('--fg',colors[1]);el.style.setProperty('--muted',colors[2]);el.style.setProperty('--accent',dark?`color-mix(in srgb,${accent} 70%,white)`:accent);el.style.setProperty('--font',GoogleRefreshed.loadFont(settings.font));el.style.colorScheme=dark?'dark':'light';$('monitor').hidden=settings.homeCard==='note';$('note').hidden=settings.homeCard!=='note';if($('note').value!==(settings.note||''))$('note').value=settings.note||'';if(wasPolling!==canPoll()||!timer&&!busy)poll();}
+  function apply(value){const wasPolling=canPoll();settings=value;const {colors,accent,dark}=Searchscape.palette(settings);const el=document.documentElement;el.style.setProperty('--fg',colors[1]);el.style.setProperty('--muted',colors[2]);el.style.setProperty('--accent',dark?`color-mix(in srgb,${accent} 70%,white)`:accent);el.style.setProperty('--font',Searchscape.loadFont(settings.font));el.style.colorScheme=dark?'dark':'light';$('monitor').hidden=settings.homeCard==='note';$('note').hidden=settings.homeCard!=='note';if($('note').value!==(settings.note||''))$('note').value=settings.note||'';if(wasPolling!==canPoll()||!timer&&!busy)poll();}
   async function sample(){
     if(preview){const r=await fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'hardware'}),signal:AbortSignal.timeout(6000)});const result=await r.json();if(!result.ok)throw new Error(result.error);return result.data;}
-    return new Promise((resolve,reject)=>{const port=chrome.runtime.connect({name:'google-refreshed-data'});let settled=false;const timeout=setTimeout(()=>{port.disconnect();reject(new Error('Hardware request timed out'));},6000);port.onMessage.addListener(result=>{settled=true;clearTimeout(timeout);port.disconnect();if(result.ok)resolve(result.data);else reject(new Error(result.error));});port.onDisconnect.addListener(()=>{clearTimeout(timeout);const error=chrome.runtime.lastError;if(!settled)reject(new Error(error?.message||'Hardware connection closed'));});port.postMessage({type:'hardware'});});
+    return new Promise((resolve,reject)=>{const port=chrome.runtime.connect({name:'searchscape-data'});let settled=false;const timeout=setTimeout(()=>{port.disconnect();reject(new Error('Hardware request timed out'));},6000);port.onMessage.addListener(result=>{settled=true;clearTimeout(timeout);port.disconnect();if(result.ok)resolve(result.data);else reject(new Error(result.error));});port.onDisconnect.addListener(()=>{clearTimeout(timeout);const error=chrome.runtime.lastError;if(!settled)reject(new Error(error?.message||'Hardware connection closed'));});port.postMessage({type:'hardware'});});
   }
   function canPoll(){return visible&&!document.hidden&&settings.focus!==false&&settings.homeCard!=='note';}
   async function poll(){

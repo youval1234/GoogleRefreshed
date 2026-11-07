@@ -28,5 +28,6 @@
   "travel": "https://www.gstatic.com/images/branding/product/2x/travel_48dp.png",
   "keep": "https://www.gstatic.com/images/branding/product/2x/keep_2020q4_48dp.png",
   "classroom": "https://www.gstatic.com/images/branding/product/2x/classroom_48dp.png",
-  "sites": "https://www.gstatic.com/images/branding/product/2x/sites_2020q4_48dp.png"
+  "sites": "https://www.gstatic.com/images/branding/product/2x/sites_2020q4_48dp.png",
+  "searxng": "https://raw.githubusercontent.com/searxng/searxng/master/searx/static/themes/simple/img/favicon.png"
 }

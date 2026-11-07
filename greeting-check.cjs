@@ -6,7 +6,7 @@ const {chromium} = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const meta = {location:{hostname:'localhost', protocol:'http:', href:'http://localhost/'}, URL};
 vm.createContext(meta);
 vm.runInContext(fs.readFileSync(path.join(__dirname, 'extension/shared.js'), 'utf8'), meta);
-const greeting = meta.GoogleRefreshed.greeting;
+const greeting = meta.Searchscape.greeting;
 const checks = [];
 async function check(name, fn) {await fn(); checks.push(name); console.log('PASS ' + name);}
 let context;

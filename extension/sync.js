@@ -3,7 +3,7 @@
   'use strict';
   const key='grPreferencesV1',stateKey='grSyncState';
   const booleans=['animations','clock','focus','shortcutsVisible','weatherEnabled','newsEnabled','autoLocation','localNews','newsLanguageAuto','colorfulWeather','newsImages','suggestionImages','resultsTheme','hour24','newTab','compact','suggestions','worldClock','focusTimer'];
-  const choices={engine:['google','duckduckgo','brave','bing','ecosia'],motionIntensity:['vivid','subtle'],worldZone:['UTC','Europe/London','America/New_York','America/Los_Angeles','Asia/Tokyo','Asia/Jerusalem','Europe/Paris','Australia/Sydney'],font:['manrope','inter','outfit','roboto','dmsans','spacegrotesk','lora','arial','system','serif','verdana','trebuchet'],appearance:['light','dark','system'],homeCard:['hardware','note'],newsSource:['google','bing','bbc','guardian'],units:['celsius','fahrenheit'],newsLanguage:['en','he','de','fr','ja'],newsTopic:['local','top','world','technology','business','science','sports','health','entertainment','custom'],activeGroup:['personal','work','study','all']};
+  const choices={ecosystem:['google','microsoft','apple','proton'],engine:['google','duckduckgo','brave','bing','ecosia','searxng'],motionIntensity:['vivid','subtle'],worldZone:['UTC','Europe/London','America/New_York','America/Los_Angeles','Asia/Tokyo','Asia/Jerusalem','Europe/Paris','Australia/Sydney'],font:['manrope','inter','outfit','roboto','dmsans','spacegrotesk','lora','arial','system','serif','verdana','trebuchet'],appearance:['light','dark','system'],homeCard:['hardware','note'],newsSource:['google','bing','bbc','guardian'],units:['celsius','fahrenheit'],newsLanguage:['en','he','de','fr','ja'],newsTopic:['local','top','world','technology','business','science','sports','health','entertainment','custom'],activeGroup:['personal','work','study','all']};
   function preferences(value={}){
     const out={};if(!value||typeof value!=='object'||Array.isArray(value))return out;
     for(const name of booleans)if(typeof value[name]==='boolean')out[name]=value[name];
@@ -67,5 +67,5 @@
     if(area==='local'&&changes.stillSettings){clearTimeout(timer);timer=setTimeout(()=>serial(publish),650);}
   });
   serial(async()=>{const state=await readState();if(!state.enabled)return;try{const bundle=(await chrome.storage.sync.get(key))[key];if(bundle)await receive(bundle);await publish();}catch(error){await saveState({...await readState(),error:error.message||'Browser sync is unavailable.'});}});
-  globalThis.GoogleRefreshedSync={request,preferences};
+  globalThis.SearchscapeSync={request,preferences};
 })();

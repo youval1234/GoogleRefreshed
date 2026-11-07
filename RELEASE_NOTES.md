@@ -1,12 +1,13 @@
-# GoogleRefreshed v1.7.0
+# Searchscape v2.0.0
 
-Rearrange shortcuts directly on the homepage. Drag a card with the mouse, or use its grip on touch screens. A floating card follows your movement while neighboring shortcuts slide into place, and the new order saves when you drop it. Drag near the window edge to scroll through longer lists.
+GoogleRefreshed is now Searchscape: an interactive search homepage with your choice of provider.
 
-- Focus a shortcut's grip and use arrow keys, Home or End to reorder with the keyboard. Focus stays on the moved shortcut and its new position is announced.
-- Press Escape or release outside the grid to cancel. Dragging does not open the shortcut.
-- Reordering within a group preserves the slots of shortcuts in other groups. All groups lets you reorder the complete list.
-- Animations respect the animation toggle and the system's reduced-motion preference. Pointer listeners and the scrolling loop are removed when the drag ends.
+- Ordinary new tabs now open a local extension homepage, independent of Google or the address-bar search engine. The popup opens and customizes this same page.
+- Open the homepage as a standalone extension page to avoid Brave’s surrounding new-tab footer.
+- Add SearXNG with a configurable trusted instance, including subdirectory installations and HTTP localhost. Web, image and video searches go directly to that instance. The instance URL stays local.
+- Switch the Services launcher between Google, Microsoft, Apple and Proton. Your ecosystem preference is saved independently of the search engine.
+- Update interface branding, repository links and release names. Existing local settings and GoogleRefreshed exports remain compatible.
 
-Verified with eight interaction checks in isolated Brave, including real touch input, saved ordering after reload, hidden groups, cancellation and keyboard focus, plus the 17 core checks and seven icon/scrolling checks. No new permissions or dependencies.
+Private windows require Allow in Private in Brave extension details. Chromium does not allow direct private New Tab overrides. Use Open homepage from the extension button. The older optional new-tab redirect is retained with its existing Google destination; automatic review blocked the attempted expansion of this redirect.
 
-Reload GoogleRefreshed at brave://extensions and refresh Google. Other installations can extract GoogleRefreshed-v1.7.0.zip over their existing extension folder and reload.
+Update files in the existing unpacked folder, reload the extension at brave://extensions and open a new tab. Reusing the folder preserves the extension ID and settings. The browser may ask you to confirm the new-tab change.

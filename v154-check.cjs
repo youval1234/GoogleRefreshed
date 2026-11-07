@@ -49,7 +49,7 @@ const saved=worker=>worker.evaluate(async()=>(await chrome.storage.local.get('st
   await check('New-tab toggle asks for the optional permission and turns off when declined',async()=>{
    await page.getByRole('button',{name:'Customize',exact:true}).click();
    const toggle=page.locator('[data-setting=newTabHome]');assert.equal(await toggle.isChecked(),false);
-   await page.getByText('Open GoogleRefreshed in every new tab').click();
+   await page.getByText('Legacy new-tab redirect (optional)').click();
    // Playwright does not attach to extension popup windows, so the window is found and replaced with a regular tab.
    const findPrompt=()=>worker.evaluate(async()=>(await chrome.windows.getAll({populate:true})).find(w=>w.type==='popup'&&w.tabs.some(t=>/newtab-permission\.html$/.test(t.url||t.pendingUrl||'')))?.id);
    let windowId;for(let i=0;i<50&&!windowId;i++){windowId=await findPrompt();if(!windowId)await page.waitForTimeout(100);}
@@ -80,7 +80,7 @@ const saved=worker=>worker.evaluate(async()=>(await chrome.storage.local.get('st
    const id=await second.worker.evaluate(async()=>(await chrome.tabs.create({url:'chrome://newtab/'})).id);
    await new Promise(r=>setTimeout(r,1500));assert.doesNotMatch(await tabURL(id),/google\.com/);
   });
-  await check('With the setting on, new tabs open GoogleRefreshed',async()=>{
+  await check('With the setting on, new tabs open Searchscape',async()=>{
    await second.worker.evaluate(async()=>chrome.storage.local.set({stillSettings:{newTabHome:true,photoNewsMigrated:true}}));
    const opened=second.context.waitForEvent('page');
    const id=await second.worker.evaluate(async()=>(await chrome.tabs.create({url:'chrome://newtab/'})).id);

@@ -81,15 +81,28 @@
   const loadedFonts=new Set();
   function loadFont(id){const font=fonts.find(x=>x.id===id)||fonts[0];if(font.file&&!loadedFonts.has(font.id)){loadedFonts.add(font.id);const face=new FontFace(font.family,`url("${resource('fonts/'+font.file)}")`,{weight:['spacegrotesk','lora'].includes(font.id)?'400 700':'400 800',display:'swap'});document.fonts.add(face);face.load().catch(()=>loadedFonts.delete(font.id));}return font.family;}
   const engines=[{id:'google',name:'Google',letter:'G',color:'#4285f4'},{id:'duckduckgo',name:'DuckDuckGo',letter:'D',color:'#de5833'},{id:'brave',name:'Brave Search',letter:'B',color:'#ef692e'},{id:'bing',name:'Bing',letter:'b',color:'#218a9c'},{id:'ecosia',name:'Ecosia',letter:'E',color:'#479c61'}];
-  function searchURL(engine,mode,query){
+  function instanceURL(value){
+    const url=new URL(String(value).trim());
+    if(url.username||url.password||url.search||url.hash||!(url.protocol==='https:'||(url.protocol==='http:'&&['localhost','127.0.0.1','[::1]'].includes(url.hostname))))throw new Error('Use an HTTPS instance URL without credentials, query or fragment. HTTP localhost is allowed.');
+    url.pathname=url.pathname.replace(/\/search\/?$/,'/').replace(/\/?$/,'/');return url.href;
+  }
+  function searchURL(engine,mode,query,instance){
     if(mode==='maps'){const u=new URL('https://www.google.com/maps/search/');u.search=new URLSearchParams({api:'1',query});return u.href;}
     let u;
-    if(engine==='duckduckgo'){u=new URL('https://duckduckgo.com/');u.searchParams.set('q',query);if(mode==='images'||mode==='videos'){u.searchParams.set('ia',mode);u.searchParams.set('iax',mode);}}
+    if(engine==='searxng'){if(!instance)throw new Error('Set your SearXNG instance URL in Customize first.');u=new URL('search',instanceURL(instance));u.searchParams.set('q',query);u.searchParams.set('categories',mode==='images'?'images':mode==='videos'?'videos':'general');}
+    else if(engine==='duckduckgo'){u=new URL('https://duckduckgo.com/');u.searchParams.set('q',query);if(mode==='images'||mode==='videos'){u.searchParams.set('ia',mode);u.searchParams.set('iax',mode);}}
     else if(engine==='brave'){u=new URL('https://search.brave.com/'+(mode==='images'?'images':mode==='videos'?'videos':'search'));u.searchParams.set('q',query);}
     else if(engine==='bing'){u=new URL('https://www.bing.com/'+(mode==='images'?'images/search':mode==='videos'?'videos/search':'search'));u.searchParams.set('q',query);}
     else if(engine==='ecosia'){u=new URL('https://www.ecosia.org/'+(mode==='images'?'images':mode==='videos'?'videos':'search'));u.searchParams.set('q',query);}
     else{u=new URL('https://www.google.com/search');u.searchParams.set('q',query);if(mode==='images')u.searchParams.set('udm','2');if(mode==='videos')u.searchParams.set('tbm','vid');}
     return u.href;
   }
-  globalThis.GoogleRefreshed = {themes,appearance,palette,logo,resource,fonts,loadFont,engines,searchURL,greeting};
+  engines.push({id:'searxng',name:'SearXNG',letter:'S',color:'#55a9c5'});
+  const ecosystems=[
+    {id:'google',name:'Google',account:'https://myaccount.google.com/',services:[['Gmail','https://mail.google.com/','M'],['YouTube','https://www.youtube.com/','▶'],['Drive','https://drive.google.com/','D'],['Calendar','https://calendar.google.com/','31'],['Docs','https://docs.google.com/document/','D'],['Maps','https://maps.google.com/','↗'],['Photos','https://photos.google.com/','✳'],['Translate','https://translate.google.com/','文'],['Account','https://myaccount.google.com/','G']]},
+    {id:'microsoft',name:'Microsoft',account:'https://account.microsoft.com/',services:[['Outlook','https://outlook.live.com/','O'],['OneDrive','https://onedrive.live.com/','D'],['Word','https://word.cloud.microsoft/','W'],['Excel','https://excel.cloud.microsoft/','X'],['PowerPoint','https://powerpoint.cloud.microsoft/','P'],['OneNote','https://www.onenote.com/','N'],['Teams','https://teams.microsoft.com/','T'],['Microsoft 365','https://m365.cloud.microsoft/','M'],['Account','https://account.microsoft.com/','A']]},
+    {id:'apple',name:'Apple',account:'https://account.apple.com/',services:[['iCloud Mail','https://www.icloud.com/mail/','M'],['iCloud Drive','https://www.icloud.com/iclouddrive/','D'],['Photos','https://www.icloud.com/photos/','✳'],['Calendar','https://www.icloud.com/calendar/','31'],['Notes','https://www.icloud.com/notes/','N'],['Reminders','https://www.icloud.com/reminders/','R'],['Pages','https://www.icloud.com/pages/','P'],['Find My','https://www.icloud.com/find/','↗'],['Apple Account','https://account.apple.com/','A']]},
+    {id:'proton',name:'Proton',account:'https://account.proton.me/',services:[['Proton Mail','https://mail.proton.me/','M'],['Calendar','https://calendar.proton.me/','31'],['Drive','https://drive.proton.me/','D'],['Pass','https://pass.proton.me/','P'],['Wallet','https://wallet.proton.me/','W'],['VPN','https://account.protonvpn.com/','V'],['Account','https://account.proton.me/','A']]}
+  ];
+  globalThis.Searchscape = {themes,appearance,palette,logo,resource,fonts,loadFont,engines,searchURL,instanceURL,greeting,ecosystems};
 })();

@@ -1,7 +1,7 @@
 // Original couture atelier: cut, drape, brass and paper; only the active scene mounts.
 (() => {
   'use strict';
-  (globalThis.GoogleRefreshedScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line}) => {
+  (globalThis.SearchscapeScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line}) => {
     const brass='#b79872', ivory='#e9dac5', pearl='#f6ead8', plum='#74536d', ink='#423544', clay='#c09387';
     const at=(x,y,body,extra='')=>`<g transform="translate(${x} ${y})" ${extra}>${body}</g>`;
     const ellipse=(x,y,rx,ry,fill,extra='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" ${extra}/>`;

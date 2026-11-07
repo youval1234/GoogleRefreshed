@@ -1,8 +1,8 @@
-# GoogleRefreshed
+# Searchscape
 
-A customizable Google homepage and matching Google results theme for Brave and Chromium.
+An interactive search homepage for Brave and Chromium, with animated themes, editable shortcuts, and your choice of search engine.
 
-![GoogleRefreshed Black Hole dashboard](docs/v160/blackhole-dark.png)
+![Searchscape Black Hole dashboard](docs/v160/blackhole-dark.png)
 
 ## What it adds
 
@@ -14,14 +14,16 @@ A customizable Google homepage and matching Google results theme for Brave and C
 - Independent light/dark/system appearance (System by default, following the OS), custom accents, and a local background photo.
 - **12 font choices**: bundled Manrope, Inter, Outfit, Roboto, DM Sans, Space Grotesk, and Lora; plus classic Google-style Arial, the original Georgia homepage heading font, System UI, Verdana, and Trebuchet MS. Font files load locally only when selected.
 - Google-style suggestions with entity photos when Google supplies them and keyboard navigation. The search-bar image button opens a themed reverse-image dialog: upload an image or paste an image link to search with Google Lens. The Images tab retains normal text-based image search.
-- Choose Google, DuckDuckGo, Brave Search, Bing, or Ecosia from the search box or Customize. Web, image, and video queries use the selected engine. Maps and reverse image search use Google; this does not change Brave’s address-bar default.
+- Choose Google, DuckDuckGo, Brave Search, Bing, Ecosia, or a configurable SearXNG instance from the search box or Customize. Web, image, and video queries use the selected engine. Maps and reverse image search use Google; this does not change Brave’s address-bar default.
 - Google result pages keep the selected palette while retaining native controls. Neutral surfaces and AI response text are themed at their point of use, preserving shared Google color-variable definitions and readable text contrast.
-- An optional **Open GoogleRefreshed in every new tab** toggle in Customize. Brave asks for the optional tabs permission only when you turn it on, and the permission is released when you turn it off.
+- Ordinary new tabs open the local Searchscape homepage automatically, independently of the chosen search engine. The popup also opens this homepage directly.
+- The Services launcher switches between Google, Microsoft, Apple, and Proton, separately from search-engine selection.
+- Private use requires **Allow in Private** in Brave extension details. Chromium cannot override the built-in private New Tab page. Open the homepage through the extension button there. The older optional tab redirect remains available and still targets Google; its behavior was not expanded in v2.0.
 - Drag shortcuts into a new order with a floating preview, animated card movement and edge scrolling. Touch users can drag the grip; keyboard users can focus the grip and use arrow keys, Home or End. Escape or dropping outside the grid cancels. Ordering saves automatically and respects shortcut groups and reduced-motion settings.
 - Up to **60 editable shortcuts**, with multiple rows, a visible Add shortcut button, a pencil on each card, custom names, URLs, icons, colors, and Personal/Work/Study groups.
 - Customize stays pinned to the window while scrolling, including on mobile layouts.
 - Google service shortcuts recognize product-specific paths and hosts: Finance, Docs, Sheets, Slides, Forms, Maps, News, Keep, Meet, Gemini, Books, Scholar, Earth, Shopping, Travel, Classroom and Sites use bundled official icons. Unknown service URLs use the browser favicon lookup.
-- Custom shortcut logos use the browser's favicon cache for the exact saved website, including subdomains. This uses the `favicon` permission and Google's-page-only `_favicon/*` resource access, following [Chromium's favicon API](https://developer.chrome.com/docs/extensions/how-to/ui/favicons). No external icon aggregator is used by the installed extension. If Brave has not cached a site's icon yet, open that website once, then refresh GoogleRefreshed. Explicit custom initials remain supported. The standalone preview requests `/favicon.ico` from the chosen HTTPS site with no referrer.
+- Custom shortcut logos use the browser's favicon cache for the exact saved website, including subdomains. This uses the `favicon` permission and Google's-page-only `_favicon/*` resource access, following [Chromium's favicon API](https://developer.chrome.com/docs/extensions/how-to/ui/favicons). No external icon aggregator is used by the installed extension. If Brave has not cached a site's icon yet, open that website once, then refresh Searchscape. Explicit custom initials remain supported. The standalone preview requests `/favicon.ico` from the chosen HTTPS site with no referrer.
 - Ctrl+K commands, a clock with a configurable second time zone, and a start/pause/reset focus timer. Timer state stays local and survives page reloads. The world clock and timer can be hidden independently.
 - An on-device CPU/RAM monitor with CPU/RAM icons, CPU model, installed memory capacity, logical-core count, and aligned usage graphs. Interrupted samples retain the last reading and recover automatically. The secondary GPU/network/unavailable-temperature block has been removed. The optional focus note remains available.
 - Automatic approximate weather location, manual city search, temperature units, and a five-day forecast.
@@ -30,11 +32,15 @@ A customizable Google homepage and matching Google results theme for Brave and C
 
 ## Install or update
 
-Download the extension ZIP from [Releases](https://github.com/youval1234/GoogleRefreshed/releases/latest), extract it into a permanent folder, then open **brave://extensions**, enable **Developer mode**, and choose **Load unpacked**. Select the folder containing manifest.json.
+Formerly GoogleRefreshed. Update the existing unpacked folder to preserve the extension ID and settings. Older settings exports remain compatible. The local checkout folder may still be called `still-home` because Brave uses that installed path.
 
-For an update, replace the files in that same folder, click **Reload** on the extension card, and refresh Google. v1.2 adds the system.cpu and system.memory permissions for the hardware monitor. The GitHub update button opens Releases; it is not an automatic installer or version checker.
+Configure SearXNG in Customize → Default search engine → SearXNG, then enter your instance URL. HTTPS and localhost HTTP are supported, including installations in subdirectories. The instance address stays local and is not synced.
 
-Version 1.5.4 starts new installations in System appearance, so Google opens in the operating system's light or dark mode. Existing appearance choices are kept. It also adds an optional toggle that opens GoogleRefreshed in every new tab.
+Download the extension ZIP from [Releases](https://github.com/youval1234/Searchscape/releases/latest), extract it into a permanent folder, then open **brave://extensions**, enable **Developer mode**, and choose **Load unpacked**. Select the folder containing manifest.json.
+
+For an update, replace the files in that same folder, click **Reload** on the extension card, and open a new tab. v1.2 adds the system.cpu and system.memory permissions for the hardware monitor. The GitHub update button opens Releases; it is not an automatic installer or version checker.
+
+Version 1.5.4 starts new installations in System appearance, so Google opens in the operating system's light or dark mode. Existing appearance choices are kept. It also adds an optional toggle that opens Searchscape in every new tab.
 
 Version 1.3.1 fixes the hardware panel retaining a light palette or painting an opaque white canvas when System mode switches to dark. The frame and homepage now use the same color scheme, including live system changes.
 
@@ -56,13 +62,13 @@ API references: [extension storage and quotas](https://developer.chrome.com/docs
 
 ## Matching the whole browser
 
-The extension automatically keeps its palette on Google home and result pages. Brave's native toolbar and tabs use a separate Chromium theme. GoogleRefreshed does not change those colors directly: its matching themes are separate packages. The management API can enable already-installed themes with additional permission, but Brave's removal of inactive themes prevents the reliable full-library switcher tested here. This extension does not request that permission.
+The extension automatically keeps its palette on Google home and result pages. Brave's native toolbar and tabs use a separate Chromium theme. Searchscape does not change those colors directly: its matching themes are separate packages. The management API can enable already-installed themes with additional permission, but Brave's removal of inactive themes prevents the reliable full-library switcher tested here. This extension does not request that permission.
 
-Use **Download matching browser theme** in Customize, save its manifest.json in a separate folder, and load that folder at brave://extensions. Alternatively, download the browser-themes ZIP from Releases and load one of its 100 light/dark theme folders. This is a manual companion theme. To remove it, open **brave://settings/appearance → Theme → Reset to default**. Disabling GoogleRefreshed does not automatically remove an installed companion theme. Other websites retain their own styles.
+Use **Download matching browser theme** in Customize, save its manifest.json in a separate folder, and load that folder at brave://extensions. Alternatively, download the browser-themes ZIP from Releases and load one of its 100 light/dark theme folders. This is a manual companion theme. To remove it, open **brave://settings/appearance → Theme → Reset to default**. Disabling Searchscape does not automatically remove an installed companion theme. Other websites retain their own styles.
 
 ## Privacy
 
-Brave Shields and browser privacy settings are unchanged. The extension requests storage, CPU/memory metadata, access to the named Google pages, and the specific weather/news/location providers in its manifest. It does not request history, cookies, GPS, microphone, bookmarks, all-site access, native messaging, or browser-management permissions. The tabs permission is optional and is requested only if you enable **Open GoogleRefreshed in every new tab**; Brave describes it as reading browsing history. GoogleRefreshed uses it only to compare a newly created tab's address with the browser's new-tab page and never stores or sends tab addresses.
+Brave Shields and browser privacy settings are unchanged. The extension requests storage, CPU/memory metadata, access to the named Google pages, and the specific weather/news/location providers in its manifest. It does not request history, cookies, GPS, microphone, bookmarks, all-site access, native messaging, or browser-management permissions. The tabs permission is optional and is requested only if you enable **Open Searchscape in every new tab**; Brave describes it as reading browsing history. Searchscape uses it only to compare a newly created tab's address with the browser's new-tab page and never stores or sends tab addresses.
 
 CPU/RAM metrics and the focus note render inside an extension-origin frame. Google page scripts cannot read that frame's DOM. Hardware samples are not sent to providers or saved to extension storage. The monitor pauses in hidden tabs and when its frame leaves view. Uploaded photo bytes are rendered inside a closed shadow tree, rather than exposed in the page's inspectable background style. A chosen greeting and general UI preferences are still visible parts of the Google page.
 

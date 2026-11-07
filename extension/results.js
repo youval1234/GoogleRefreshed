@@ -2,8 +2,8 @@
   'use strict';
   const params=new URLSearchParams(location.search);
   if(!(location.pathname==='/search'||['/','/webhp'].includes(location.pathname)&&params.has('q')))return;
-  const style=document.createElement('style');style.id='google-refreshed-results';
-  const bridge=document.createElement('style');bridge.id='google-refreshed-result-surfaces';
+  const style=document.createElement('style');style.id='searchscape-results';
+  const bridge=document.createElement('style');bridge.id='searchscape-result-surfaces';
   style.textContent=`
     html[data-gr-theme]{color-scheme:var(--gr-scheme);background:var(--gr-bg)!important}
     html[data-gr-theme] body{background:var(--gr-bg)!important;color:var(--gr-fg)!important;font-family:var(--gr-font,'GR Manrope'),Arial,sans-serif}
@@ -17,7 +17,7 @@
     #gr-results-home{position:fixed;right:18px;bottom:17px;z-index:2147482000;display:flex;gap:8px;align-items:center;padding:9px 13px;border-radius:12px;background:var(--gr-panel);color:var(--gr-fg);border:1px solid var(--gr-line);font:11px var(--gr-font,'GR Manrope'),sans-serif;text-decoration:none;box-shadow:0 4px 20px #0002}
     #gr-results-home svg{width:22px;height:22px;color:var(--gr-accent)}
   `;
-  const button=document.createElement('a');button.id='gr-results-home';button.href=location.origin+'/?still=customize';button.innerHTML=GoogleRefreshed.logo+'<span>GoogleRefreshed</span>';button.title='Customize your GoogleRefreshed theme';
+  const button=document.createElement('a');button.id='gr-results-home';button.href=location.origin+'/?still=customize';button.innerHTML=Searchscape.logo+'<span>Searchscape</span>';button.title='Customize your Searchscape theme';
   let current={},enabled=true,scanScheduled=false;
   const originals=new Map(),inlineOriginals=new Map();
   const rgb=hex=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)).join(', ');
@@ -27,8 +27,8 @@
     enabled=settings.resultsTheme!==false;
     const html=document.documentElement;
     if(!enabled){delete html.dataset.grTheme;style.remove();bridge.remove();button.remove();for(const [key,saved]of originals){if(saved.value)html.style.setProperty(key,saved.value,saved.priority);else html.style.removeProperty(key);}originals.clear();for(const [node,values]of inlineOriginals)for(const [key,saved]of values){if(saved.value)node.style.setProperty(key,saved.value,saved.priority);else node.style.removeProperty(key);}inlineOriginals.clear();return;}
-    const {theme,dark,colors,accent}=GoogleRefreshed.palette(settings);
-    html.style.setProperty('--gr-font',GoogleRefreshed.loadFont(settings.font));html.dataset.grTheme=theme.id;html.style.setProperty('--gr-scheme',dark?'dark':'light');
+    const {theme,dark,colors,accent}=Searchscape.palette(settings);
+    html.style.setProperty('--gr-font',Searchscape.loadFont(settings.font));html.dataset.grTheme=theme.id;html.style.setProperty('--gr-scheme',dark?'dark':'light');
     const variables={'--gr-bg':colors[0],'--gr-fg':colors[1],'--gr-muted':dark?colors[2]:'#4b5563','--gr-line':colors[3],'--gr-soft':colors[4],'--gr-panel':dark?colors[4]:'#ffffff','--gr-link':dark?'#b6caff':'#2447a6','--gr-accent':accent,'--gr-bg-rgb':rgb(colors[0]),'--gr-panel-rgb':rgb(dark?colors[4]:'#ffffff')};
     for(const [key,value]of Object.entries(variables))html.style.setProperty(key,value);
     for(const [name,value]of [['line',colors[3]],['fg',colors[1]],['muted',dark?colors[2]:'#4b5563']])html.style.setProperty('--gr-'+name+'-rgb',rgb(value));
@@ -98,7 +98,7 @@
     for(const node of patches)write(node,'color','var(--gr-fg)');
   }
   function scheduleScan(){if(scanScheduled||!enabled)return;scanScheduled=true;requestAnimationFrame(scanSurfaces);}
-  const ready=globalThis.GoogleRefreshedBoot?.ready||chrome.storage.local.get('stillSettings').then(x=>x.stillSettings||{});
+  const ready=globalThis.SearchscapeBoot?.ready||chrome.storage.local.get('stillSettings').then(x=>x.stillSettings||{});
   ready.then(settings=>{current=settings;apply(current);});
   document.addEventListener('DOMContentLoaded',()=>{apply(current);scheduleScan();},{once:true});
   new MutationObserver(records=>{
@@ -110,5 +110,5 @@
     }
   }).observe(document,{childList:true,subtree:true,attributes:true,attributeFilter:['style']});
   chrome.storage.onChanged.addListener((changes,area)=>{if(area==='local'&&changes.stillSettings){current=changes.stillSettings.newValue||{};apply(current);}});
-  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(GoogleRefreshed.appearance(current)==='system')apply(current);});
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(Searchscape.appearance(current)==='system')apply(current);});
 })();

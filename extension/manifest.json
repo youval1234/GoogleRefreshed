@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "GoogleRefreshed",
-  "version": "1.7.0",
-  "description": "A considered Google homepage. Your search, shortcuts, colors, and a little space to focus.",
+  "name": "Searchscape",
+  "version": "2.0.0",
+  "description": "Your personal homepage with themes, shortcuts and your choice of search engine.",
   "permissions": [
     "storage",
     "favicon",
@@ -33,7 +33,7 @@
     "128": "icons/128.png"
   },
   "action": {
-    "default_title": "GoogleRefreshed",
+    "default_title": "Searchscape",
     "default_popup": "popup.html"
   },
   "web_accessible_resources": [
@@ -100,5 +100,9 @@
       ],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "incognito": "split",
+  "chrome_url_overrides": {
+    "newtab": "home.html"
+  }
 }

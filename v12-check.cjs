@@ -31,16 +31,16 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
    const safe=await worker.evaluate(async()=>{
      const saved=fetch;let scriptRejected=false,largeRejected=false,unsafeImageRejected=false;
      try{
-       globalThis.fetch=async()=>new Response('globalThis.remoteScriptRan=true;');try{await GoogleRefreshedData({type:'suggestions',query:'test'});}catch{scriptRejected=true;}
-       globalThis.fetch=async()=>new Response('window.google.ac.h('+JSON.stringify([[["test",46,[],{zs:'javascript:alert(1)'}]],{}])+')');unsafeImageRejected=(await GoogleRefreshedData({type:'suggestions',query:'test'}))[0].image==='';
-       globalThis.fetch=async()=>new Response('x'.repeat(1000001));try{await GoogleRefreshedData({type:'suggestions',query:'test'});}catch{largeRejected=true;}
+       globalThis.fetch=async()=>new Response('globalThis.remoteScriptRan=true;');try{await SearchscapeData({type:'suggestions',query:'test'});}catch{scriptRejected=true;}
+       globalThis.fetch=async()=>new Response('window.google.ac.h('+JSON.stringify([[["test",46,[],{zs:'javascript:alert(1)'}]],{}])+')');unsafeImageRejected=(await SearchscapeData({type:'suggestions',query:'test'}))[0].image==='';
+       globalThis.fetch=async()=>new Response('x'.repeat(1000001));try{await SearchscapeData({type:'suggestions',query:'test'});}catch{largeRejected=true;}
      }finally{globalThis.fetch=saved;}
      return scriptRejected&&largeRejected&&unsafeImageRejected&&!globalThis.remoteScriptRan;
    });assert.equal(safe,true);
  });
  const home=async()=>{await page.goto('https://www.google.com/');await page.locator('#still-home').waitFor();await page.locator('#greeting').waitFor();if(await page.locator('#welcome-dialog').isVisible()){await page.getByRole('button',{name:'Skip for now',exact:true}).click();await page.locator('#welcome-dialog').waitFor({state:'hidden'});}};await home();
  await check('Modern logo, local font, visible version, and larger date',async()=>{
-   assert.equal(await page.locator('.brand .refreshed-logo').count(),1);assert.equal(await page.getByRole('link',{name:'GoogleRefreshed version '+require('./extension/manifest.json').version}).count(),1);assert.equal(await page.locator('.date i').count(),0);assert.equal(await page.locator('.search-box .key').count(),0);
+   assert.equal(await page.locator('.brand .refreshed-logo').count(),1);assert.equal(await page.getByRole('link',{name:'Searchscape version '+require('./extension/manifest.json').version}).count(),1);assert.equal(await page.locator('.date i').count(),0);assert.equal(await page.locator('.search-box .key').count(),0);
    await page.waitForFunction(()=>{const r=document.querySelector('#still-home').shadowRoot;return getComputedStyle(r.querySelector('.date')).fontSize==='15px'&&getComputedStyle(r.querySelector('h1')).fontFamily.includes('GR Manrope');});
  });
  await check('Hardware card shows model, RAM capacity, real sample deltas and graphs',async()=>{

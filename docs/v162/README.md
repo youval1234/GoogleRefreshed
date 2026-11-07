@@ -1,4 +1,4 @@
-# Aztec redesign · GoogleRefreshed v1.6.2
+# Aztec redesign · Searchscape v1.6.2
 
 A more detailed original architectural scene with layered temple terraces, carved stone reliefs, weathered masonry, serpent sculptures, painted accents, braziers and a lake landscape. Fire, incense, light, water and vegetation move independently, while the architecture stays anchored.
 

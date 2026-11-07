@@ -1,5 +1,5 @@
 // Nature collection: original local vector compositions. Only the selected scene mounts.
-(globalThis.GoogleRefreshedScenePacks??=[]).push(({a,g,f,b,path,circle,rect,group,line})=>{
+(globalThis.SearchscapeScenePacks??=[]).push(({a,g,f,b,path,circle,rect,group,line})=>{
   const ellipse=(x,y,rx,ry,fill,extra='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" ${extra}/>`;
   const at=(x,y,body,transform='')=>`<g transform="translate(${x} ${y}) ${transform}">${body}</g>`;
   const noise=(i,salt)=>{let x=Math.imul(i+1,2654435761)^salt;x=Math.imul(x^(x>>>16),2246822507);return ((x^(x>>>13))>>>0)/4294967296;};

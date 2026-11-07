@@ -483,3 +483,7 @@ footer{padding-right:150px}
 @media(hover:none),(pointer:coarse){.shortcut-move{opacity:.85;width:32px;height:32px}}
 @media(prefers-reduced-motion:reduce){.shortcut-drag-ghost{transform:none}}
 .app[data-motion=off] .shortcut-drag-ghost{transform:none}
+
+.ecosystem-field{margin-bottom:20px}.ecosystem-grid .shortcut{min-height:110px}
+
+.ecosystem-field{margin-bottom:20px}.ecosystem-grid .shortcut{min-height:110px}

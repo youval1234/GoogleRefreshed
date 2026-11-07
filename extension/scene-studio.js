@@ -1,7 +1,7 @@
 // Original studio, culture and atmospheric scenes. Geometry is mounted only on selection.
 (() => {
   'use strict';
-  (globalThis.GoogleRefreshedScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line,caption}) => {
+  (globalThis.SearchscapeScenePacks ??= []).push(({a,g,f,b,path,circle,rect,group,line,caption}) => {
     const scenes={};
     const ellipse=(x,y,rx,ry,fill,extra='')=>`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}" ${extra}/>`;
     const placed=(x,y,body,extra='')=>`<g transform="translate(${x} ${y})" ${extra}>${body}</g>`;
