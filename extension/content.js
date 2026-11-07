@@ -13,9 +13,12 @@
   const themeById = id => themes.find(t=>t.id===id) || themes[0];
   const systemDark = matchMedia('(prefers-color-scheme: dark)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const assetURL = name => preview ? new URL(`icons/services/${name}.png`,location.href).href : chrome.runtime.getURL(`icons/services/${name}.png`);
+  const assetURL = name => {const file=/\.(png|svg)$/.test(name)?name:name+'.png';return preview?new URL('icons/services/'+file,location.href).href:chrome.runtime.getURL('icons/services/'+file);};
+  const ecosystemIconRoutes=Searchscape.ecosystems.flatMap(e=>e.services.map(([name,url,glyph,icon])=>({url:new URL(url),icon}))).sort((a,b)=>b.url.pathname.length-a.url.pathname.length);
   const officialIcon = url => {
     const site = new URL(url), host = site.hostname;
+    const match=ecosystemIconRoutes.find(r=>r.url.hostname===host&&(r.url.pathname==='/'||site.pathname===r.url.pathname||site.pathname.startsWith(r.url.pathname.replace(/\/$/,'')+'/')));
+    if(match)return match.icon;
     const services = {'mail.google.com':'gmail','www.youtube.com':'youtube','youtube.com':'youtube','drive.google.com':'drive','calendar.google.com':'calendar','chatgpt.com':'chatgpt','maps.google.com':'maps','photos.google.com':'photos','translate.google.com':'translate','myaccount.google.com':'google','accounts.google.com':'google','finance.google.com':'finance','news.google.com':'news','keep.google.com':'keep','meet.google.com':'meet','gemini.google.com':'gemini','books.google.com':'books','scholar.google.com':'scholar','earth.google.com':'earth','shopping.google.com':'shopping','classroom.google.com':'classroom','sites.google.com':'sites','sheets.google.com':'sheets','slides.google.com':'slides','forms.google.com':'forms'};
     if (host === 'docs.google.com') {
       return ({document:'docs',spreadsheets:'sheets',presentation:'slides',forms:'forms'})[site.pathname.split('/')[1]] || 'docs';
@@ -115,7 +118,7 @@
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
   let saveWaiters = [], shortcutDrag = null;
   const repoURL = 'https://github.com/youval1234/Searchscape';
-  const version = preview ? '2.0.0' : chrome.runtime.getManifest().version;
+  const version = preview ? '2.1.0' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();
@@ -148,7 +151,7 @@
     @media(min-height:900px){main{margin-top:5vh}}#panel-home .shortcuts{margin-top:28px}@media(max-width:650px){.topnav>a{display:none}.topnav{gap:9px}.brand{font-size:16px;gap:9px}.brand>img{width:21px;height:21px}.brand small{display:none}.news-grid{grid-template-columns:1fr}.data-card{padding:18px}.forecast{gap:5px}.forecast-day{padding:10px 3px;font-size:10px}.page-tabs button{padding:7px 17px}.city-search{flex-wrap:wrap}.city-search input{width:100%}.temperature{font-size:44px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   `;
   root.innerHTML = `<style>${css}</style><div class="app" data-theme="paper" lang="en" dir="ltr"><div class="photo"></div><div class="wash"></div><div class="scene" aria-hidden="true"><div class="theme-art"></div><div class="scene-grid"></div><div class="scene-stars"></div><div class="scene-ribbon"></div><div class="scene-moon"></div><div class="scene-particles">${particleMarkup()}</div></div><div class="scroll-content">
-    <header class="top"><a class="brand" href="${preview?location.pathname:chrome.runtime.getURL('home.html')}" aria-label="Searchscape home">${Searchscape.logo}<span class="brand-name">Search<strong>scape</strong></span><small>v${version}</small></a><nav class="topnav" aria-label="Services"><a id="ecosystem-mail" href="https://mail.google.com/">Mail</a><a id="provider-images" href="https://www.google.com/imghp">Images</a><button class="round" id="quick-mode" title="Switch to dark mode" aria-label="Switch to dark mode">${icon('moon')}</button><button class="round" id="apps" title="Services" aria-label="Open services">${icon('grid')}</button><button class="classic" id="classic">Provider homepage ↗</button></nav></header>
+    <header class="top"><a class="brand" href="${preview?location.pathname:chrome.runtime.getURL('home.html')}" aria-label="Searchscape home">${Searchscape.logo}<span class="brand-name">Search<strong>scape</strong></span><small>v${version}</small></a><nav class="topnav" aria-label="Services"><a id="ecosystem-mail" href="https://mail.google.com/">Mail</a><a id="provider-images" href="https://www.google.com/imghp">Images</a><button class="round" id="quick-mode" title="Switch to dark mode" aria-label="Switch to dark mode">${icon('moon')}</button><button class="round" id="apps" title="Services" aria-label="Open services"><img id="active-ecosystem-icon" class="ecosystem-logo" src="${assetURL('google')}" alt=""></button><button class="classic" id="classic">Provider homepage ↗</button></nav></header>
     <main><section class="intro"><div class="eyebrow date"><span id="date"></span></div><h1 id="greeting" dir="ltr"></h1><p class="subtitle">A fresh perspective. Make the day yours.</p></section>
     <section class="search-wrap" aria-label="Search"><form class="search-box" id="search" action="https://www.google.com/search" method="get" role="search"><label class="engine-picker" title="Choose search engine"><img id="engine-google-icon" class="google-icon" src="${assetURL('google')}" alt=""><span id="engine-letter" hidden></span><span class="engine-chevron" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m4 6 4 4 4-4"/></svg></span><select id="engine-quick" aria-label="Search engine">${Searchscape.engines.map(e=>`<option value="${e.id}"><img class="engine-option-icon" src="${assetURL(e.id)}" alt="">${e.name}</option>`).join('')}</select></label><input type="search" class="query" name="q" placeholder="Search Google or explore an idea" aria-label="Search Google" autocomplete="off" aria-autocomplete="list" aria-controls="suggestion-list" aria-expanded="false" dir="auto" required maxlength="2048"><button type="button" id="search-images" class="search-image-button" aria-label="Reverse image search" title="Search by image with Google Lens">${icon('image')}</button><button type="submit" class="submit" aria-label="Search Google">${icon('arrow')}</button></form><div class="suggestion-popup" id="suggestion-popup" hidden><div id="suggestion-list" role="listbox" aria-label="Google search suggestions"></div><div class="suggestion-credit">Suggestions from Google</div></div><div class="modes" aria-label="Search type">${['all','images','videos','maps'].map(x => `<button class="mode" data-mode="${x}" aria-pressed="${x === 'all'}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</div></section>
     <nav class="page-tabs" role="tablist" aria-label="Homepage tabs">${['home','weather','news'].map(x=>`<button role="tab" id="tab-${x}" data-tab="${x}" aria-selected="${x==='home'}" aria-controls="panel-${x}" tabindex="${x==='home'?0:-1}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</nav><div id="panel-home" role="tabpanel" aria-labelledby="tab-home">
@@ -171,7 +174,7 @@
     <dialog class="modal" id="shortcut-dialog" aria-labelledby="shortcut-title"><div class="dialog-head"><h2 id="shortcut-title">Your everyday.</h2><button class="close" data-close aria-label="Close shortcuts">${icon('close')}</button></div><div class="panel-content"><p class="hint">Keep your favorite places a little closer.</p><div id="shortcut-list"></div><button class="button" id="add-shortcut" style="margin-top:18px">${icon('plus')} Add shortcut</button></div></dialog>
     <dialog class="modal" id="link-dialog" aria-labelledby="link-title"><div class="dialog-head"><h2 id="link-title">Add a little shortcut.</h2><button class="close" data-close aria-label="Close shortcut editor">${icon('close')}</button></div><form class="panel-content" id="link-form"><label class="field">Name<input id="link-name" maxlength="28" required placeholder="A favorite place" autocomplete="off" dir="auto"></label><label class="field">Website<input id="link-url" maxlength="2048" required placeholder="example.com" autocomplete="off"></label><label class="field">Group<select id="link-group"><option value="personal">Personal</option><option value="work">Work</option><option value="study">Study</option></select></label><label class="toggle">Use the original service icon<input type="checkbox" id="link-original" checked></label><label class="field">Custom icon or initials<input id="link-glyph" maxlength="4" placeholder="e.g. ✦ or AB"></label><label class="field">Shortcut color<input id="link-color" type="color"></label><p class="error" id="link-error" role="alert"></p><div class="buttons"><button class="button primary" type="submit">Save shortcut ${icon('arrow')}</button></div></form></dialog>
     <dialog class="modal" id="lens-dialog" aria-labelledby="lens-title"><div class="dialog-head"><h2 id="lens-title">Search by image.</h2><button class="close" data-close aria-label="Close reverse image search">${icon('close')}</button></div><div class="panel-content"><p class="hint">Find similar images, identify objects, or discover where a picture appears with Google Lens.</p><form id="lens-upload" action="https://lens.google.com/v3/upload" method="post" enctype="multipart/form-data"><label class="field">Upload an image<input id="lens-file" name="encoded_image" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" required></label><button class="button primary" type="submit">Search this image</button></form><div class="group"><form id="lens-link"><label class="field">Or paste an image link<input id="lens-url" type="url" placeholder="https://example.com/photo.jpg" maxlength="8192" required autocomplete="off"></label><button class="button" type="submit">Search image link</button></form></div><p class="error" id="lens-error" role="alert"></p><p class="hint">Choose a JPG, PNG, WebP, GIF, or AVIF up to 20 MB. Your image or link goes directly to Google Lens when you search. Searchscape does not save it.</p></div></dialog>
-    <dialog class="modal" id="apps-dialog" aria-labelledby="apps-title"><div class="dialog-head"><h2 id="apps-title">Your services.</h2><button class="close" data-close aria-label="Close services">${icon('close')}</button></div><div class="panel-content"><label class="field ecosystem-field">Ecosystem<select id="ecosystem-choice" aria-label="Service ecosystem">${Searchscape.ecosystems.map(e=>`<option value="${e.id}">${e.name}</option>`).join('')}</select></label><div class="shortcut-grid ecosystem-grid" style="grid-template-columns:repeat(3,1fr)" id="google-apps"></div><p class="hint">Sign in directly on the service’s website. <a id="ecosystem-account" class="text-button" href="https://myaccount.google.com/">Manage account ↗</a><button id="account-native" hidden>Provider homepage</button></p></div></dialog>
+    <dialog class="modal" id="apps-dialog" aria-labelledby="apps-title"><div class="dialog-head"><h2 id="apps-title">Your services.</h2><button class="close" data-close aria-label="Close services">${icon('close')}</button></div><div class="panel-content"><label class="field ecosystem-field">Ecosystem<select id="ecosystem-choice" aria-label="Service ecosystem"><button type="button"><selectedcontent></selectedcontent></button>${Searchscape.ecosystems.map(e=>`<option value="${e.id}"><img class="ecosystem-logo" src="${assetURL(e.icon)}" alt=""><span>${e.name}</span></option>`).join('')}</select></label><div class="shortcut-grid ecosystem-grid" style="grid-template-columns:repeat(3,1fr)" id="google-apps"></div><p class="hint">Sign in directly on the service’s website. <a id="ecosystem-account" class="text-button" href="https://myaccount.google.com/">Manage account ↗</a><button id="account-native" hidden>Provider homepage</button></p></div></dialog>
     <dialog class="command-modal" id="command-dialog" aria-label="Command palette"><input class="command-input" id="command-query" placeholder="Go somewhere. Change something." aria-label="Find a command or shortcut" role="combobox" aria-expanded="true" aria-controls="command-list" autocomplete="off"><div class="commands" id="command-list" role="listbox" aria-label="Commands"></div><div class="command-footer"><span>↑ ↓ navigate · Enter select</span><button class="text-button" data-close>Esc to close</button></div></dialog>
     <div class="toast" role="status" hidden></div></div><button class="reopen" hidden>✳ &nbsp; Back to Searchscape</button>`;
   const $ = selector => root.querySelector(selector);
@@ -223,7 +226,7 @@
     const a = document.createElement('a'); a.className = 'shortcut'; a.href = item.url; a.title = item.url; a.ariaLabel = item.name;
     if (!services && settings.newTab) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
     const glyph = document.createElement('span'); glyph.className = 'tile'; glyph.style.setProperty('--tile', item.color);
-    const service=officialIcon(item.url);
+    const service=item.icon||officialIcon(item.url);
     if(item.iconMode!=='text'){
       const image=document.createElement('img');image.className='service-icon';image.alt='';image.width=25;image.height=25;
       image.referrerPolicy='no-referrer';image.decoding='async';
@@ -231,7 +234,7 @@
       const sources=[];
       if(service){image.dataset.service=service;sources.push(assetURL(service));}
       if(preview&&site.protocol==='https:')sources.push(new URL('/favicon.ico',site.origin).href);
-      if(!preview){const favicon=new URL(chrome.runtime.getURL('_favicon/'));favicon.searchParams.set('pageUrl',site.href);favicon.searchParams.set('size','64');sources.push(favicon.href);}
+      if(!preview&&!item.icon){const favicon=new URL(chrome.runtime.getURL('_favicon/'));favicon.searchParams.set('pageUrl',site.href);favicon.searchParams.set('size','64');sources.push(favicon.href);}
       let next=1;
       image.onerror=()=>{if(next<sources.length)image.src=sources[next++];else{image.remove();glyph.textContent=item.glyph;}};
       if(sources.length){image.src=sources[0];glyph.append(image);}else glyph.textContent=item.glyph;
@@ -379,11 +382,11 @@
   $('#shortcut-group').onchange=e=>{settings.activeGroup=e.target.value;renderShortcuts();save();};
   function renderEcosystem(){
     const ecosystem=Searchscape.ecosystems.find(e=>e.id===settings.ecosystem)||Searchscape.ecosystems[0];
-    $('#ecosystem-choice').value=ecosystem.id;$('#apps-title').textContent=ecosystem.name+' services';$('#ecosystem-account').href=ecosystem.account;
+    $('#ecosystem-choice').value=ecosystem.id;$('#active-ecosystem-icon').src=assetURL(ecosystem.icon);$('#apps').title=ecosystem.name+' services';$('#apps-title').textContent=ecosystem.name+' services';$('#ecosystem-account').href=ecosystem.account;
     $('#ecosystem-mail').href=ecosystem.services[0][1];$('#ecosystem-mail').textContent=ecosystem.services[0][0];
-    $('#google-apps').replaceChildren(...ecosystem.services.map(([name,url,glyph],i)=>makeShortcut({name,url,glyph,color:settings.accent},i,true)));
+    $('#google-apps').replaceChildren(...ecosystem.services.map(([name,url,glyph,icon],i)=>makeShortcut({name,url,glyph,icon,color:settings.accent},i,true)));
   }
-  $('#ecosystem-choice').onchange=e=>{settings.ecosystem=e.target.value;renderEcosystem();save();};
+  $('#ecosystem-choice').onchange=e=>{settings.ecosystem=e.target.value;renderEcosystem();$('#apps-dialog').scrollTop=0;if(settings.animations&&!reducedMotion.matches)$('#google-apps').animate([{opacity:0,transform:'translateY(7px)'},{opacity:1,transform:'translateY(0)'}],{duration:190,easing:'ease-out'});save();};
   function apply() {
     renderEcosystem();
     if(settings.welcomeComplete && $('#welcome-dialog').open) $('#welcome-dialog').close();
@@ -429,7 +432,7 @@
     $$('[data-tab]').forEach(el=>{el.setAttribute('aria-selected',String(el.dataset.tab===activeTab));el.tabIndex=el.dataset.tab===activeTab?0:-1;});
     for(const tab of ['home','weather','news'])$('#panel-'+tab).hidden=activeTab!==tab;
   }
-  function switchTab(tab){activeTab=tab;updateTabs();if(tab==='weather')loadWeather();if(tab==='news')loadNews();}
+  function switchTab(tab){const changed=activeTab!==tab;activeTab=tab;updateTabs();if(changed&&settings.animations&&!reducedMotion.matches)$('#panel-'+tab).animate([{opacity:.2,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],{duration:210,easing:'ease-out'});if(tab==='weather')loadWeather();if(tab==='news')loadNews();}
   $$('[data-tab]').forEach(el=>{el.onclick=()=>switchTab(el.dataset.tab);el.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const tabs=$$('[data-tab]').filter(x=>!x.hidden),index=tabs.indexOf(el);const next=e.key==='Home'?tabs[0]:e.key==='End'?tabs.at(-1):tabs[(index+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];next.focus();switchTab(next.dataset.tab);};});
   const previewCache=new Map();
   async function requestData(message,signal){
@@ -614,8 +617,26 @@
     $('#theme-empty').hidden=count!==0;
   }
   $('#theme-search').addEventListener('input',filterThemes);$('#theme-collection').addEventListener('change',filterThemes);
-  $$('[data-appearance-choice]').forEach(el=>el.onclick=()=>{settings.appearance=el.dataset.appearanceChoice;apply();save();});
-  $('#quick-mode').onclick=()=>{settings.appearance=app.dataset.appearance==='dark'?'light':'dark';apply();save();};
+  let appearanceTransition=null,appearanceSequence=0;
+  const appearanceStyle=document.createElement('style');appearanceStyle.textContent='html[data-searchscape-transition]::view-transition-old(root),html[data-searchscape-transition]::view-transition-new(root){animation:none;mix-blend-mode:normal}html[data-searchscape-transition]::view-transition-new(root){z-index:1}';
+  function changeAppearance(value,button){
+    const sequence=++appearanceSequence;appearanceTransition?.skipTransition();
+    const update=()=>{settings.appearance=value;apply();save();};
+    if(!settings.animations||reducedMotion.matches||document.hidden||!document.startViewTransition){update();return;}
+    const bounds=button.getBoundingClientRect(),x=bounds.left+bounds.width/2,y=bounds.top+bounds.height/2;
+    const radius=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+    if(!appearanceStyle.isConnected)document.documentElement.append(appearanceStyle);
+    document.documentElement.dataset.searchscapeTransition='true';
+    const transition=document.startViewTransition(update);appearanceTransition=transition;
+    transition.ready.then(()=>{
+      if(sequence!==appearanceSequence)return;
+      document.documentElement.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${radius}px at ${x}px ${y}px)`]},{duration:420,easing:'cubic-bezier(.22,.7,.18,1)',pseudoElement:'::view-transition-new(root)'});
+      $('#quick-mode').animate([{transform:'rotate(-65deg) scale(.8)'},{transform:'rotate(0) scale(1)'}],{duration:350,easing:'ease-out'});
+    }).catch(()=>{});
+    transition.finished.catch(()=>{}).finally(()=>{if(sequence===appearanceSequence){delete document.documentElement.dataset.searchscapeTransition;appearanceTransition=null;appearanceStyle.remove();}});
+  }
+  $$('[data-appearance-choice]').forEach(el=>el.onclick=()=>changeAppearance(el.dataset.appearanceChoice,el));
+  $('#quick-mode').onclick=e=>changeAppearance(app.dataset.appearance==='dark'?'light':'dark',e.currentTarget);
   $$('[data-accent]').forEach(el => el.onclick = () => { settings.accent = el.dataset.accent; apply(); save(); });
   $('#accent').oninput = e => { settings.accent = e.target.value; apply(); save(); };
   $$('[data-setting]').forEach(el => el.onchange = () => { const key=el.dataset.setting;settings[key] = el.checked; apply(); save();if(key==='autoLocation'&&activeTab==='weather')loadWeather();if(['localNews','newsImages'].includes(key)&&activeTab==='news')loadNews(); });

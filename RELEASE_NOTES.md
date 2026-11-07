@@ -1,13 +1,11 @@
-# Searchscape v2.0.0
+# Searchscape v2.1.0
 
-GoogleRefreshed is now Searchscape: an interactive search homepage with your choice of provider.
+- Branded icons in the ecosystem selector and top-bar Services button, with a properly aligned dropdown arrow.
+- Bundle service logos for Microsoft, Apple and Proton so new installations no longer show generic browser globes.
+- Add Amazon, Adobe, Zoho, Meta and Yahoo service collections. Each ecosystem keeps its own account link and does not change the selected search engine.
+- Recognize catalogued service URLs in custom shortcuts as well. Logos are local assets; no icon aggregator or new permissions.
+- Add a circular light/dark reveal from the toggle, short tab and ecosystem transitions, and hover/press feedback. Animation off and reduced-motion settings remain respected.
 
-- Ordinary new tabs now open a local extension homepage, independent of Google or the address-bar search engine. The popup opens and customizes this same page.
-- Open the homepage as a standalone extension page to avoid Brave’s surrounding new-tab footer.
-- Add SearXNG with a configurable trusted instance, including subdirectory installations and HTTP localhost. Web, image and video searches go directly to that instance. The instance URL stays local.
-- Switch the Services launcher between Google, Microsoft, Apple and Proton. Your ecosystem preference is saved independently of the search engine.
-- Update interface branding, repository links and release names. Existing local settings and GoogleRefreshed exports remain compatible.
+Reload the extension at brave://extensions and open a fresh tab. Users updating from a release ZIP should replace files in the existing unpacked folder before reloading.
 
-Private windows require Allow in Private in Brave extension details. Chromium does not allow direct private New Tab overrides. Use Open homepage from the extension button. The older optional new-tab redirect is retained with its existing Google destination; automatic review blocked the attempted expansion of this redirect.
-
-Update files in the existing unpacked folder, reload the extension at brave://extensions and open a new tab. Reusing the folder preserves the extension ID and settings. The browser may ask you to confirm the new-tab change.
+Toolbar-sync workarounds were researched separately; no management permission, companion, or private browser API is added. See docs/toolbar-sync-options.md in the repository.

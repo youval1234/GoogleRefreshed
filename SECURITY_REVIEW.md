@@ -1,3 +1,7 @@
+## v2.1.0 follow-up
+
+Adds fixed HTTPS service collections and local PNG/SVG assets, with no new permissions, dependencies or runtime logo requests. Ecosystem choice is synced through the existing preference whitelist. Catalogued shortcut destinations use exact hostname and path-segment matching. SVG assets were checked for executable content and external references. Appearance snapshots and animation styles are temporary and follow animation/reduced-motion settings. Scoped source and release archive scanning found no secret/private-file candidates; this is not a new complete-history audit. Toolbar experiments used only disposable profiles; no user's browser settings were changed.
+
 ## v2.0.0 follow-up
 
 Searchscape adds a local extension new-tab page and split incognito mode. Normal new-tab use adds no host permissions. Private use still requires the user’s browser setting. Automatic review blocked the attempted private redirect change; the existing optional redirect retains its Google destination. No claim is made that private new-tab override works.

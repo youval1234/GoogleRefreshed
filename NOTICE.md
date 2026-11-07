@@ -7,3 +7,5 @@ Bundled font software retains its own SIL Open Font License and copyright notice
 Service icons and brand names identify their respective services. Their trademarks and third-party artwork remain the property of their owners and are not relicensed under the project's MIT license. Searchscape is an independent project and is not affiliated with or endorsed by Google or Brave.
 
 The bundled SearXNG provider icon is from https://github.com/searxng/searxng (searx/static/themes/simple/img/favicon.png) and retains its upstream AGPL-3.0 license. A copy is included at icons/services/SearXNG-LICENSE.txt in the extension package. Searchscape’s original code and artwork retain the MIT license; third-party assets retain their respective licenses.
+
+Additional service-identification artwork is bundled from Microsoft’s Office CDN, Apple’s public iCloud resources, Proton and the official service websites. Source URLs are recorded in extension/icons/services/sources.json. The Microsoft four-square badge and calendar badge are local vector renderings. Third-party trademarks and artwork retain their respective ownership.

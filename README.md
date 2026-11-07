@@ -17,7 +17,9 @@ An interactive search homepage for Brave and Chromium, with animated themes, edi
 - Choose Google, DuckDuckGo, Brave Search, Bing, Ecosia, or a configurable SearXNG instance from the search box or Customize. Web, image, and video queries use the selected engine. Maps and reverse image search use Google; this does not change Brave’s address-bar default.
 - Google result pages keep the selected palette while retaining native controls. Neutral surfaces and AI response text are themed at their point of use, preserving shared Google color-variable definitions and readable text contrast.
 - Ordinary new tabs open the local Searchscape homepage automatically, independently of the chosen search engine. The popup also opens this homepage directly.
-- The Services launcher switches between Google, Microsoft, Apple, and Proton, separately from search-engine selection.
+- Light/dark switching reveals the new palette from the toggle button. Tab and ecosystem changes use short transitions, respecting reduced motion and the animation toggle.
+- Branded ecosystem selectors and bundled service icons work without a browser favicon cache or runtime logo requests.
+- The Services launcher switches between Google, Microsoft, Apple, Proton, Amazon, Adobe, Zoho, Meta, and Yahoo, separately from search-engine selection.
 - Private use requires **Allow in Private** in Brave extension details. Chromium cannot override the built-in private New Tab page. Open the homepage through the extension button there. The older optional tab redirect remains available and still targets Google; its behavior was not expanded in v2.0.
 - Drag shortcuts into a new order with a floating preview, animated card movement and edge scrolling. Touch users can drag the grip; keyboard users can focus the grip and use arrow keys, Home or End. Escape or dropping outside the grid cancels. Ordering saves automatically and respects shortcut groups and reduced-motion settings.
 - Up to **60 editable shortcuts**, with multiple rows, a visible Add shortcut button, a pencil on each card, custom names, URLs, icons, colors, and Personal/Work/Study groups.

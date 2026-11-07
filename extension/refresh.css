@@ -487,3 +487,14 @@ footer{padding-right:150px}
 .ecosystem-field{margin-bottom:20px}.ecosystem-grid .shortcut{min-height:110px}
 
 .ecosystem-field{margin-bottom:20px}.ecosystem-grid .shortcut{min-height:110px}
+
+/* Branded ecosystem picker: native keyboard navigation with rich option icons. */
+.ecosystem-logo{width:23px;height:23px;object-fit:contain;flex:none}.ecosystem-field #ecosystem-choice{display:flex;align-items:center;width:100%;min-height:50px;gap:12px;padding:11px 14px}
+#ecosystem-choice>button{display:flex;align-items:center;flex:1;min-width:0;padding:0;text-align:start;color:inherit;background:none;border:0}#ecosystem-choice selectedcontent{display:flex;align-items:center;gap:12px}#ecosystem-choice::picker-icon{margin-inline-start:auto;align-self:center;transition:transform .18s}#ecosystem-choice:open::picker-icon{transform:rotate(180deg)}
+#ecosystem-choice option{display:flex;align-items:center;gap:12px;min-height:44px}#ecosystem-choice::picker(select){max-height:min(430px,60dvh)}
+#active-ecosystem-icon{width:21px;height:21px}.ecosystem-grid .service-icon{width:34px;height:34px}.ecosystem-grid .shortcut .tile{width:42px;height:42px}
+.ecosystem-grid img[data-service="apple.png"],#ecosystem-choice option[value=apple] img,#ecosystem-choice:has(option[value=apple]:checked) selectedcontent img,#apps:has(img[src$="apple.png"]) img{background:#fff;border-radius:7px;padding:3px}
+.button,.mode,.text-button,.close,.page-tabs [role=tab],.appearance button{transition:background .18s,color .18s,border-color .18s,transform .18s,box-shadow .18s}
+.button:hover,.appearance button:hover{border-color:var(--accent);box-shadow:0 3px 12px #0001}.button:active,.mode:active,.close:active,.appearance button:active{transform:scale(.96)}.page-tabs [role=tab]:hover{color:var(--fg)}.round:focus-visible,.button:focus-visible,.close:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){#ecosystem-choice::picker-icon,.button,.mode,.text-button,.close,.page-tabs [role=tab],.appearance button{transition:none}}
+.app[data-motion=off] #ecosystem-choice::picker-icon{transition:none}
