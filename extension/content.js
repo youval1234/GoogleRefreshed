@@ -110,9 +110,9 @@
   host.style.cssText = 'position:fixed;inset:0;z-index:2147483000;display:block;color-scheme:light;';
   const root = host.attachShadow({mode: 'open'});
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
-  let saveWaiters = [];
+  let saveWaiters = [], shortcutDrag = null;
   const repoURL = 'https://github.com/youval1234/GoogleRefreshed';
-  const version = preview ? '1.6.5' : chrome.runtime.getManifest().version;
+  const version = preview ? '1.7.0' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();
@@ -149,7 +149,7 @@
     <main><section class="intro"><div class="eyebrow date"><span id="date"></span></div><h1 id="greeting" dir="ltr"></h1><p class="subtitle">Search Google. Make the day yours.</p></section>
     <section class="search-wrap" aria-label="Google search"><form class="search-box" id="search" action="https://www.google.com/search" method="get" role="search"><label class="engine-picker" title="Choose search engine"><img id="engine-google-icon" class="google-icon" src="${assetURL('google')}" alt=""><span id="engine-letter" hidden></span><span class="engine-chevron" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m4 6 4 4 4-4"/></svg></span><select id="engine-quick" aria-label="Search engine">${GoogleRefreshed.engines.map(e=>`<option value="${e.id}"><img class="engine-option-icon" src="${assetURL(e.id)}" alt="">${e.name}</option>`).join('')}</select></label><input type="search" class="query" name="q" placeholder="Search Google or explore an idea" aria-label="Search Google" autocomplete="off" aria-autocomplete="list" aria-controls="suggestion-list" aria-expanded="false" dir="auto" required maxlength="2048"><button type="button" id="search-images" class="search-image-button" aria-label="Reverse image search" title="Search by image with Google Lens">${icon('image')}</button><button type="submit" class="submit" aria-label="Search Google">${icon('arrow')}</button></form><div class="suggestion-popup" id="suggestion-popup" hidden><div id="suggestion-list" role="listbox" aria-label="Google search suggestions"></div><div class="suggestion-credit">Suggestions from Google</div></div><div class="modes" aria-label="Search type">${['all','images','videos','maps'].map(x => `<button class="mode" data-mode="${x}" aria-pressed="${x === 'all'}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</div></section>
     <nav class="page-tabs" role="tablist" aria-label="Homepage tabs">${['home','weather','news'].map(x=>`<button role="tab" id="tab-${x}" data-tab="${x}" aria-selected="${x==='home'}" aria-controls="panel-${x}" tabindex="${x==='home'?0:-1}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</nav><div id="panel-home" role="tabpanel" aria-labelledby="tab-home">
-    <section class="shortcuts"><div class="section-head"><span class="eyebrow">Your everyday <span id="shortcut-count"></span></span><div class="group-control"><select id="shortcut-group" class="group-select" aria-label="Shortcut group"><option value="personal">Personal</option><option value="work">Work</option><option value="study">Study</option><option value="all">All groups</option></select><button class="text-button" id="quick-add-shortcut">+ Add shortcut</button><button class="text-button" id="edit-shortcuts">Edit shortcuts ↗</button></div></div><div class="shortcut-grid"></div></section>
+    <section class="shortcuts"><div class="section-head"><span class="eyebrow">Your everyday <span id="shortcut-count"></span></span><div class="group-control"><select id="shortcut-group" class="group-select" aria-label="Shortcut group"><option value="personal">Personal</option><option value="work">Work</option><option value="study">Study</option><option value="all">All groups</option></select><button class="text-button" id="quick-add-shortcut">+ Add shortcut</button><button class="text-button" id="edit-shortcuts">Edit shortcuts ↗</button></div></div><p id="shortcut-reorder-help" class="reorder-help">Drag a shortcut to rearrange it. On touch screens use its grip. With the grip focused, use arrow keys to move, or Home and End.</p><div class="shortcut-grid"></div></section>
     <section class="widgets" aria-label="Your widgets"><article class="widget focus-widget"><div class="focus-top"><span class="eyebrow" id="daily-title">Today’s tasks</span><span id="hardware-status">Live</span></div><iframe id="hardware-frame" title="Private hardware monitor and focus note" src="${GoogleRefreshed.resource('hardware.html')}" style="width:100%;height:215px;border:0;display:block;margin-top:14px;background:transparent" referrerpolicy="no-referrer"></iframe></article><article class="widget clock-widget"><div class="clock-content"><div class="eyebrow">Here & now</div><div class="clock-row"><time class="time" id="time"></time></div><div class="timezone" id="timezone"></div></div><svg class="orbit" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="39" stroke="currentColor" opacity=".23"/><ellipse cx="50" cy="50" rx="47" ry="15" stroke="currentColor" opacity=".4" transform="rotate(-32 50 50)"/><circle class="sun-ball" cx="50" cy="50" r="23"/><circle cx="87" cy="27" r="4" fill="var(--bg)" stroke="currentColor"/></svg><div class="world-clock" id="world-clock"><div><span class="eyebrow">Elsewhere</span><span id="world-city" class="timezone"></span></div><time id="world-time"></time></div><section class="focus-timer" id="focus-timer" aria-label="Focus timer"><div class="timer-top"><span class="eyebrow">A little focus</span><select id="timer-duration" aria-label="Focus duration">${[15,25,45,60].map(n=>`<option value="${n}">${n} minutes</option>`).join('')}</select></div><div class="timer-row"><strong id="timer-time">25:00</strong><div class="buttons"><button class="button" id="timer-start">Start focus</button><button class="button" id="timer-reset" aria-label="Reset focus timer">↺</button></div></div><div class="timer-track"><span id="timer-progress"></span></div><span id="timer-status" class="hint" role="status">Make a little room for one thing.</span></section></article></section></div>
     <section class="data-panel" id="panel-weather" role="tabpanel" aria-labelledby="tab-weather" hidden><div class="data-card"><div class="data-heading"><div><h2 id="weather-city">A little look outside.</h2><p class="hint" id="weather-location">Choose a city to see the current weather and five-day forecast.</p></div><div class="buttons"><button class="button" id="change-city">Change city</button><button class="button" id="refresh-weather">Refresh</button><button class="button" id="weather-units" aria-label="Toggle weather temperature units">°C / °F</button></div></div><form class="city-search" id="city-form"><input id="city-query" placeholder="Search a city…" aria-label="Weather city" maxlength="100" required minlength="2"><button class="button primary" type="submit">Find city</button></form><div class="city-list" id="city-results"></div><div class="data-status" id="weather-status" role="status"></div><div id="weather-content"></div><p class="source-note"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather data by Open-Meteo</a> · <span id="weather-updated">Forecasts are estimates.</span></p></div></section>
     <section class="data-panel" id="panel-news" role="tabpanel" aria-labelledby="tab-news" hidden><div class="data-card"><div class="data-heading"><div><h2>A wider perspective.</h2><p class="hint">The latest headlines, on your terms.</p></div><button class="button" id="refresh-news">Refresh headlines</button></div><div class="news-controls"><select id="news-topic" aria-label="News topic">${['local','top','world','technology','business','science','sports','health','entertainment','custom'].map(x=>`<option value="${x}">${x==='local'?'Near you':x==='top'?'Top stories':x==='custom'?'My topic':x[0].toUpperCase()+x.slice(1)}</option>`).join('')}</select><button class="button" id="news-customize">News preferences</button></div><div class="data-status" id="news-status" role="status"></div><div class="news-grid" id="news-content"></div><div class="news-pagination"><button class="button" id="more-news" hidden>Show more articles ${icon('plus')}</button><span id="news-count-label" class="hint"></span></div><p class="source-note"><a href="https://news.google.com/" target="_blank" rel="noopener noreferrer">Headlines via Google News</a> · <span id="news-updated">Articles open at their source.</span></p></div></section></main>
@@ -235,8 +235,14 @@
     }else glyph.textContent=item.glyph;
     const label = document.createElement('span'); label.textContent = item.name;
     const arrow = document.createElement('span'); arrow.className = 'go'; arrow.textContent = '↗'; arrow.ariaHidden = 'true';
+    a.draggable=false;glyph.querySelector('img')?.setAttribute('draggable','false');
     a.append(glyph,label,arrow);if(services)return a;
-    const cell=document.createElement('div');cell.className='shortcut-cell';const edit=document.createElement('button');edit.className='shortcut-pencil';edit.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m15 5 4 4M4 20l5-1L20 8a3 3 0 0 0-4-4L5 15Z"/></svg>';edit.setAttribute('aria-label','Edit '+item.name+' shortcut');edit.onclick=()=>editLink(index);cell.append(a,edit);return cell;
+    const cell=document.createElement('div');cell.className='shortcut-cell';const edit=document.createElement('button');edit.className='shortcut-pencil';edit.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m15 5 4 4M4 20l5-1L20 8a3 3 0 0 0-4-4L5 15Z"/></svg>';edit.setAttribute('aria-label','Edit '+item.name+' shortcut');edit.onclick=()=>editLink(index);const move=document.createElement('button');move.className='shortcut-move';move.type='button';move.setAttribute('aria-label','Move '+item.name+' shortcut');move.title='Drag to reorder · Arrow keys to move';move.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>';
+    move.setAttribute('aria-describedby','shortcut-reorder-help');
+    cell._shortcut=item;cell.append(a,edit,move);
+    cell.addEventListener('pointerdown',e=>startShortcutDrag(e,cell,move));
+    move.addEventListener('keydown',e=>moveShortcutWithKeys(e,cell));
+    return cell;
   }
   function changeEngine(value){settings.engine=value;hideSuggestions();suggestionCache.clear();apply();save();}
   $('#engine-quick').onchange=e=>changeEngine(e.target.value);$('#engine-setting').onchange=e=>changeEngine(e.target.value);
@@ -266,7 +272,100 @@
     const manifest={manifest_version:3,name:'GoogleRefreshed · '+theme.name+' · '+(dark?'Dark':'Light'),version,theme:{colors:{frame:rgb(colors[0]),toolbar:rgb(colors[4]),tab_text:rgb(colors[1]),tab_background_text:rgb(colors[2]),bookmark_text:rgb(colors[1]),ntp_background:rgb(colors[0]),ntp_text:rgb(colors[1]),omnibox_background:rgb(colors[0]),omnibox_text:rgb(colors[1])}}};
     const href=URL.createObjectURL(new Blob([JSON.stringify(manifest,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=href;link.download='manifest.json';link.click();setTimeout(()=>URL.revokeObjectURL(href),1000);toast('Save this manifest in a separate theme folder. Load that folder in Brave to match the toolbar.');
   };
+  function shortcutCells(){return [...$('.shortcut-grid').children].filter(e=>e._shortcut);}
+  function animateShortcutOrder(before){
+    if(!settings.animations||reducedMotion.matches)return;
+    for(const cell of shortcutCells()){
+      const old=before.get(cell),now=cell.getBoundingClientRect();
+      if(!old||cell===shortcutDrag?.cell)continue;
+      const x=old.left-now.left,y=old.top-now.top;
+      for(const animation of cell.getAnimations())animation.cancel();
+      if(x||y)cell.animate([{transform:`translate(${x}px,${y}px)`},{transform:'translate(0,0)'}],{duration:190,easing:'cubic-bezier(.2,.8,.2,1)'});
+    }
+  }
+  function commitShortcutOrder(){
+    const ordered=shortcutCells().map(e=>e._shortcut),selected=new Set(ordered);let i=0;
+    // Preserve the positions of shortcuts hidden by the selected group.
+    settings.shortcuts=settings.shortcuts.map(item=>selected.has(item)?ordered[i++]:item);
+    save();
+  }
+  function moveShortcutWithKeys(e,cell){
+    if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)||shortcutDrag)return;
+    e.preventDefault();const cells=shortcutCells(),from=cells.indexOf(cell);
+    const columns=getComputedStyle($('.shortcut-grid')).gridTemplateColumns.split(' ').length;
+    const delta={ArrowLeft:-1,ArrowRight:1,ArrowUp:-columns,ArrowDown:columns};
+    const to=e.key==='Home'?0:e.key==='End'?cells.length-1:Math.max(0,Math.min(cells.length-1,from+delta[e.key]));
+    if(to===from)return;
+    const before=new Map(cells.map(c=>[c,c.getBoundingClientRect()]));cells.splice(from,1);cells.splice(to,0,cell);
+    const add=$('.shortcut-grid>.add');for(const c of cells)$('.shortcut-grid').insertBefore(c,add);
+    animateShortcutOrder(before);commitShortcutOrder();cell.querySelector('.shortcut-move').focus({preventScroll:true});
+    cell.scrollIntoView({block:'nearest'});toast(`${cell._shortcut.name} moved to position ${to+1} of ${cells.length}.`);
+  }
+  function startShortcutDrag(e,cell,handle){
+    if(e.button!==0||shortcutDrag||e.target.closest('.shortcut-pencil')||e.target.closest('button')!==null&&e.target.closest('button')!==handle)return;
+    const fromHandle=handle.contains(e.target);
+    if(e.pointerType!=='mouse'&&!fromHandle)return;
+    const original=shortcutCells(),start={x:e.clientX,y:e.clientY};
+    let active=false,ghost,frame=0,x=e.clientX,y=e.clientY,lastTime=0;
+    const controller=new AbortController(),options={signal:controller.signal};
+    const blockDragClick=()=>{const guard=event=>{event.preventDefault();event.stopImmediatePropagation();};cell.addEventListener('click',guard,{capture:true,once:true});setTimeout(()=>cell.removeEventListener('click',guard,true),500);};
+    const cancel=()=>{if(active)blockDragClick();finish(false);};
+    const finish=commit=>{
+      controller.abort();cancelAnimationFrame(frame);
+      if(active){
+        const changed=shortcutCells().some((c,i)=>c!==original[i]);
+        ghost.remove();cell.classList.remove('shortcut-drag-source');app.classList.remove('shortcut-dragging');
+        if(commit&&changed){if(settings.animations&&!reducedMotion.matches)cell.animate([{transform:'scale(1.035)'},{transform:'scale(1)'}],{duration:180,easing:'ease-out'});commitShortcutOrder();toast(`${cell._shortcut.name} moved to position ${shortcutCells().indexOf(cell)+1}.`);}
+        else if(!commit){const add=$('.shortcut-grid>.add');for(const c of original)$('.shortcut-grid').insertBefore(c,add);}
+        handle.focus({preventScroll:true});
+      }
+      shortcutDrag=null;
+    };
+    shortcutDrag={cell,cancel};
+    function place(){
+      const cells=shortcutCells(),bounds=cells.map(c=>{const parent=c.offsetParent.getBoundingClientRect();return [c,{left:parent.left+c.offsetLeft,top:parent.top+c.offsetTop,width:c.offsetWidth,height:c.offsetHeight}];});
+      // Stay within the actual grid; releasing elsewhere safely cancels the move.
+      const grid=$('.shortcut-grid').getBoundingClientRect();
+      if(x<grid.left-24||x>grid.right+24||y<grid.top-24||y>grid.bottom+24)return;
+      let target=cell,distance=Infinity;
+      for(const [candidate,b] of bounds){const d=(x-b.left-b.width/2)**2+(y-b.top-b.height/2)**2;if(d<distance){distance=d;target=candidate;}}
+      if(target===cell)return;
+      const from=cells.indexOf(cell),to=cells.indexOf(target),before=new Map(cells.map(c=>[c,c.getBoundingClientRect()]));
+      $('.shortcut-grid').insertBefore(cell,to>from?target.nextSibling:target);animateShortcutOrder(before);
+    }
+    function tick(time){
+      if(!active)return;const dt=Math.min(32,time-(lastTime||time));lastTime=time;
+      const viewport=app.getBoundingClientRect(),edge=64;
+      const speed=y<viewport.top+edge?-Math.min(1,(viewport.top+edge-y)/edge):y>viewport.bottom-edge?Math.min(1,(y-viewport.bottom+edge)/edge):0;
+      if(speed){app.scrollTop+=speed*dt*.7;place();}
+      frame=requestAnimationFrame(tick);
+    }
+    document.addEventListener('pointermove',event=>{
+      if(event.pointerId!==e.pointerId)return;x=event.clientX;y=event.clientY;
+      if(!active&&Math.hypot(x-start.x,y-start.y)<6)return;
+      event.preventDefault();
+      if(!active){
+        active=true;const box=cell.getBoundingClientRect();ghost=cell.cloneNode(true);ghost.classList.add('shortcut-drag-ghost');ghost.setAttribute('aria-hidden','true');ghost.inert=true;
+        ghost.style.width=box.width+'px';ghost.style.height=box.height+'px';app.append(ghost);
+        cell.classList.add('shortcut-drag-source');app.classList.add('shortcut-dragging');frame=requestAnimationFrame(tick);
+      }
+      const box=cell.getBoundingClientRect();ghost.style.left=(x-box.width/2)+'px';ghost.style.top=(y-box.height/2)+'px';place();
+    },{...options,passive:false});
+    document.addEventListener('pointerup',event=>{
+      if(event.pointerId!==e.pointerId)return;
+      const grid=$('.shortcut-grid').getBoundingClientRect(),commit=!active||(event.clientX>=grid.left-24&&event.clientX<=grid.right+24&&event.clientY>=grid.top-24&&event.clientY<=grid.bottom+24);
+      // Click follows pointerup; keep a one-shot navigation guard through that event.
+      if(active)blockDragClick();
+      finish(commit);
+    },options);
+    document.addEventListener('pointercancel',cancel,options);
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();cancel();}},options);
+    window.addEventListener('blur',cancel,options);
+    document.addEventListener('visibilitychange',()=>{if(document.hidden)cancel();},options);
+    if(fromHandle)e.preventDefault();
+  }
   function renderShortcuts() {
+    shortcutDrag?.cancel();
     const visible=settings.shortcuts.filter(x=>settings.activeGroup==='all'||(x.group||'personal')===settings.activeGroup);
     const grid = $('.shortcut-grid'); grid.replaceChildren(...visible.map(x => makeShortcut(x,settings.shortcuts.indexOf(x))));$('#shortcut-group').value=settings.activeGroup;$('#shortcut-count').textContent=visible.length?' · '+visible.length:'';$('#quick-add-shortcut').disabled=settings.shortcuts.length>=60;
     if (settings.shortcuts.length < 60) {

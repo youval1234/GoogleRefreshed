@@ -1,3 +1,7 @@
+## v1.7.0 follow-up
+
+Shortcut reordering changes the existing settings array through the existing local/save and optional sync mechanisms. No permissions, network endpoints, dependencies or new stored identifiers are added. Drag previews clone existing local DOM and are removed at completion; pointer listeners, animation frames and temporary click guards are bounded and cleaned up. Scoped source and release-archive scanning found no secret/private-file candidates; this is not a new complete-history audit.
+
 ## v1.6.4 follow-up
 
 Customize positioning and Google service logo routing add no permissions, dependencies, credentials or runtime network calls. Product icons are bundled PNGs from the official sources recorded in `extension/icons/services/sources.json`. Host checks use exact matches and route checks use complete path segments. Unknown Google paths retain native favicon lookup. Scoped source and release-archive scanning found no secret/private-file candidates; this is not a new complete-history audit.

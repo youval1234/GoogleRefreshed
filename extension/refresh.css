@@ -473,3 +473,13 @@ input[type=file]::file-selector-button{background:var(--soft);color:var(--fg);bo
 /* Keep customization within reach while the homepage itself scrolls. */
 #customize{position:fixed;right:5.1vw;bottom:max(23px,env(safe-area-inset-bottom));z-index:20;background:var(--field);box-shadow:0 4px 20px #0002;min-height:40px}
 footer{padding-right:150px}
+
+/* Shortcut ordering: lightweight pointer preview and short FLIP transitions. */
+.shortcut-move{position:absolute;left:7px;top:6px;width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:var(--field);color:var(--muted);cursor:grab;touch-action:none;opacity:0;transition:opacity .15s,background .15s;z-index:2}
+.shortcut-move svg{width:18px;height:18px}.shortcut-cell:hover .shortcut-move,.shortcut-cell:focus-within .shortcut-move{opacity:1}.shortcut-move:hover,.shortcut-move:focus-visible{background:var(--soft);color:var(--fg)}
+.shortcut-dragging{cursor:grabbing;user-select:none}.shortcut-dragging .shortcut-cell .shortcut{transform:none}.shortcut-drag-source{outline:2px dashed var(--accent);outline-offset:3px;border-radius:15px}.shortcut-drag-source>*{opacity:.18;pointer-events:none}
+.shortcut-drag-ghost{position:fixed;z-index:40;pointer-events:none;transform:rotate(2deg) scale(1.04);filter:drop-shadow(0 12px 18px #0004);opacity:.96}.shortcut-drag-ghost .shortcut{background:var(--field);border-color:var(--accent)}.shortcut-drag-ghost button{display:none}
+.reorder-help{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(hover:none),(pointer:coarse){.shortcut-move{opacity:.85;width:32px;height:32px}}
+@media(prefers-reduced-motion:reduce){.shortcut-drag-ghost{transform:none}}
+.app[data-motion=off] .shortcut-drag-ghost{transform:none}
