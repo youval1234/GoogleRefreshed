@@ -1,11 +1,11 @@
-# Searchscape v2.1.0
+# Searchscape v2.1.1
 
-- Branded icons in the ecosystem selector and top-bar Services button, with a properly aligned dropdown arrow.
-- Bundle service logos for Microsoft, Apple and Proton so new installations no longer show generic browser globes.
-- Add Amazon, Adobe, Zoho, Meta and Yahoo service collections. Each ecosystem keeps its own account link and does not change the selected search engine.
-- Recognize catalogued service URLs in custom shortcuts as well. Logos are local assets; no icon aggregator or new permissions.
-- Add a circular light/dark reveal from the toggle, short tab and ecosystem transitions, and hover/press feedback. Animation off and reduced-motion settings remain respected.
+Add an opt-in automatic private-tab redirect. After Allow in Private is enabled, turn on “Open Searchscape automatically in private new tabs” in Customize and grant the optional tab-address permission.
 
-Reload the extension at brave://extensions and open a fresh tab. Users updating from a release ZIP should replace files in the existing unpacked folder before reloading.
+The feature navigates only from browser-owned private new-tab URLs to the local standalone Searchscape homepage. It leaves normal tabs, links, search results and existing tabs unchanged, and rechecks the current URL after asynchronous work to avoid replacing a navigation in progress. Turning it off removes the optional permission.
 
-Toolbar-sync workarounds were researched separately; no management permission, companion, or private browser API is added. See docs/toolbar-sync-options.md in the repository.
+If changing Allow in Private does not take effect, fully exit and reopen Brave. The explicit Open your homepage popup button still works as a manual option.
+
+Validation: six isolated redirect/event checks and twelve browser appearance/permission-flow checks passed. Automatic review rejected the attempted private-window end-to-end test command with “blocked by policy” and no further explanation; a full live private redirect has not been verified. No new required permissions, dependencies, URL storage or background polling were added.
+
+Reload Searchscape at brave://extensions and open Customize to enable the new option.

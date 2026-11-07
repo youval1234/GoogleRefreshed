@@ -1,11 +1,25 @@
 importScripts('data.js','sync.js');
 // Event-driven requests only. No background polling or permanent connection.
 const newTabPermission={permissions:['tabs']},newTabPage=/^(?:chrome|brave):\/\/(?:newtab|new-tab-page)\/?$/;
-// Without the optional tabs permission new tabs carry no address, so nothing is redirected.
-chrome.tabs.onCreated.addListener(async tab=>{
-  if(!newTabPage.test(tab.pendingUrl||tab.url||''))return;
-  if((await chrome.storage.local.get('stillSettings')).stillSettings?.newTabHome===true)chrome.tabs.update(tab.id,{url:'https://www.google.com/'}).catch(()=>{});
-});
+// Opt-in private-tab navigation; ordinary tabs use the manifest's new-tab page.
+// Only browser-owned new-tab URLs qualify. Never inspect or retain search text.
+const redirectingPrivateTabs=new Set();
+async function openPrivateHomepage(tab){
+  if(!tab.incognito||!newTabPage.test(tab.pendingUrl||tab.url||'')||redirectingPrivateTabs.has(tab.id))return;
+  redirectingPrivateTabs.add(tab.id);
+  try{
+    if(!await chrome.permissions.contains(newTabPermission))return;
+    if((await chrome.storage.local.get('stillSettings')).stillSettings?.newTabHome!==true)return;
+    // Recheck after async work so a link opened in the meantime is never replaced.
+    const current=await chrome.tabs.get(tab.id);
+    if(current.incognito&&newTabPage.test(current.pendingUrl||current.url||'')){
+      await chrome.tabs.update(tab.id,{url:chrome.runtime.getURL('home.html?standalone=1')});
+    }
+  }catch{/* A closed tab, revoked permission or unavailable private context is left alone. */}
+  finally{redirectingPrivateTabs.delete(tab.id);}
+}
+chrome.tabs.onCreated.addListener(openPrivateHomepage);
+chrome.tabs.onUpdated.addListener((id,change,tab)=>{if(change.url)openPrivateHomepage(tab);});
 async function respondTo(message,signal){
   if(message?.type==='openExtensions'){await chrome.tabs.create({url:'chrome://extensions/'});return {ok:true};}
   if(['browserSyncStatus','browserSyncEnable','browserSyncNow'].includes(message?.type))return SearchscapeSync.request(message);
