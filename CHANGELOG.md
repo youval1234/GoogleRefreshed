@@ -1,4 +1,12 @@
 # Changelog
+
+## 2.2.0 — 2026-11-07
+
+- Redesign the toolbar popup with theme-aware colors, local typography, clearer actions and current engine/ecosystem status.
+- Repair low-contrast AI links and text on bright language prompts; preserve readable provider colors and restore original inline styles when theming is disabled.
+- Handle streamed result links and make text selection readable.
+- Refresh the repository description, screenshots and installation/private-mode guidance.
+
 ## 1.2.0 — 2026-10-27
 
 - Redesigned brand mark, modern typography, selectable locally bundled fonts, larger date, and visible version labels.

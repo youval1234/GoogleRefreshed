@@ -1,3 +1,7 @@
+## v2.2.0 follow-up
+
+Adds a local popup script using existing settings, permission-status APIs and bundled typography. All popup labels derived from preferences use plain text. No permissions, endpoints or dependencies are added. Results contrast repairs preserve original inline values, account for CSSOM color normalization and restore them when disabled. The scanner remains bounded and mutation scans are coalesced per animation frame. New documentation screenshots use isolated settings, no saved name, and hide hardware/location widgets. Scoped current-source and release archive scanning found no secret/private-file candidates; this is not a new history audit.
+
 ## v2.1.2 follow-up
 
 Adds only discoverability controls: a local settings deep link and a fixed browser Details URL for this extension ID. No permissions, redirect rules, network requests or persistence fields are added. Homepage/deep-link and redirect-logic checks passed; the live-private-redirect verification limitation recorded below is unchanged.

@@ -14,6 +14,7 @@
     html[data-gr-theme] :is(a h3,h3 a,.LC20lb){color:var(--gr-link)!important}
     html[data-gr-theme] :is(.MjjYud,.mnr-c,.kp-wholepage,.related-question-pair,.WZ8Tjf){border-color:var(--gr-line)!important}
     html[data-gr-theme] :is(.erkvQe,.sbct:hover,.sbhl){background-color:var(--gr-soft)!important}
+    html[data-gr-theme] ::selection{background:var(--gr-link)!important;color:var(--gr-bg)!important}
     #gr-results-home{position:fixed;right:18px;bottom:17px;z-index:2147482000;display:flex;gap:8px;align-items:center;padding:9px 13px;border-radius:12px;background:var(--gr-panel);color:var(--gr-fg);border:1px solid var(--gr-line);font:11px var(--gr-font,'GR Manrope'),sans-serif;text-decoration:none;box-shadow:0 4px 20px #0002}
     #gr-results-home svg{width:22px;height:22px;color:var(--gr-accent)}
   `;
@@ -80,8 +81,10 @@
     function write(node,property,value){
       const saved=inlineOriginals.get(node)?.get(property),current=node.style.getPropertyValue(property);
       if(!inlineOriginals.has(node))inlineOriginals.set(node,new Map());
-      if(!saved||saved.mapped!==current)inlineOriginals.get(node).set(property,{value:current,priority:node.style.getPropertyPriority(property),mapped:value});
+      if(!saved||saved.mapped!==current)inlineOriginals.get(node).set(property,{value:current,priority:node.style.getPropertyPriority(property),mapped:''});
       if(current!==value)node.style.setProperty(property,value,'important');
+      // CSSOM normalizes hex colors to rgb(); compare the serialized value next time.
+      inlineOriginals.get(node).get(property).mapped=node.style.getPropertyValue(property);
     }
     for(const node of inlineNodes)for(const property of properties){const saved=inlineOriginals.get(node)?.get(property),current=node.style.getPropertyValue(property),value=saved?.mapped===current?saved.value:current,mapped=mapValue(value,property);if(mapped!==value)write(node,property,mapped);}
     // Last safeguard for AI text whose colors are produced by scoped variables or streamed styles.
@@ -91,11 +94,20 @@
     const rgba=value=>{const m=value.match(/^rgba?\(([^)]+)\)/);if(!m)return null;const n=m[1].split(/[,\s/]+/).filter(Boolean).map(Number);return n.length>=3?[...n.slice(0,3),n[3]??1]:null;};
     const background=node=>{for(let n=node;n;n=n.parentElement){const c=rgba(computed(n).backgroundColor);if(c&&c[3]>.9)return c;}const hex=document.documentElement.style.getPropertyValue('--gr-bg');return [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));};
     const luminance=c=>c.slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
-    for(const node of [...document.querySelectorAll('p,li,span,div,h1,h2,h3,input,textarea')].filter(n=>/^(INPUT|TEXTAREA)$/.test(n.tagName)||[...n.childNodes].some(c=>c.nodeType===3&&c.textContent.trim())).slice(0,1200)){
-      const css=computed(node),fg=rgba(css.color);if(!fg||fg[3]<.9||css.visibility==='hidden'||css.display==='none'||Math.max(...fg.slice(0,3))-Math.min(...fg.slice(0,3))>22)continue;
-      const x=luminance(fg),y=luminance(background(node)),contrast=(Math.max(x,y)+.05)/(Math.min(x,y)+.05);if(contrast<3.5)patches.push(node);
+    const variables=getComputedStyle(document.documentElement);
+    const paletteColor=key=>{const hex=variables.getPropertyValue(key).trim();return /^#[a-f\d]{6}$/i.test(hex)?[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)):null;};
+    const ratio=(a,b)=>{const x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+    // Choose against the actual surface: colored prompts can intentionally stay bright.
+    const repairColor=(node,bg)=>{
+      const preferred=node.closest('a[href]')?'--gr-link':'--gr-fg',candidate=paletteColor(preferred);
+      if(candidate&&ratio(candidate,bg)>=4.5)return `var(${preferred})`;
+      return ratio([32,33,36],bg)>=ratio([248,250,252],bg)?'#202124':'#f8fafc';
+    };
+    for(const node of [...document.querySelectorAll('a,p,li,span,div,h1,h2,h3,input,textarea,button,label,small,strong,em,b,mark,blockquote')].filter(n=>/^(INPUT|TEXTAREA)$/.test(n.tagName)||[...n.childNodes].some(c=>c.nodeType===3&&c.textContent.trim())).slice(0,1200)){
+      const css=computed(node),fg=rgba(css.color);if(!fg||fg[3]<.9||css.visibility==='hidden'||css.display==='none')continue;
+      const bg=background(node);if(ratio(fg,bg)<4.5)patches.push([node,repairColor(node,bg)]);
     }
-    for(const node of patches)write(node,'color','var(--gr-fg)');
+    for(const [node,color] of patches)write(node,'color',color);
   }
   function scheduleScan(){if(scanScheduled||!enabled)return;scanScheduled=true;requestAnimationFrame(scanSurfaces);}
   const ready=globalThis.SearchscapeBoot?.ready||chrome.storage.local.get('stillSettings').then(x=>x.stillSettings||{});
@@ -106,7 +118,7 @@
       if(record.target===style||record.target===bridge)continue;
       if(record.type==='attributes'){const value=record.target.getAttribute('style')||'';if(/background|color|--/.test(value)){scheduleScan();return;}continue;}
       if(record.target.tagName==='STYLE'){scheduleScan();return;}
-      for(const node of record.addedNodes)if(node!==style&&node!==bridge&&node.nodeType===1&&(node.tagName==='STYLE'||node.tagName==='LINK'||node.hasAttribute('style')||node.querySelector?.('style,[style]'))){scheduleScan();return;}
+      for(const node of record.addedNodes)if(node!==style&&node!==bridge&&node.nodeType===1&&(node.tagName==='STYLE'||node.tagName==='LINK'||node.textContent?.trim()||node.hasAttribute('style')||node.querySelector?.('style,[style]'))){scheduleScan();return;}
     }
   }).observe(document,{childList:true,subtree:true,attributes:true,attributeFilter:['style']});
   chrome.storage.onChanged.addListener((changes,area)=>{if(area==='local'&&changes.stillSettings){current=changes.stillSettings.newValue||{};apply(current);}});
