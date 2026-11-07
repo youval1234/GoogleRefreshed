@@ -8,6 +8,7 @@
     const target=new URL(chrome.runtime.getURL('home.html'));
     target.searchParams.set('standalone','1');
     if(params.get('still')==='customize')target.searchParams.set('still','customize');
+    if(params.get('section')==='private')target.searchParams.set('section','private');
     return chrome.tabs.update(tab.id,{url:target.href});
   }).catch(()=>{});
 })();

@@ -498,3 +498,5 @@ footer{padding-right:150px}
 .button:hover,.appearance button:hover{border-color:var(--accent);box-shadow:0 3px 12px #0001}.button:active,.mode:active,.close:active,.appearance button:active{transform:scale(.96)}.page-tabs [role=tab]:hover{color:var(--fg)}.round:focus-visible,.button:focus-visible,.close:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){#ecosystem-choice::picker-icon,.button,.mode,.text-button,.close,.page-tabs [role=tab],.appearance button{transition:none}}
 .app[data-motion=off] #ecosystem-choice::picker-icon{transition:none}
+
+.private-settings{padding:14px;margin:12px 0 18px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}.private-settings h3{margin-bottom:12px}.private-settings .button{width:100%;font-size:11px}.private-settings .toggle{align-items:flex-start;gap:12px}.private-settings .toggle input{flex-shrink:0}

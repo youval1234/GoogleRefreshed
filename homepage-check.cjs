@@ -15,4 +15,5 @@ const profile=fs.mkdtempSync(path.join(__dirname,'.test-profile-home-'));let con
   assert.equal(await page.locator('#engine-quick').inputValue(),'google');
  }
  await page.locator('#ecosystem-choice').selectOption('proton');await page.waitForTimeout(300);await page.reload();await page.getByRole('button',{name:'Open services',exact:true}).click();assert.equal(await page.locator('#ecosystem-choice').inputValue(),'proton');console.log('PASS Ecosystem switches show official destinations, preserve the engine choice and survive reload');
+ await page.goto(home+'?standalone=1&still=customize&section=private');await page.locator('#settings').waitFor({state:'visible'});const box=await page.locator('[data-setting=newTabHome]').boundingBox();assert.ok(box.y>=0&&box.y+box.height<=await page.evaluate(()=>innerHeight));assert.ok(await page.locator('[data-setting=newTabHome]').evaluate(e=>e===e.getRootNode().activeElement));console.log('PASS Private-tab deep link opens settings with its toggle visible and focused');
 })().catch(e=>{console.error(e);process.exitCode=1;}).finally(async()=>{if(context)await context.close();fs.rmSync(profile,{recursive:true});});

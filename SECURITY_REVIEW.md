@@ -1,3 +1,7 @@
+## v2.1.2 follow-up
+
+Adds only discoverability controls: a local settings deep link and a fixed browser Details URL for this extension ID. No permissions, redirect rules, network requests or persistence fields are added. Homepage/deep-link and redirect-logic checks passed; the live-private-redirect verification limitation recorded below is unchanged.
+
 ## v2.1.1 follow-up
 
 The explicitly enabled private-tab redirect uses the existing optional tabs permission. It checks private-tab status and exact internal new-tab URLs, requires the persisted opt-in, and rechecks the live tab before navigating to a fixed local extension URL. Other destinations are not stored, logged or sent. Duplicate events are bounded by an in-flight set, cleared on completion, with no polling. Turning the setting off removes optional access. Six isolated event checks and the browser permission-flow suite passed; the new private redirect is not yet verified end to end in a live private window because automatic review blocked that test command. Scoped current-source and release-archive scanning found no secret/private-file candidates; this is not a new history audit.

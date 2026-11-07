@@ -21,6 +21,7 @@ async function openPrivateHomepage(tab){
 chrome.tabs.onCreated.addListener(openPrivateHomepage);
 chrome.tabs.onUpdated.addListener((id,change,tab)=>{if(change.url)openPrivateHomepage(tab);});
 async function respondTo(message,signal){
+  if(message?.type==='openPrivateAccessSettings'){await chrome.tabs.create({url:'chrome://extensions/?id='+chrome.runtime.id});return {ok:true};}
   if(message?.type==='openExtensions'){await chrome.tabs.create({url:'chrome://extensions/'});return {ok:true};}
   if(['browserSyncStatus','browserSyncEnable','browserSyncNow'].includes(message?.type))return SearchscapeSync.request(message);
   if(message?.type==='newTabHomeStatus')return {ok:true,granted:await chrome.permissions.contains(newTabPermission)};
