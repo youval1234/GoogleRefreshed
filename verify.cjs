@@ -64,7 +64,7 @@ async function check(name,fn){await fn();checks.push(name);console.log('PASS '+n
  });
  await check('Apps menu and Escape work',async()=>{
    await page.getByRole('button',{name:'Open services',exact:true}).click();
-   assert.equal(await page.locator('#google-apps a').count(),9);await page.keyboard.press('Escape');assert.equal(await page.locator('#apps-dialog').isVisible(),false);
+   assert.equal(await page.locator('#google-apps a').count(),21);await page.keyboard.press('Escape');assert.equal(await page.locator('#apps-dialog').isVisible(),false);
  });
  await check('Settings export, import, and photo upload work',async()=>{
    await page.getByRole('button',{name:'Customize',exact:true}).click();

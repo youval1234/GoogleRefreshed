@@ -1,10 +1,12 @@
-# Searchscape v2.2.0
+# Searchscape v2.3.0
 
-- Redesign the toolbar popup with bundled modern typography, the selected theme’s light/dark palette, clear homepage/customization/private-tab actions, and current engine/ecosystem status.
-- Fix dark-blue AI links and unreadable text on colored language prompts. Contrast repair now considers the actual surface instead of applying the same foreground everywhere.
-- Theme selected text, handle streamed links without inline styles, and restore original inline colors correctly when results theming is disabled.
-- Refresh GitHub’s README, screenshots, project description and setup instructions.
+- Expand all nine service collections to 110 links. SharePoint is near the top of Microsoft’s launcher; To Do, Forms, Planner, Loop, Copilot, Power Automate, Lists, work Outlook and Admin center are included.
+- Add service search with counts, empty-state feedback and Escape-to-clear. Include more Google, Apple, Proton, Amazon, Adobe, Zoho, Meta and Yahoo apps with bundled icons. SharePoint uses Microsoft’s work-account launcher; no organization URL is inferred.
+- Clean startup/settings parameters out of the visible homepage address, retain a branded favicon, and keep reloads and settings deep links working. The extension ID remains browser-controlled.
+- Theme the language-suggestion card’s pastel-yellow surface as well as its text. Disabling results theming restores the original styling.
+- Cache the private-redirect opt-in and permission status to reduce repeated lookups, with event-driven updates and a navigation-race check.
+- Add Open private Searchscape to the popup. It targets the extension URL from the outset. Brave’s normal private-window shortcut can still paint its protected start page before the redirect event; that flash cannot be guaranteed away by this extension.
 
-Verified: five targeted contrast/popup checks, seven homepage checks, eleven existing results/engine/theme checks and seventeen core browser checks. The new contrast fixtures meet at least 4.5:1 for the covered links and language-prompt text in light/dark mode. These fixtures do not represent every possible Google layout. Existing private-redirect end-to-end verification limitations remain documented.
+Validation includes bundled icons for every catalog entry in light/dark mode, service search, clean URLs and reloads, language-prompt styling/restoration, popup launch requests and private-redirect event logic. A complete live private-redirect end-to-end test remains unverified as documented in SECURITY_REVIEW.md. No new permissions, dependencies, URL storage or polling.
 
-Reload Searchscape at brave://extensions and open a fresh tab. Release ZIP users should replace the files in the existing unpacked folder before reloading.
+Reload the extension and open a fresh tab. To enter a private window directly at Searchscape, use its toolbar popup → Open private Searchscape (Allow in Private must be enabled).

@@ -4,14 +4,14 @@
 
 [Download the latest release](https://github.com/youval1234/Searchscape/releases/latest) · [Theme gallery](docs/v160) · [Report an issue](https://github.com/youval1234/Searchscape/issues)
 
-![Searchscape homepage with the Cosmic theme and Brave Search](docs/v220/home.png)
+![Searchscape homepage with the Cosmic theme and Brave Search](docs/v230/home.png)
 
 ## Make your browser feel like yours
 
 - **52 animated themes** in nine collections, each with light and dark palettes. Search themes, choose an accent, add a local photo, and select from 12 fonts.
 - **Six search options:** Google, DuckDuckGo, Brave Search, Bing, Ecosia, and a configurable SearXNG instance. This controls Searchscape searches; your address-bar engine stays in Brave settings.
 - **Up to 60 shortcuts** with drag-to-reorder, touch grips, keyboard movement, custom names and icons, and Personal/Work/Study groups. Ordering saves automatically.
-- **Nine service ecosystems:** Google, Microsoft, Apple, Proton, Amazon, Adobe, Zoho, Meta, and Yahoo. Switch services independently of your search engine; bundled service icons work without a cached favicon.
+- **110 service links in nine ecosystems:** Google, Microsoft, Apple, Proton, Amazon, Adobe, Zoho, Meta, and Yahoo. Switch services independently of your search engine, or search the selected collection by app name. SharePoint, To Do, Forms, Planner, Loop, Copilot and other work apps are included; work/school or admin access may be needed. Bundled icons work without a cached favicon. [Service catalog](docs/services.md)
 - **Useful daily tools:** optional CPU/RAM activity, world clock, focus timer or note, local weather, and customizable news with photos and more articles.
 - **Brief, responsive motion:** a circular light/dark reveal, sliding shortcut cards, and tab/launcher transitions. Effects pause where appropriate and respect reduced motion and the animation toggle.
 - **Search conveniences:** optional Google autocomplete, keyboard navigation, and reverse-image search through Google Lens. Google results can follow the selected palette, with contrast repairs for AI links and colored prompts.
@@ -19,16 +19,16 @@
 
 ## A popup that matches your theme
 
-Open the homepage, customize it, or jump directly to private-tab setup. The popup displays the selected engine, theme and ecosystem, and follows the saved light/dark appearance.
+Open the homepage, customize it, or jump directly to private-tab setup. The popup displays the selected engine, theme and ecosystem, and follows the saved light/dark appearance. Setup parameters are removed from the visible homepage address after loading; Brave still shows the required extension origin.
 
 <p>
-  <img src="docs/v220/popup-dark.png" width="300" alt="Searchscape toolbar popup in dark mode">
-  <img src="docs/v220/popup-light.png" width="300" alt="Searchscape toolbar popup in light mode">
+  <img src="docs/v230/popup-dark.png" width="300" alt="Searchscape toolbar popup in dark mode">
+  <img src="docs/v230/popup-light.png" width="300" alt="Searchscape toolbar popup in light mode">
 </p>
 
 ## Install or update
 
-1. Download **Searchscape-v2.2.0.zip** from [Releases](https://github.com/youval1234/Searchscape/releases/latest) and extract it into a permanent folder.
+1. Download **Searchscape-v2.3.0.zip** from [Releases](https://github.com/youval1234/Searchscape/releases/latest) and extract it into a permanent folder.
 2. Open `brave://extensions`, enable **Developer mode**, and choose **Load unpacked**.
 3. Select the extracted folder containing `manifest.json`, then open a new tab. Brave may ask you to confirm the new-tab change.
 
@@ -44,6 +44,8 @@ Formerly GoogleRefreshed. Older settings exports remain compatible. An existing 
 4. If changing private access does not take effect, fully exit and restart Brave.
 
 Chromium does not support a native private New Tab override. The opt-in feature instead navigates from browser-owned private new-tab URLs to the local Searchscape homepage, leaving existing tabs, links and searches alone. The popup’s **Open homepage** action is also available manually.
+
+The toolbar popup also has **Open private Searchscape**, which launches directly at the extension URL. The normal private-window shortcut can still briefly show Brave’s protected start page before its redirect event runs; caching reduces repeated permission/settings lookups but cannot guarantee a flash-free redirect.
 
 Redirect logic and permission-flow checks pass. The automatic private redirect is **not yet verified end to end in a live private window**; automatic review blocked that test command. [Validation details](SECURITY_REVIEW.md)
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.0 — 2026-11-07
+
+- Expand the service catalog to 110 entries, add app search and improve SharePoint access.
+- Remove setup parameters from the displayed homepage URL and add a branded favicon.
+- Theme language-prompt surfaces and provide direct private-window launch.
+- Cache private-tab settings/permission status without polling or storing browsing URLs.
+
+
 ## 2.2.0 — 2026-11-07
 
 - Redesign the toolbar popup with theme-aware colors, local typography, clearer actions and current engine/ecosystem status.

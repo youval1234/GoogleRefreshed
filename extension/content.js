@@ -17,6 +17,8 @@
   const ecosystemIconRoutes=Searchscape.ecosystems.flatMap(e=>e.services.map(([name,url,glyph,icon])=>({url:new URL(url),icon}))).sort((a,b)=>b.url.pathname.length-a.url.pathname.length);
   const officialIcon = url => {
     const site = new URL(url), host = site.hostname;
+    if(host.endsWith('-my.sharepoint.com'))return 'onedrive.svg';
+    if(host.endsWith('.sharepoint.com'))return 'sharepoint.svg';
     const match=ecosystemIconRoutes.find(r=>r.url.hostname===host&&(r.url.pathname==='/'||site.pathname===r.url.pathname||site.pathname.startsWith(r.url.pathname.replace(/\/$/,'')+'/')));
     if(match)return match.icon;
     const services = {'mail.google.com':'gmail','www.youtube.com':'youtube','youtube.com':'youtube','drive.google.com':'drive','calendar.google.com':'calendar','chatgpt.com':'chatgpt','maps.google.com':'maps','photos.google.com':'photos','translate.google.com':'translate','myaccount.google.com':'google','accounts.google.com':'google','finance.google.com':'finance','news.google.com':'news','keep.google.com':'keep','meet.google.com':'meet','gemini.google.com':'gemini','books.google.com':'books','scholar.google.com':'scholar','earth.google.com':'earth','shopping.google.com':'shopping','classroom.google.com':'classroom','sites.google.com':'sites','sheets.google.com':'sheets','slides.google.com':'slides','forms.google.com':'forms'};
@@ -118,7 +120,7 @@
   let settings, mode = 'all', activeTab='home', classic = false, saveQueue = Promise.resolve(), noteTimer, clockTimer, saveTimer;
   let saveWaiters = [], shortcutDrag = null;
   const repoURL = 'https://github.com/youval1234/Searchscape';
-  const version = preview ? '2.2.0' : chrome.runtime.getManifest().version;
+  const version = preview ? '2.3.0' : chrome.runtime.getManifest().version;
   const dateFormatter = new Intl.DateTimeFormat('en', {weekday:'long',month:'long',day:'numeric'});
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll('_',' ').replaceAll('/',' / ');
   const hiddenSiblings = new Map();
@@ -174,7 +176,7 @@
     <dialog class="modal" id="shortcut-dialog" aria-labelledby="shortcut-title"><div class="dialog-head"><h2 id="shortcut-title">Your everyday.</h2><button class="close" data-close aria-label="Close shortcuts">${icon('close')}</button></div><div class="panel-content"><p class="hint">Keep your favorite places a little closer.</p><div id="shortcut-list"></div><button class="button" id="add-shortcut" style="margin-top:18px">${icon('plus')} Add shortcut</button></div></dialog>
     <dialog class="modal" id="link-dialog" aria-labelledby="link-title"><div class="dialog-head"><h2 id="link-title">Add a little shortcut.</h2><button class="close" data-close aria-label="Close shortcut editor">${icon('close')}</button></div><form class="panel-content" id="link-form"><label class="field">Name<input id="link-name" maxlength="28" required placeholder="A favorite place" autocomplete="off" dir="auto"></label><label class="field">Website<input id="link-url" maxlength="2048" required placeholder="example.com" autocomplete="off"></label><label class="field">Group<select id="link-group"><option value="personal">Personal</option><option value="work">Work</option><option value="study">Study</option></select></label><label class="toggle">Use the original service icon<input type="checkbox" id="link-original" checked></label><label class="field">Custom icon or initials<input id="link-glyph" maxlength="4" placeholder="e.g. ✦ or AB"></label><label class="field">Shortcut color<input id="link-color" type="color"></label><p class="error" id="link-error" role="alert"></p><div class="buttons"><button class="button primary" type="submit">Save shortcut ${icon('arrow')}</button></div></form></dialog>
     <dialog class="modal" id="lens-dialog" aria-labelledby="lens-title"><div class="dialog-head"><h2 id="lens-title">Search by image.</h2><button class="close" data-close aria-label="Close reverse image search">${icon('close')}</button></div><div class="panel-content"><p class="hint">Find similar images, identify objects, or discover where a picture appears with Google Lens.</p><form id="lens-upload" action="https://lens.google.com/v3/upload" method="post" enctype="multipart/form-data"><label class="field">Upload an image<input id="lens-file" name="encoded_image" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" required></label><button class="button primary" type="submit">Search this image</button></form><div class="group"><form id="lens-link"><label class="field">Or paste an image link<input id="lens-url" type="url" placeholder="https://example.com/photo.jpg" maxlength="8192" required autocomplete="off"></label><button class="button" type="submit">Search image link</button></form></div><p class="error" id="lens-error" role="alert"></p><p class="hint">Choose a JPG, PNG, WebP, GIF, or AVIF up to 20 MB. Your image or link goes directly to Google Lens when you search. Searchscape does not save it.</p></div></dialog>
-    <dialog class="modal" id="apps-dialog" aria-labelledby="apps-title"><div class="dialog-head"><h2 id="apps-title">Your services.</h2><button class="close" data-close aria-label="Close services">${icon('close')}</button></div><div class="panel-content"><label class="field ecosystem-field">Ecosystem<select id="ecosystem-choice" aria-label="Service ecosystem"><button type="button"><selectedcontent></selectedcontent></button>${Searchscape.ecosystems.map(e=>`<option value="${e.id}"><img class="ecosystem-logo" src="${assetURL(e.icon)}" alt=""><span>${e.name}</span></option>`).join('')}</select></label><div class="shortcut-grid ecosystem-grid" style="grid-template-columns:repeat(3,1fr)" id="google-apps"></div><p class="hint">Sign in directly on the service’s website. <a id="ecosystem-account" class="text-button" href="https://myaccount.google.com/">Manage account ↗</a><button id="account-native" hidden>Provider homepage</button></p></div></dialog>
+    <dialog class="modal" id="apps-dialog" aria-labelledby="apps-title"><div class="dialog-head"><h2 id="apps-title">Your services.</h2><button class="close" data-close aria-label="Close services">${icon('close')}</button></div><div class="panel-content"><label class="field ecosystem-field">Ecosystem<select id="ecosystem-choice" aria-label="Service ecosystem"><button type="button"><selectedcontent></selectedcontent></button>${Searchscape.ecosystems.map(e=>`<option value="${e.id}"><img class="ecosystem-logo" src="${assetURL(e.icon)}" alt=""><span>${e.name}</span></option>`).join('')}</select></label><label class="field service-search-field">Find a service<input id="service-search" type="search" placeholder="Search apps, e.g. SharePoint" autocomplete="off" aria-controls="google-apps" maxlength="80"></label><p id="service-count" class="hint" role="status"></p><p id="service-empty" class="hint" hidden>No services match. Try another name.</p><div class="shortcut-grid ecosystem-grid" style="grid-template-columns:repeat(3,1fr)" id="google-apps"></div><p class="hint">Sign in directly on the service’s website. <a id="ecosystem-account" class="text-button" href="https://myaccount.google.com/">Manage account ↗</a><button id="account-native" hidden>Provider homepage</button></p></div></dialog>
     <dialog class="command-modal" id="command-dialog" aria-label="Command palette"><input class="command-input" id="command-query" placeholder="Go somewhere. Change something." aria-label="Find a command or shortcut" role="combobox" aria-expanded="true" aria-controls="command-list" autocomplete="off"><div class="commands" id="command-list" role="listbox" aria-label="Commands"></div><div class="command-footer"><span>↑ ↓ navigate · Enter select</span><button class="text-button" data-close>Esc to close</button></div></dialog>
     <div class="toast" role="status" hidden></div></div><button class="reopen" hidden>✳ &nbsp; Back to Searchscape</button>`;
   const $ = selector => root.querySelector(selector);
@@ -223,7 +225,7 @@
   reducedMotion.addEventListener('change',()=>{if(settings)updateMotion();});
   systemDark.addEventListener('change',()=>{if(settings?.appearance==='system')apply();});
   function makeShortcut(item, index, services = false) {
-    const a = document.createElement('a'); a.className = 'shortcut'; a.href = item.url; a.title = item.url; a.ariaLabel = item.name;
+    const a = document.createElement('a'); a.className = 'shortcut'; a.href = item.url; a.title = item.hint?item.hint+' · '+item.url:item.url; a.ariaLabel = item.name;
     if (!services && settings.newTab) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
     const glyph = document.createElement('span'); glyph.className = 'tile'; glyph.style.setProperty('--tile', item.color);
     const service=item.icon||officialIcon(item.url);
@@ -384,9 +386,14 @@
     const ecosystem=Searchscape.ecosystems.find(e=>e.id===settings.ecosystem)||Searchscape.ecosystems[0];
     $('#ecosystem-choice').value=ecosystem.id;$('#active-ecosystem-icon').src=assetURL(ecosystem.icon);$('#apps').title=ecosystem.name+' services';$('#apps-title').textContent=ecosystem.name+' services';$('#ecosystem-account').href=ecosystem.account;
     $('#ecosystem-mail').href=ecosystem.services[0][1];$('#ecosystem-mail').textContent=ecosystem.services[0][0];
-    $('#google-apps').replaceChildren(...ecosystem.services.map(([name,url,glyph,icon],i)=>makeShortcut({name,url,glyph,icon,color:settings.accent},i,true)));
+    const normalize=value=>value.toLocaleLowerCase().replace(/[\s_-]+/g,'');const query=normalize($('#service-search').value.trim());
+    const visible=ecosystem.services.filter(([name])=>normalize(name).includes(query));
+    $('#service-count').textContent=query?`${visible.length} of ${ecosystem.services.length} services`:`${ecosystem.services.length} services`;$('#service-empty').hidden=visible.length>0;
+    $('#google-apps').replaceChildren(...visible.map(([name,url,glyph,icon,hint],i)=>makeShortcut({name,url,glyph,icon,hint,color:settings.accent},i,true)));
   }
-  $('#ecosystem-choice').onchange=e=>{settings.ecosystem=e.target.value;renderEcosystem();$('#apps-dialog').scrollTop=0;if(settings.animations&&!reducedMotion.matches)$('#google-apps').animate([{opacity:0,transform:'translateY(7px)'},{opacity:1,transform:'translateY(0)'}],{duration:190,easing:'ease-out'});save();};
+  $('#service-search').oninput=()=>renderEcosystem();
+  $('#service-search').onkeydown=e=>{if(e.key==='Escape'&&e.target.value){e.preventDefault();e.stopPropagation();e.target.value='';renderEcosystem();}};
+  $('#ecosystem-choice').onchange=e=>{$('#service-search').value='';settings.ecosystem=e.target.value;renderEcosystem();$('#apps-dialog').scrollTop=0;if(settings.animations&&!reducedMotion.matches)$('#google-apps').animate([{opacity:0,transform:'translateY(7px)'},{opacity:1,transform:'translateY(0)'}],{duration:190,easing:'ease-out'});save();};
   function apply() {
     renderEcosystem();
     if(settings.welcomeComplete && $('#welcome-dialog').open) $('#welcome-dialog').close();
@@ -851,6 +858,7 @@
     scheduleClock();
     if(!settings.welcomeComplete)openDialog('#welcome-dialog');
     else if(params.get('still')==='customize')openSettings(params.get('section'));
+    if(extensionHome){const address=new URL(location.href);for(const key of ['standalone','still','section'])address.searchParams.delete(key);history.replaceState(history.state,'',address.href);}
   }
   start();
 })();

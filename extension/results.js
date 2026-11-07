@@ -94,6 +94,16 @@
     const rgba=value=>{const m=value.match(/^rgba?\(([^)]+)\)/);if(!m)return null;const n=m[1].split(/[,\s/]+/).filter(Boolean).map(Number);return n.length>=3?[...n.slice(0,3),n[3]??1]:null;};
     const background=node=>{for(let n=node;n;n=n.parentElement){const c=rgba(computed(n).backgroundColor);if(c&&c[3]>.9)return c;}const hex=document.documentElement.style.getPropertyValue('--gr-bg');return [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));};
     const luminance=c=>c.slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+    // Google's language suggestion is UI, not brand artwork. Theme its pastel surface.
+    const languageSurfaces=new Set();
+    for(const link of [...document.querySelectorAll('a[href*="hl="],a[href*="setprefs"],a[href*="/preferences"]')].slice(0,80)){
+      for(let node=link.parentElement,depth=0;node&&depth<6;node=node.parentElement,depth++){
+        const bg=rgba(computed(node).backgroundColor);
+        if(bg&&bg[3]>.9&&bg[0]>210&&bg[1]>190&&bg[2]>=130&&bg[2]<235&&bg[0]-bg[2]>15){languageSurfaces.add(node);break;}
+      }
+    }
+    for(const node of languageSurfaces){write(node,'background-color','var(--gr-panel)');write(node,'border-color','var(--gr-line)');}
+    if(languageSurfaces.size)cache.clear();
     const variables=getComputedStyle(document.documentElement);
     const paletteColor=key=>{const hex=variables.getPropertyValue(key).trim();return /^#[a-f\d]{6}$/i.test(hex)?[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)):null;};
     const ratio=(a,b)=>{const x=luminance(a),y=luminance(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};

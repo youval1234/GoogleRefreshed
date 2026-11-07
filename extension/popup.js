@@ -20,6 +20,17 @@
     document.getElementById('popup-version').textContent='v'+chrome.runtime.getManifest().version;
     Promise.all([chrome.extension.isAllowedIncognitoAccess(),chrome.permissions.contains({permissions:['tabs']})]).then(([allowed,tabs])=>{if(settings!==value)return;document.getElementById('private-status').textContent=!allowed?'Enable private access':settings.newTabHome&&tabs?'Automatic opening on':'Set up automatic opening';}).catch(()=>{});
   }
+  document.getElementById('open-private-home').onclick=async e=>{
+    const status=document.getElementById('private-launch-status');e.currentTarget.disabled=true;
+    try{
+      if(!await chrome.extension.isAllowedIncognitoAccess()){status.hidden=false;status.textContent='Enable Allow in Private in Searchscape’s extension details first, then restart Brave if needed.';return;}
+      const url=chrome.runtime.getURL('home.html?standalone=1');
+      if(chrome.extension.inIncognitoContext){const current=await chrome.windows.getCurrent();await chrome.tabs.create({windowId:current.id,url});}
+      else await chrome.windows.create({incognito:true,url});
+      window.close();
+    }catch(error){status.hidden=false;status.textContent=error.message||'Could not open the private homepage.';}
+    finally{document.getElementById('open-private-home').disabled=false;}
+  };
   chrome.storage.local.get('stillSettings').then(data=>render(data.stillSettings||{})).catch(()=>render());
   chrome.storage.onChanged.addListener((changes,area)=>{if(area==='local'&&changes.stillSettings)render(changes.stillSettings.newValue||{});});
   system.addEventListener('change',()=>{if(!settings.appearance||settings.appearance==='system')render(settings);});

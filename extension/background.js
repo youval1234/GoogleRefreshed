@@ -4,12 +4,20 @@ const newTabPermission={permissions:['tabs']},newTabPage=/^(?:chrome|brave):\/\/
 // Opt-in private-tab navigation; ordinary tabs use the manifest's new-tab page.
 // Only browser-owned new-tab URLs qualify. Never inspect or retain search text.
 const redirectingPrivateTabs=new Set();
+let privateRedirectEnabled,privateRedirectPermission;
+const privateRedirectReady=Promise.all([
+  chrome.storage.local.get('stillSettings').then(result=>{if(privateRedirectEnabled===undefined)privateRedirectEnabled=result.stillSettings?.newTabHome===true;}),
+  chrome.permissions.contains(newTabPermission).then(granted=>{if(privateRedirectPermission===undefined)privateRedirectPermission=granted;})
+]).catch(()=>{privateRedirectEnabled=privateRedirectPermission=false;});
+chrome.storage.onChanged?.addListener((changes,area)=>{if(area==='local'&&changes.stillSettings)privateRedirectEnabled=changes.stillSettings.newValue?.newTabHome===true;});
+chrome.permissions.onAdded?.addListener(change=>{if(change.permissions?.includes('tabs'))privateRedirectPermission=true;});
+chrome.permissions.onRemoved?.addListener(change=>{if(change.permissions?.includes('tabs'))privateRedirectPermission=false;});
 async function openPrivateHomepage(tab){
   if(!tab.incognito||!newTabPage.test(tab.pendingUrl||tab.url||'')||redirectingPrivateTabs.has(tab.id))return;
   redirectingPrivateTabs.add(tab.id);
   try{
-    if(!await chrome.permissions.contains(newTabPermission))return;
-    if((await chrome.storage.local.get('stillSettings')).stillSettings?.newTabHome!==true)return;
+    if(privateRedirectEnabled===undefined||privateRedirectPermission===undefined)await privateRedirectReady;
+    if(!privateRedirectPermission||!privateRedirectEnabled)return;
     // Recheck after async work so a link opened in the meantime is never replaced.
     const current=await chrome.tabs.get(tab.id);
     if(current.incognito&&newTabPage.test(current.pendingUrl||current.url||'')){
